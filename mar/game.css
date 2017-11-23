@@ -1,0 +1,34 @@
+
+@font-face {
+    font-family: 'fixedsys';
+    src: url("./fonts/FSEX301-L2.ttf");
+}
+
+.container {
+    width: 1600px;
+}
+
+#game {
+    box-shadow: rgba(46, 94, 134, 0.45) 10px 10px 3px;
+    margin-top: 1em;
+    outline: none;
+    /*background: #282828;*/
+}
+
+#editor {
+    margin-top: 1em;
+    height: 650px;
+    box-shadow: rgba(46, 94, 134, 0.45) 10px 10px 3px;
+
+}
+
+#graphContainer {
+    height: 500px;
+    width: 500px;
+}
+
+.ace_gutter-cell.ace_error {
+    background-image: url("sprites/err_annotation.png") !important;
+    background-position: 2px center;
+}
+
