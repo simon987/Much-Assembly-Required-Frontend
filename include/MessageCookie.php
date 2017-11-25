@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: simon
- * Date: 24/09/17
- * Time: 1:59 PM
- */
 
 class MessageCookie
 {

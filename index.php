@@ -22,6 +22,15 @@ $user = SessionManager::get();
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="assets/css/ie8.min.css"/><![endif]-->
 
+    <style>
+
+        @font-face {
+            font-family: 'fixedsys';
+            src: url("./mar/fonts/FSEX301-L2.ttf");
+        }
+
+    </style>
+
 </head>
 <body class="homepage">
 
@@ -53,16 +62,6 @@ $user = SessionManager::get();
         <div id="main" class="container">
             <div class="row 200%">
                 <div class="12u">
-
-
-                    <style>
-
-                        @font-face {
-                            font-family: 'fixedsys';
-                            src: url("./mar/fonts/FSEX301-L2.ttf");
-                        }
-
-                    </style>
 
                     <!-- Features -->
                     <section class="box features">

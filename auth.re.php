@@ -18,7 +18,9 @@ if ($user != NULL) {
 
 } else {
 
-    (new MessageCookie("Username or password incorrect", "login"))->setCookie();
+    $msg = new MessageCookie("Username or password incorrect", "login");
+    $msg->setCookie();
+
     header("Location: login.php#login");
 
 }

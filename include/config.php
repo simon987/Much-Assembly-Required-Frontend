@@ -12,4 +12,3 @@ define("MAR_SERVER_NAME", "Official MAR server");
 
 //Plugins
 //Version
-//Server name
