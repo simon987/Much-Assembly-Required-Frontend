@@ -4221,7 +4221,7 @@
 	"sourceSize": {"w":128,"h":70},
 	"pivot": {"x":0.5,"y":0.5}
 },
-"objects/digester":
+	"objects/factory":
 {
 	"frame": {"x":256,"y":1050,"w":256,"h":192},
 	"rotated": false,
@@ -4435,6 +4435,6 @@
 	"format": "RGBA8888",
 	"size": {"w":3968,"h":1242},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fb0956e26464912927837fb79b171871:6d568b757362a9e9c0a2cdd8d421eebc:1eabdf11f75e3a4fe3147baf7b5be24b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3e5e86b81265c9a25c883a4b788fcc48:d45ceb66196fa2f419192af0c660b105:1eabdf11f75e3a4fe3147baf7b5be24b$"
 }
 }

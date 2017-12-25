@@ -23,8 +23,23 @@ var colorScheme = {
 };
 
 var mar = {};
-mar.objects = [];
 mar.animationFrames = {};
+
+CUBOT_WALK_FRAMES = {
+    south: 240,
+    north: 194,
+    west: 254,
+    east: 164
+};
+
+HARVESTER_WALK_FRAMES = {
+    south: 347,
+    north: 317,
+    west: 377,
+    east: 287
+};
+
+
 
 if (fullscreen) {
     RENDERER_WIDTH = window.innerWidth - 4;
@@ -62,8 +77,6 @@ function dispatchTileEnter(x, y) {
      *
      *   Transparent, X: Normal, C: Cubot
      */
-
-    console.log("enter " + x + ", " + y);
 
     for (var i = 0; i < mar.world.tiles.length; i++) {
 
@@ -168,6 +181,8 @@ function Word(terrain) {
 
         this.setTerrain(terrain);
         game.iso.topologicalSort(isoGroup);
+
+
     };
 
     /**
@@ -199,7 +214,7 @@ function Word(terrain) {
         for (var i = 0; i < response.length; i++) {
 
             //Update/Create the object
-            var existingObject = self.getObject(response[i].id);
+            var existingObject = self.getObject(response[i].i);
 
 
             if (existingObject !== null) {
@@ -236,27 +251,22 @@ function updateGameObject(object, responseObj) {
     object.direction = responseObj.direction;
 
 
-    if (object.type === 1 || object.type === 10) {
-
-        console.log(responseObj.holo);
+    if (object.type === 1) {
 
         object.action = responseObj.action;
 
         //Update location
         if ((object.tileX !== responseObj.x || object.tileY !== responseObj.y)) {
             //location changed
-            console.log("walk");
             dispatchTileLeave(object.tileX, object.tileY);
 
             object.tileX = responseObj.x;
             object.tileY = responseObj.y;
-            cubotWalk(object, object.direction);
+            cubotWalk(object, object.direction, undefined, CUBOT_WALK_FRAMES);
         }
 
         //Update Inventory
         if (object.heldItem !== responseObj.heldItem) {
-
-            console.log("Update held item" + responseObj.heldItem);
 
             if (object.inventory !== undefined) {
                 object.inventory.destroy();
@@ -306,6 +316,34 @@ function updateGameObject(object, responseObj) {
         if (object.action === 1) {
             //Dig
             cubotDig(object, object.direction);
+        }
+    } else if (object.type === 10) {
+        object.action = responseObj.action;
+
+        //Update location
+        if ((object.tileX !== responseObj.x || object.tileY !== responseObj.y)) {
+            //location changed
+            dispatchTileLeave(object.tileX, object.tileY);
+
+            object.tileX = responseObj.x;
+            object.tileY = responseObj.y;
+            cubotWalk(object, object.direction, undefined, HARVESTER_WALK_FRAMES);
+        }
+
+        //Update direction
+        switch (object.direction) {
+            case DIR_NORTH:
+                object.animations.frame = HARVESTER_WALK_FRAMES.north;
+                break;
+            case DIR_EAST:
+                object.animations.frame = HARVESTER_WALK_FRAMES.east;
+                break;
+            case DIR_SOUTH:
+                object.animations.frame = HARVESTER_WALK_FRAMES.south;
+                break;
+            case DIR_WEST:
+                object.animations.frame = HARVESTER_WALK_FRAMES.west;
+                break;
         }
     }
 
@@ -361,9 +399,7 @@ function createInventory(items) {
 
 function createGameObject(objData) {
 
-    console.log("Added " + objData.type);
-
-    if (objData.type === 1 || objData.type ===  10) {
+    if (objData.t === 1) {
         var cubot = game.add.isoSprite(getIsoX(objData.x), getIsoY(objData.y), 15, "sheet", null, isoGroup);
         cubot.anchor.set(0.5, 0);
 
@@ -379,7 +415,7 @@ function createGameObject(objData) {
             document.body.style.cursor = 'default';
         });
 
-        cubot.id = objData.id;
+        cubot.id = objData.i;
         cubot.type = 1;
         cubot.tileX = objData.x;
         cubot.tileY = objData.y;
@@ -392,6 +428,10 @@ function createGameObject(objData) {
         cubot.addChild(cubot.inventory);
 
         dispatchTileEnter(objData.x, objData.y);
+
+        cubot.isAt = function (x, y) {
+            return this.tileX === x && this.tileY === y;
+        };
 
         cubot.onTileHover = function () {
             game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
@@ -462,9 +502,7 @@ function createGameObject(objData) {
 
         return cubot;
 
-    } else if (objData.type === 2) {
-
-        console.log("biomass");
+    } else if (objData.t === 2) {
 
         var biomass = game.add.isoSprite(getIsoX(objData.x), getIsoY(objData.y), 10, "sheet", 1, isoGroup);
         biomass.animations.add("idle", mar.animationFrames.biomassIdle, true);
@@ -473,7 +511,7 @@ function createGameObject(objData) {
         biomass.type = 2;
         biomass.tileX = objData.x;
         biomass.tileY = objData.y;
-        biomass.id = objData.id;
+        biomass.id = objData.i;
 
         biomass.tint = colorScheme.biomassTint;// "#3BB886"
 
@@ -488,7 +526,16 @@ function createGameObject(objData) {
         biomass.hoverText.anchor.set(0.5, 0);
         biomass.addChild(biomass.hoverText);
 
+        biomass.isAt = function (x, y) {
+            return this.tileX === x && this.tileY === y;
+        };
+
+        biomass.isAt = function (x, y) {
+            return this.tileX === x && this.tileY === y;
+        };
+
         biomass.onTileHover = function () {
+            game.tweens.removeFrom(this);
             document.body.style.cursor = 'pointer';
             game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
             this.tint = colorScheme.biomassHoverTint;
@@ -499,6 +546,7 @@ function createGameObject(objData) {
 
         };
         biomass.onTileOut = function () {
+            game.tweens.removeFrom(this);
             document.body.style.cursor = 'default';
 
             game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
@@ -510,6 +558,105 @@ function createGameObject(objData) {
         biomass.animations.play("idle", 45, true);
 
         return biomass;
+
+    } else if (objData.t === 10) {
+
+        var harvester = game.add.isoSprite(getIsoX(objData.x), getIsoY(objData.y), 15, "sheet", null, isoGroup);
+        harvester.anchor.set(0.5, 0);
+
+        harvester.id = objData.i;
+        harvester.type = 10;
+        harvester.tileX = objData.x;
+        harvester.tileY = objData.y;
+        harvester.direction = objData.direction;
+        harvester.action = objData.action;
+
+        dispatchTileEnter(objData.x, objData.y);
+
+        harvester.isAt = function (x, y) {
+            return this.tileX === x && this.tileY === y;
+        };
+
+        harvester.onTileHover = function () {
+            game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
+            game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
+            this.tint = colorScheme.cubotHoverTint;
+        };
+        harvester.onTileOut = function () {
+            game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
+            game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+            this.tint = colorScheme.cubotTint;
+        };
+
+        harvester.animations.add("walk_w", mar.animationFrames.harvester_walk_w, true);
+        harvester.animations.add("walk_s", mar.animationFrames.harvester_walk_s, true);
+        harvester.animations.add("walk_e", mar.animationFrames.harvester_walk_e, true);
+        harvester.animations.add("walk_n", mar.animationFrames.harvester_walk_n, true);
+
+        harvester.queuedAnims = [];
+
+        switch (harvester.direction) {
+            case DIR_NORTH:
+                harvester.animations.frame = HARVESTER_WALK_FRAMES.north;
+                break;
+            case DIR_EAST:
+                harvester.animations.frame = HARVESTER_WALK_FRAMES.east;
+                break;
+            case DIR_SOUTH:
+                harvester.animations.frame = HARVESTER_WALK_FRAMES.south;
+                break;
+            case DIR_WEST:
+                harvester.animations.frame = HARVESTER_WALK_FRAMES.west;
+                break;
+        }
+
+
+        return harvester;
+    } else if (objData.t === 3) {
+        //Factory
+        var factory = game.add.isoSprite(getIsoX(objData.x), getIsoY(objData.y), 15, "sheet", "objects/factory", isoGroup);
+        factory.anchor.set(0.5, .25);
+
+        factory.id = objData.i;
+        factory.type = 3;
+        factory.tileX = objData.x;
+        factory.tileY = objData.y;
+
+
+        factory.hoverText = game.make.text(0, 0, "Factory", {
+            fontSize: 22,
+            fill: colorScheme.textFill,
+            stroke: colorScheme.textStroke,
+            strokeThickness: 2,
+            font: "fixedsys"
+        });
+        factory.hoverText.alpha = 0;
+        factory.hoverText.anchor.set(0.5, 0);
+        factory.addChild(factory.hoverText);
+
+        factory.isAt = function (x, y) {
+            return (this.tileX === x || this.tileX + 1 === x) && (this.tileY + 1 === y || this.tileY === y);
+        };
+
+        factory.onTileHover = function () {
+            game.tweens.removeFrom(this);
+            game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
+            game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+            this.tint = colorScheme.cubotHoverTint;
+
+            game.add.tween(this.hoverText).to({alpha: 0.9}, 200, Phaser.Easing.Quadratic.In, true);
+            factory.hoverText.visible = true;
+        };
+        factory.onTileOut = function () {
+            game.tweens.removeFrom(this);
+            game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
+            game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+            this.tint = colorScheme.cubotTint;
+
+            game.add.tween(this.hoverText).to({alpha: 0}, 200, Phaser.Easing.Quadratic.Out, true);
+        };
+
+        return factory;
     }
 }
 
@@ -589,9 +736,6 @@ function objectListener(message) {
 
     if (message.t === "object") {
         mar.world.updateObjects(message.objects);
-
-        console.log(message.objects);
-
     }
 }
 
@@ -664,6 +808,7 @@ var GameClient = function (callback) {
                                 var message = JSON.parse(received.data);
 
                             } catch (e) {
+                                console.log(e)
                                 floppyListener(received);
                             }
 
@@ -707,7 +852,6 @@ var GameClient = function (callback) {
     };
 
     this.requestTerrain = function () {
-        console.log("request terrain");
         this.socket.send(JSON.stringify({t: "terrain", x: mar.worldX, y: mar.worldY}));
     };
 
@@ -749,7 +893,7 @@ function dispatchTileHover(x, y) {
 
         var object = mar.world.objects[i];
 
-        if (object.tileX === x && object.tileY === y) {
+        if (object.isAt(x, y)) {
             object.onTileHover();
         }
     }
@@ -760,7 +904,7 @@ function dispatchTileOut(x, y) {
 
         var object = mar.world.objects[i];
 
-        if (object.tileX === x && object.tileY === y) {
+        if (object.isAt(x, y)) {
             object.onTileOut();
         }
     }
@@ -868,6 +1012,17 @@ BasicGame.Boot.prototype = {
         if (count % 10 === 0) {
             game.iso.topologicalSort(isoGroup);
         }
+
+
+        // if(mar.world){
+        //     for(var i = 0; i < mar.world.objects.length; i++){
+        //         if(mar.world.objects[i].animations){
+        //             console.log(mar.world.objects[i].animations.currentFrame)
+        //
+        //         }
+        //     }
+        // }
+
     },
 
 
@@ -997,13 +1152,14 @@ function cubotDig(cubot, direction, callback) {
     }
 }
 
-function cubotWalk(cubot, direction, callback) {
+function cubotWalk(cubot, direction, callback, walkFrames) {
 
     var tween;
 
     if (direction === DIR_SOUTH) {
 
         var walk = function (duration) {
+
             cubot.animations.play("walk_s", 60, true);
             tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
                 duration, Phaser.Easing.Linear.None, true);
@@ -1012,7 +1168,7 @@ function cubotWalk(cubot, direction, callback) {
 
             tween.onComplete.add(function () {
                 cubot.animations.stop();
-                cubot.animations.frame = 240;
+                cubot.animations.frame = walkFrames.south;
                 // cubot.tileY++;
                 cubot.onTileOut();
                 //Resync position
@@ -1033,6 +1189,7 @@ function cubotWalk(cubot, direction, callback) {
     } else if (direction === DIR_NORTH) {
 
         walk = function (duration) {
+
             cubot.animations.play("walk_n", 60, true);
             tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
                 duration, Phaser.Easing.Linear.None, true);
@@ -1040,7 +1197,7 @@ function cubotWalk(cubot, direction, callback) {
 
             tween.onComplete.add(function () {
                 cubot.animations.stop();
-                cubot.animations.frame = 194;
+                cubot.animations.frame = walkFrames.north;
                 // cubot.tileY--;
                 cubot.onTileOut();
                 //Resync position
@@ -1060,6 +1217,8 @@ function cubotWalk(cubot, direction, callback) {
 
     } else if (direction === DIR_WEST) {
         walk = function (duration) {
+
+
             cubot.animations.play("walk_w", 60, true);
             tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
                 duration, Phaser.Easing.Linear.None, true);
@@ -1069,7 +1228,7 @@ function cubotWalk(cubot, direction, callback) {
 
             tween.onComplete.add(function () {
                 cubot.animations.stop();
-                cubot.animations.frame = 254;
+                cubot.animations.frame = walkFrames.west;
                 // cubot.tileX--;
                 cubot.onTileOut();
                 //Resync position
@@ -1089,6 +1248,7 @@ function cubotWalk(cubot, direction, callback) {
 
     } else if (direction === DIR_EAST) {
         walk = function (duration) {
+
             cubot.animations.play("walk_e", 60, true);
             tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
                 duration, Phaser.Easing.Linear.None, true);
@@ -1098,7 +1258,7 @@ function cubotWalk(cubot, direction, callback) {
 
             tween.onComplete.add(function () {
                 cubot.animations.stop();
-                cubot.animations.frame = 164;
+                cubot.animations.frame = walkFrames.east;
                 // cubot.tileX++;
 
                 cubot.onTileOut();
@@ -1141,6 +1301,15 @@ function initialiseAnimations() {
     for (i = 10; i < 30; i++) {
         mar.animationFrames.walk_e.push("cubot/walk_e/" + ("0000" + i).slice(-4));
     }
+
+    mar.animationFrames.harvester_walk_e_start = [];
+    for (var i = 0; i < 10; i++) {
+        mar.animationFrames.harvester_walk_e_start.push("harvester/walk_e/" + ("0000" + i).slice(-4));
+    }
+    mar.animationFrames.harvester_walk_e = [];
+    for (i = 10; i < 30; i++) {
+        mar.animationFrames.harvester_walk_e.push("harvester/walk_e/" + ("0000" + i).slice(-4));
+    }
     //North
     mar.animationFrames.walk_n_start = [];
     for (i = 0; i < 10; i++) {
@@ -1149,6 +1318,15 @@ function initialiseAnimations() {
     mar.animationFrames.walk_n = [];
     for (i = 10; i < 30; i++) {
         mar.animationFrames.walk_n.push("cubot/walk_n/" + ("0000" + i).slice(-4));
+    }
+
+    mar.animationFrames.harvester_walk_n_start = [];
+    for (i = 0; i < 10; i++) {
+        mar.animationFrames.harvester_walk_n_start.push("harvester/walk_n/" + ("0000" + i).slice(-4));
+    }
+    mar.animationFrames.harvester_walk_n = [];
+    for (i = 10; i < 30; i++) {
+        mar.animationFrames.harvester_walk_n.push("harvester/walk_n/" + ("0000" + i).slice(-4));
     }
     //South
     mar.animationFrames.walk_s_start = [];
@@ -1159,6 +1337,15 @@ function initialiseAnimations() {
     for (i = 10; i < 30; i++) {
         mar.animationFrames.walk_s.push("cubot/walk_s/" + ("0000" + i).slice(-4));
     }
+
+    mar.animationFrames.harvester_walk_s_start = [];
+    for (i = 0; i < 10; i++) {
+        mar.animationFrames.harvester_walk_s_start.push("harvester/walk_s/" + ("0000" + i).slice(-4));
+    }
+    mar.animationFrames.harvester_walk_s = [];
+    for (i = 10; i < 30; i++) {
+        mar.animationFrames.harvester_walk_s.push("harvester/walk_s/" + ("0000" + i).slice(-4));
+    }
     //West
     mar.animationFrames.walk_w_start = [];
     for (i = 0; i < 10; i++) {
@@ -1167,6 +1354,15 @@ function initialiseAnimations() {
     mar.animationFrames.walk_w = [];
     for (i = 10; i < 30; i++) {
         mar.animationFrames.walk_w.push("cubot/walk_w/" + ("0000" + i).slice(-4));
+    }
+
+    mar.animationFrames.harvester_walk_w_start = [];
+    for (i = 0; i < 10; i++) {
+        mar.animationFrames.harvester_walk_w_start.push("harvester/walk_w/" + ("0000" + i).slice(-4));
+    }
+    mar.animationFrames.harvester_walk_w = [];
+    for (i = 10; i < 30; i++) {
+        mar.animationFrames.harvester_walk_w.push("harvester/walk_w/" + ("0000" + i).slice(-4));
     }
 
     //Dig =-------------------------------------------------------
