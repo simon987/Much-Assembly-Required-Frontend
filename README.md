@@ -5,4 +5,5 @@ Requires a PHP environnment and a MySQL server (Database installation script: [d
 Make sure to change the configuration in /include/config.php.    
 
 More information about the game [here.](https://github.com/simon987/Much-Assembly-Required)   
-HTML template by ajlkn
+HTML template by ajlkn  
+Pixel art for the 'Factory' sprite by harveydentmd   
