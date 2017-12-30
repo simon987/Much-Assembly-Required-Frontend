@@ -5,6 +5,7 @@ DIR_WEST = 3;
 
 WORLD_HEIGHT = WORLD_WIDTH = 16;
 
+
 var colorScheme = {
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
@@ -27,6 +28,7 @@ mar.kbBuffer = [];
 mar.kbBufferText = "";
 mar.animationFrames = {};
 mar.controlledUnitVisible = false;
+
 
 CUBOT_WALK_FRAMES = {
     south: 240,
@@ -331,12 +333,6 @@ function updateGameObject(object, responseObj) {
                 font: "fixedsys"
             });
 
-            object.hologram.alpha = colorScheme.hologramAlpha;
-            object.hologram.anchor.set(0.5, 0);
-            object.addChild(object.hologram);
-
-            game.add.tween(object.hologram).to({tint: 0xFFFFF0, alpha: colorScheme.hologramAlpha - 0.1},
-                mar.client.tickLength, Phaser.Easing.Bounce.In, true);
 
         } else if (responseObj.holoMode === 2) {
             //String
@@ -347,6 +343,22 @@ function updateGameObject(object, responseObj) {
                 strokeThickness: 1,
                 font: "fixedsys"
             });
+
+        } else if (responseObj.holoMode === 3) {
+            //Decimal
+            object.hologram = game.make.text(0, 32, Number(responseObj.holo).toString(), {
+                fontSize: 32,
+                fill: colorScheme.hologramFill,
+                stroke: colorScheme.hologramStroke,
+                strokeThickness: 1,
+                font: "fixedsys"
+            });
+        } else if (responseObj.holoMode === 4) {
+            //Color
+            object.oldTint = object.tint = responseObj.holo;
+        }
+
+        if (object.hologram !== undefined) {
             object.hologram.alpha = colorScheme.hologramAlpha;
             object.hologram.anchor.set(0.5, 0);
             object.addChild(object.hologram);
@@ -481,7 +493,7 @@ function createGameObject(objData) {
             game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
             game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
 
-            if (this.tint !== 0xFF0000) {
+            if (this.tint === 0xFFFFFF) {
                 this.tint = colorScheme.cubotHoverTint;
             }
 
@@ -492,8 +504,8 @@ function createGameObject(objData) {
             game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
             game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
 
-            if (this.tint !== 0xFF0000) {
-                this.tint = colorScheme.cubotTint;
+            if (this.tint === 0xFFFFFF) {
+                this.tint = this.oldTint;
             }
 
         };
@@ -888,6 +900,18 @@ function tickListener(message) {
         if (message.keys !== undefined) {
             mar.kbBuffer = message.keys;
             mar.kbBufferText = formattedKeyBuffer(mar.kbBuffer);
+        }
+
+        //Update console
+        if (message.c !== undefined) {
+
+            for (var i = 0; i < message.c.length; i++) {
+                document.getElementById('console').innerHTML += message.c[i];
+            }
+        }
+        if (message.cm === 0) {
+            //Clear command was sent
+            document.getElementById('console').innerHTML = "";
         }
     }
 }
