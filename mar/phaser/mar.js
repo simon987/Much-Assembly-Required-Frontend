@@ -17,13 +17,16 @@ var colorScheme = {
     tileHoverTint: 0x00FF00,
     itemIron: 0x434341,
     itemCopper: 0xC87D38,
-    hologramFill: "#FFFFFF",
-    hologramStroke: "#9298a8",
+    hologramFill: "#0aced6",
+    hologramStroke: "#12FFB0",
     hologramAlpha: 0.9
 };
 
 var mar = {};
+mar.kbBuffer = [];
+mar.kbBufferText = "";
 mar.animationFrames = {};
+mar.controlledUnitVisible = false;
 
 CUBOT_WALK_FRAMES = {
     south: 240,
@@ -39,6 +42,7 @@ HARVESTER_WALK_FRAMES = {
     east: 287
 };
 
+LOW_ENERGY = 100;
 
 
 if (fullscreen) {
@@ -216,7 +220,6 @@ function Word(terrain) {
             //Update/Create the object
             var existingObject = self.getObject(response[i].i);
 
-
             if (existingObject !== null) {
                 //Object already exists
                 existingObject.updated = true;
@@ -236,9 +239,19 @@ function Word(terrain) {
         //Delete not updated objects (see above comments)
         for (var i = 0; i < self.objects.length; i++) {
             if (!self.objects[i].updated) {
-                // console.log("DEBUG: removed " + self.objects[i].id);
+
+
+                //Check if the object we are removing is our controlledUnit, if so, follow it
+                if (mar.client.username !== "guest") {
+                    if (self.objects[i].type === 1 && self.objects[i].username === mar.client.username) {
+                        findMyRobot();
+                        console.log("Following Cubot " + mar.client.username)
+                    }
+                }
+
                 self.objects[i].destroy();
 
+                dispatchTileLeave(self.objects[i].tileX, self.objects[i].tileY);
                 self.objects.splice(i, 1);
             }
         }
@@ -254,6 +267,7 @@ function updateGameObject(object, responseObj) {
     if (object.type === 1) {
 
         object.action = responseObj.action;
+        object.energy = responseObj.energy;
 
         //Update location
         if ((object.tileX !== responseObj.x || object.tileY !== responseObj.y)) {
@@ -278,6 +292,13 @@ function updateGameObject(object, responseObj) {
 
         }
 
+        //Battery indication
+        if (object.energy <= LOW_ENERGY) {
+            object.tint = 0xFF0000;
+        } else {
+            object.tint = 0xFFFFFF;
+        }
+
         //Update direction
         switch (object.direction) {
             case DIR_NORTH:
@@ -299,9 +320,28 @@ function updateGameObject(object, responseObj) {
             object.hologram.destroy();
         }
 
-        if (responseObj.holo !== 0) {
+
+        if (responseObj.holoMode === 1) {
+            //Hex
             object.hologram = game.make.text(0, 32, "0x" + ("0000" + Number(responseObj.holo).toString(16).toUpperCase()).slice(-4), {
                 fontSize: 32,
+                fill: colorScheme.hologramFill,
+                stroke: colorScheme.hologramStroke,
+                strokeThickness: 1,
+                font: "fixedsys"
+            });
+
+            object.hologram.alpha = colorScheme.hologramAlpha;
+            object.hologram.anchor.set(0.5, 0);
+            object.addChild(object.hologram);
+
+            game.add.tween(object.hologram).to({tint: 0xFFFFF0, alpha: colorScheme.hologramAlpha - 0.1},
+                mar.client.tickLength, Phaser.Easing.Bounce.In, true);
+
+        } else if (responseObj.holoMode === 2) {
+            //String
+            object.hologram = game.make.text(0, 32, responseObj.holoStr, {
+                fontSize: 27,
                 fill: colorScheme.hologramFill,
                 stroke: colorScheme.hologramStroke,
                 strokeThickness: 1,
@@ -310,6 +350,9 @@ function updateGameObject(object, responseObj) {
             object.hologram.alpha = colorScheme.hologramAlpha;
             object.hologram.anchor.set(0.5, 0);
             object.addChild(object.hologram);
+
+            game.add.tween(object.hologram).to({tint: 0xFFFFF0, alpha: colorScheme.hologramAlpha - 0.1},
+                mar.client.tickLength, Phaser.Easing.Bounce.In, true);
         }
 
 
@@ -423,6 +466,7 @@ function createGameObject(objData) {
         cubot.heldItem = objData.heldItem;
         cubot.direction = objData.direction;
         cubot.action = objData.action;
+        cubot.energy = objData.energy;
 
         cubot.inventory = createInventory([cubot.heldItem]);
         cubot.addChild(cubot.inventory);
@@ -436,16 +480,28 @@ function createGameObject(objData) {
         cubot.onTileHover = function () {
             game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
             game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
-            this.tint = colorScheme.cubotHoverTint;
+
+            if (this.tint !== 0xFF0000) {
+                this.tint = colorScheme.cubotHoverTint;
+            }
+
         };
         cubot.onTileOut = function () {
             document.body.style.cursor = 'default';
 
             game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
             game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
-            this.tint = colorScheme.cubotTint;
+
+            if (this.tint !== 0xFF0000) {
+                this.tint = colorScheme.cubotTint;
+            }
 
         };
+
+        //Battery indication
+        if (cubot.energy <= LOW_ENERGY) {
+            cubot.tint = 0xFF0000;
+        }
 
         cubot.animations.add("walk_w", mar.animationFrames.walk_w, true);
         cubot.animations.add("walk_s", mar.animationFrames.walk_s, true);
@@ -475,6 +531,7 @@ function createGameObject(objData) {
 
 
 
+
         var username = game.make.text(0, -24, cubot.username, {
             fontSize: 22,
             fill: colorScheme.textFill,
@@ -484,6 +541,11 @@ function createGameObject(objData) {
         });
         username.alpha = 0.85;
         username.anchor.set(0.5, 0);
+        if (cubot.username === mar.client.username) {
+            username.tint = 0xFB4D0A;
+        } else {
+            cubot.alpha = 0.6;
+        }
         cubot.addChild(username);
 
         if (objData.holo !== 0) {
@@ -657,6 +719,52 @@ function createGameObject(objData) {
         };
 
         return factory;
+    } else if (objData.t === 4) {
+        //Radio tower
+        var radioTower = game.add.isoSprite(getIsoX(objData.x), getIsoY(objData.y), 15, "sheet", "objects/RadioTower", isoGroup);
+        radioTower.anchor.set(0.5, 0.64);
+
+        radioTower.id = objData.i;
+        radioTower.type = 4;
+        radioTower.tileX = objData.x;
+        radioTower.tileY = objData.y;
+
+
+        radioTower.hoverText = game.make.text(0, 0, "Radio Tower", {
+            fontSize: 22,
+            fill: colorScheme.textFill,
+            stroke: colorScheme.textStroke,
+            strokeThickness: 2,
+            font: "fixedsys"
+        });
+        radioTower.hoverText.alpha = 0;
+        radioTower.hoverText.anchor.set(0.5, 0);
+        radioTower.addChild(radioTower.hoverText);
+
+        radioTower.isAt = function (x, y) {
+            return this.tileX === x && this.tileY === y;
+        };
+
+        radioTower.onTileHover = function () {
+            game.tweens.removeFrom(this);
+            game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
+            game.add.tween(this.scale).to({x: 1.15, y: 1.15}, 200, Phaser.Easing.Linear.None, true);
+            this.tint = colorScheme.cubotHoverTint;
+
+            game.add.tween(this.hoverText).to({alpha: 0.9}, 200, Phaser.Easing.Quadratic.In, true);
+            radioTower.hoverText.visible = true;
+        };
+        radioTower.onTileOut = function () {
+            game.tweens.removeFrom(this);
+            game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
+            game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+            this.tint = colorScheme.cubotTint;
+
+            game.add.tween(this.hoverText).to({alpha: 0}, 200, Phaser.Easing.Quadratic.Out, true);
+        };
+
+        return radioTower;
+
     }
 }
 
@@ -703,8 +811,11 @@ function codeResponseListener(message) {
  * Listens for user info responses from the server
  */
 function userInfoListener(message) {
+
+
     if (message.t === "userInfo") {
 
+        //Create new world / Find my robot
         console.log(message);
 
         mar.worldX = message.worldX;
@@ -726,9 +837,31 @@ function terrainListener(message) {
         } else {
             mar.world = new Word(message.terrain);
             console.log("Gameloop started");
+
+            //Handle keypresses
+            game.input.keyboard.onDownCallback = function (event) {
+
+                //If the game has focus
+                if (document.activeElement === document.getElementById("game")) {
+                    if ((event.keyCode >= 37 && event.keyCode <= 40) || event.keyCode === 116 || event.keyCode === 32) {
+                        event.preventDefault();
+                    }
+
+                    if (mar.client.username !== "guest" && mar.kbBuffer.length <= 16) {
+                        mar.client.sendKeypress(event.keyCode);
+
+                        //Locally update the buffer
+                        mar.kbBuffer.push(event.keyCode);
+                        mar.kbBufferText = formattedKeyBuffer(mar.kbBuffer);
+                    }
+                }
+            };
+
+            //Grab focus when clicked (For chrome, Opera)
+            game.input.onDown.add(function () {
+                document.getElementById("game").focus();
+            })
         }
-
-
     }
 }
 
@@ -752,14 +885,10 @@ function tickListener(message) {
         mar.client.socket.send(JSON.stringify({t: "object", x: mar.worldX, y: mar.worldY}));
 
         //Update key buffer display
-        // if(game.textLayer){
-        //     if(message.keys !== undefined){
-        //         console.log(message.keys);
-        //
-        //         game.kbBuffer = message.keys;
-        //         game.keyboardBuffer.text = formattedKeyBuffer(game.kbBuffer);
-        //     }
-        // }
+        if (message.keys !== undefined) {
+            mar.kbBuffer = message.keys;
+            mar.kbBufferText = formattedKeyBuffer(mar.kbBuffer);
+        }
     }
 }
 
@@ -865,12 +994,6 @@ var GameClient = function (callback) {
     };
 
     this.sendKeypress = function (key) {
-        if (key !== 0) {
-            this.socket.send(JSON.stringify({t: "k", k: key}));
-        }
-    };
-
-    this.request = function (key) {
         if (key !== 0) {
             this.socket.send(JSON.stringify({t: "k", k: key}));
         }
@@ -1034,6 +1157,10 @@ BasicGame.Boot.prototype = {
         }
         if (debugTile) {
             game.debug.text(debugTile, 10, 40);
+        }
+
+        if (mar.client.username !== "guest") {
+            game.debug.text(mar.kbBufferText, 210, 20);
         }
         // game.debug.text(debugObj, 32, 190);
 
@@ -1397,6 +1524,38 @@ function getIsoX(tileX) {
 function getIsoY(tileY) {
     return (tileY * 71.5)
 }
+
+function findMyRobot() {
+
+    if (mar.client.username === "guest") {
+        alert("You are not logged in!");
+    } else {
+        mar.client.requestUserInfo()
+    }
+
+}
+
+function formattedKeyBuffer(kbBuffer) {
+
+    var str = "KB: ";
+
+    for (var i = 0; i < 16; i++) {
+
+        if (kbBuffer[i] !== undefined) {
+
+            str += kbBuffer[i].toString(16) + " ";
+
+        } else {
+
+            str += "__ ";
+        }
+
+    }
+
+    return str;
+}
+
+
 
 game.state.add('Boot', BasicGame.Boot);
 

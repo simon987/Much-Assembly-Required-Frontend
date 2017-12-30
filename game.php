@@ -91,6 +91,10 @@ if (isset($user)) {
                             background: #A386CA;
                         }
 
+                        #gameBtns {
+                            display: inline;
+                        }
+
 
                     </style>
 
@@ -126,6 +130,10 @@ if (isset($user)) {
                             </button>
                         </div>
 
+                        <div id="gameBtns">
+                            <a class="button editorBtn" onclick="findMyRobot()">Find My Robot</a>
+                        </div>
+
                         <!-- Docs link -->
                         <a class="button alt" id="btnDocs"
                            href="https://github.com/simon987/Much-Assembly-Required/wiki" target="_blank">
@@ -139,7 +147,7 @@ if (isset($user)) {
 
 
                         <!-- Game -->
-                        <div id="game" tabindex="1">
+                        <div id="game" tabindex="0">
                             <script src="./mar/phaser/phaser.min.js"></script>
                             <script src="./mar/phaser/phaser-plugin-isometric.min.js"></script>
                             <script src="./mar/phaser/mar.js"></script>
@@ -157,8 +165,6 @@ if (isset($user)) {
                                 editor.setFontSize(16);
                                 editor.setDisplayIndentGuides(false);
                                 document.getElementById('editor').style.fontFamily="fixedsys";
-
-                                reloadCode();
                             </script>
 
                         </div>
@@ -206,7 +212,7 @@ if (isset($user)) {
             </div>
         </div>
     </div>
-    <?php include "footer.inc.html" ?>
+    <?php //include "footer.inc.html" ?>
 </div>
 
 

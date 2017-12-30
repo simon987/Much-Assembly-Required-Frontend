@@ -74,7 +74,6 @@ define("ace/mode/mar_rules", ["require", "exports", "module", "ace/lib/oop", "ac
                         regex: '\\b0x[A-F0-9]+\\b',
                         caseInsensitive: true
                     },
-                    {token: 'string.assembly', regex: /'([^\\']|\\.)*'/},
                     {token: 'string.assembly', regex: /"([^\\"]|\\.)*"/},
                     {token: 'comment.assembly', regex: ';.*$'},
                     {token: 'support.function.directive.assembly', regex: /^\.text|\.data/},

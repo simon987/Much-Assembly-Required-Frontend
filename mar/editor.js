@@ -26,11 +26,10 @@ function removeComment(line) {
 function checkForLabel(line, result) {
     line = removeComment(line);
 
-    if (line.indexOf(":") !== -1) {
+    var match;
+    if ((match = /\b\w*\b:/.exec(line)) !== null) {
 
-        line = line.substring(0, line.indexOf(":"));
-
-        result.labels.push(line.trim());
+        result.labels.push(match[0].substring(0, match[0].length - 1));
     }
 }
 
@@ -81,11 +80,7 @@ function getTokens(line) {
 }
 
 function removeLabel(line) {
-    if (line.indexOf(':') !== -1) {
-        return line.substring(line.indexOf(':') + 1);
-    } else {
-        return line;
-    }
+    return line.replace(/\b\w*\b:/, "");
 }
 
 function checkForORGInstruction(line, result, currentLine) {
@@ -127,7 +122,7 @@ function parseDWInstruction(line, result, currentLine) {
     if (line.substr(0, 2).toLowerCase() === "dw") {
 
 
-        var values = line.substr(2, line.length).split(",");
+        var values = line.substr(2, line.length).split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/, -1);
 
 
         for (var i = 0; i < values.length; i++) {
@@ -140,6 +135,9 @@ function parseDWInstruction(line, result, currentLine) {
                 getOperandType(tokens[1].substring(4, tokens[1].indexOf(")")), result) === OPERAND_IMM) {
 
                 // console.log("DUp");
+
+            } else if (values[i].startsWith("\"") && values[i].endsWith("\"")) {
+                //Handle string
 
             } else if (getOperandType(values[i], result) === OPERAND_IMM) {
 
@@ -173,7 +171,8 @@ function getOperandType(text, result) {
     }
 
     //Check IMM
-    if (!isNaN(Number(text)) && Number(text) === Math.floor(Number(text))) {
+    if (!isNaN(Number(text)) && Number(text) === Math.floor(Number(text)) && text.indexOf("o") === -1
+        && text.indexOf("e") === -1) {
         return OPERAND_IMM;
     }
 
@@ -396,11 +395,13 @@ function parse() {
 }
 
 function gameClick() {
-    document.getElementById("editorBtns").setAttribute("style", "display: none")
+    document.getElementById("editorBtns").setAttribute("style", "display: none");
+    document.getElementById("gameBtns").setAttribute("style", "");
 }
 
 function editorClick() {
-    document.getElementById("editorBtns").setAttribute("style", "")
+    document.getElementById("editorBtns").setAttribute("style", "");
+    document.getElementById("gameBtns").setAttribute("style", "display: none");
 }
 
 editor.on("change", parse);
