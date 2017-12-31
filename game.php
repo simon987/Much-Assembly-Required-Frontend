@@ -95,6 +95,21 @@ if (isset($user)) {
                             display: inline;
                         }
 
+                        #console {
+                            font-family: fixedsys, monospace;
+                            font-size: 24pt;
+                            line-height: 21px;
+                            resize: none;
+                            overflow-y: scroll;
+                            width: 680px;
+                            height: 180px;
+                        }
+
+                        #consoleContainer {
+                            margin: 20px;
+                            text-align: center;
+                        }
+
 
                     </style>
 
@@ -167,6 +182,14 @@ if (isset($user)) {
                                 document.getElementById('editor').style.fontFamily="fixedsys";
                             </script>
 
+                        </div>
+
+                        <!-- Console-->
+                        <div id="consoleContainer">
+                            <textarea id="console" readonly title="console"></textarea>
+
+                            <a class="button" style="vertical-align: top"
+                               onclick="document.getElementById('console').innerHTML=''">Clear</a>
                         </div>
 
 

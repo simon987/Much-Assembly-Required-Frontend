@@ -28,7 +28,7 @@ mar.kbBuffer = [];
 mar.kbBufferText = "";
 mar.animationFrames = {};
 mar.controlledUnitVisible = false;
-
+mar.lastLines = "";
 
 CUBOT_WALK_FRAMES = {
     south: 240,
@@ -295,11 +295,14 @@ function updateGameObject(object, responseObj) {
         }
 
         //Battery indication
-        if (object.energy <= LOW_ENERGY) {
-            object.tint = 0xFF0000;
-        } else {
-            object.tint = 0xFFFFFF;
+        if (object.tint !== colorScheme.cubotHoverTint) {
+            if (object.energy <= LOW_ENERGY) {
+                object.tint = 0xFF0000;
+            } else {
+                object.tint = 0xFFFFFF;
+            }
         }
+
 
         //Update direction
         switch (object.direction) {
@@ -322,23 +325,28 @@ function updateGameObject(object, responseObj) {
             object.hologram.destroy();
         }
 
+        var color = false;
+        if (responseObj.holoC) {
+            color = "#" + Number(responseObj.holoC & 0xFFFFFF).toString(16)
+        }
 
         if (responseObj.holoMode === 1) {
             //Hex
             object.hologram = game.make.text(0, 32, "0x" + ("0000" + Number(responseObj.holo).toString(16).toUpperCase()).slice(-4), {
                 fontSize: 32,
-                fill: colorScheme.hologramFill,
+                fill: color ? color : colorScheme.hologramFill,
                 stroke: colorScheme.hologramStroke,
                 strokeThickness: 1,
                 font: "fixedsys"
             });
 
+            console.log(Number(color).toString(16))
 
         } else if (responseObj.holoMode === 2) {
             //String
             object.hologram = game.make.text(0, 32, responseObj.holoStr, {
                 fontSize: 27,
-                fill: colorScheme.hologramFill,
+                fill: color ? color : colorScheme.hologramFill,
                 stroke: colorScheme.hologramStroke,
                 strokeThickness: 1,
                 font: "fixedsys"
@@ -348,14 +356,11 @@ function updateGameObject(object, responseObj) {
             //Decimal
             object.hologram = game.make.text(0, 32, Number(responseObj.holo).toString(), {
                 fontSize: 32,
-                fill: colorScheme.hologramFill,
+                fill: color ? color : colorScheme.hologramFill,
                 stroke: colorScheme.hologramStroke,
                 strokeThickness: 1,
                 font: "fixedsys"
             });
-        } else if (responseObj.holoMode === 4) {
-            //Color
-            object.oldTint = object.tint = responseObj.holo;
         }
 
         if (object.hologram !== undefined) {
@@ -493,9 +498,7 @@ function createGameObject(objData) {
             game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
             game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
 
-            if (this.tint === 0xFFFFFF) {
-                this.tint = colorScheme.cubotHoverTint;
-            }
+            this.tint = colorScheme.cubotHoverTint;
 
         };
         cubot.onTileOut = function () {
@@ -504,15 +507,13 @@ function createGameObject(objData) {
             game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
             game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
 
-            if (this.tint === 0xFFFFFF) {
-                this.tint = this.oldTint;
-            }
+            this.tint = 0xFFFFFF;
 
         };
 
         //Battery indication
         if (cubot.energy <= LOW_ENERGY) {
-            cubot.tint = 0xFF0000;
+            cubot.tint = 0xCC0000;
         }
 
         cubot.animations.add("walk_w", mar.animationFrames.walk_w, true);
@@ -559,19 +560,6 @@ function createGameObject(objData) {
             cubot.alpha = 0.6;
         }
         cubot.addChild(username);
-
-        if (objData.holo !== 0) {
-            cubot.hologram = game.make.text(0, 32, "0x" + ("0000" + Number(objData.holo).toString(16).toUpperCase()).slice(-4), {
-                fontSize: 32,
-                fill: colorScheme.hologramFill,
-                stroke: colorScheme.hologramStroke,
-                strokeThickness: 1,
-                font: "fixedsys"
-            });
-            cubot.hologram.alpha = colorScheme.hologramAlpha;
-            cubot.hologram.anchor.set(0.5, 0);
-            cubot.addChild(cubot.hologram);
-        }
 
 
         return cubot;
@@ -902,16 +890,52 @@ function tickListener(message) {
             mar.kbBufferText = formattedKeyBuffer(mar.kbBuffer);
         }
 
-        //Update console
-        if (message.c !== undefined) {
+        var myConsole = document.getElementById('console');
 
-            for (var i = 0; i < message.c.length; i++) {
-                document.getElementById('console').innerHTML += message.c[i];
-            }
-        }
         if (message.cm === 0) {
             //Clear command was sent
-            document.getElementById('console').innerHTML = "";
+            myConsole.innerHTML = "";
+            mar.lastLines = "";
+        }
+
+        //Update console
+        if (message.c !== undefined) {
+            var str = mar.lastLines;
+
+            for (var i = 0; i < message.c.length; i++) {
+
+                str += message.c[i];
+            }
+
+            //Limit lines to 40 chars
+            myConsole.innerHTML = "";
+            var tmpBuffer = "";
+            var lines = str.split("\n");
+            for (var i = 0; i < lines.length; i++) {
+
+                if (lines[i].length >= 40) {
+
+                    //Split the line...
+                    var subLines = lines[i].match(/.{1,40}/g);
+
+                    for (var j = 0; j < subLines.length; j++) {
+
+                        //Don't put a newline at the end
+                        if (j !== subLines.length - 1) {
+                            tmpBuffer += "\n";
+                        }
+                    }
+
+                } else {
+                    tmpBuffer += lines[i] + "\n";
+                }
+            }
+
+            myConsole.innerHTML = tmpBuffer;
+            mar.lastLines = str;
+
+            //Autoscroll
+            myConsole.scrollTop = myConsole.scrollHeight;
         }
     }
 }
