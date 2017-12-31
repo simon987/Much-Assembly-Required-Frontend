@@ -47,7 +47,7 @@ define("ace/mode/mar_rules", ["require", "exports", "module", "ace/lib/oop", "ac
             start:
                 [{
                     token: 'keyword.function.assembly',
-                    regex: '\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|dw|nop|equ|neg|hwq|not|ror|rol|sal|sar)\\b',
+                    regex: '\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|dw|nop|equ|neg|hwq|not|ror|rol|sal|sar|pushf|popf)\\b',
                     caseInsensitive: true
                 },
                     {

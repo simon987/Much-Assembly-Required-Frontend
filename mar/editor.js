@@ -257,7 +257,7 @@ function parseInstruction(line, result, currentLine) {
     if (!parseDWInstruction(line, result, currentLine)) {
 
         if (new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|hwi|hwq|nop|neg|' +
-                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno)\\b').test(mnemonic.toLowerCase())) {
+                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno|pushf|popf)\\b').test(mnemonic.toLowerCase())) {
 
 
             if (line.indexOf(",") !== -1) {
@@ -338,7 +338,7 @@ function parseInstruction(line, result, currentLine) {
 
             } else {
                 //No operand
-                if (!new RegExp('\\b(?:ret|brk|nop)\\b').test(mnemonic.toLowerCase())) {
+                if (!new RegExp('\\b(?:ret|brk|nop|pushf|popf)\\b').test(mnemonic.toLowerCase())) {
 
                     //Validate operand number
                     result.annotations.push({
