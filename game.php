@@ -94,23 +94,6 @@ if (isset($user)) {
                         #gameBtns {
                             display: inline;
                         }
-
-                        #console {
-                            font-family: fixedsys, monospace;
-                            font-size: 24pt;
-                            line-height: 21px;
-                            resize: none;
-                            overflow-y: scroll;
-                            width: 680px;
-                            height: 180px;
-                        }
-
-                        #consoleContainer {
-                            margin: 20px;
-                            text-align: center;
-                        }
-
-
                     </style>
 
                     <script>
@@ -185,13 +168,22 @@ if (isset($user)) {
                         </div>
 
                         <!-- Console-->
-                        <div id="consoleContainer">
-                            <textarea id="console" readonly title="console"></textarea>
 
-                            <a class="button" style="vertical-align: top"
-                               onclick="document.getElementById('console').innerHTML=''">Clear</a>
+                        <div id="console_ui">
+                            <div id="console_holder">
+                                <div id="console_scrollable">
+                                </div>
+                            </div>
+                            <div id="console_buttons">
+                                <button id="console_clear">CLR</button>
+                                <label class="checkbox_container">
+                                    <input type="checkbox" checked id="console_autoscroll">
+                                    <span>SCRL</span>
+                                </label>
+                                <button id="console_font_plus">+</button>
+                                <button id="console_font_minus">-</button>
+                            </div>
                         </div>
-
 
                         <form id="floppyForm">
                             <input id="floppyIn" type="file" name="floppyIn" style="display: none;"/>

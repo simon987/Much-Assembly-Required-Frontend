@@ -878,6 +878,112 @@ function floppyListener(message) {
     saveAs(blob, "floppy.bin");
 }
 
+var terminal = {}
+terminal.autoscroll = true;
+terminal.scroll = 0;
+terminal.lines = 0;
+terminal.length = 80;
+terminal.height = 8;
+terminal.fontsize = 10; // In tenths of em
+
+terminal.scroll_update = function() {
+    terminal.elem.style.marginTop = (terminal.scroll * -1.1) + "em";
+}
+
+terminal.scroll_handler = function(wheel_event) {
+    terminal.scroll += (Math.abs(wheel_event.deltaY) / wheel_event.deltaY);
+    terminal.scroll = Math.max(Math.min(
+        Math.max(terminal.scroll, 0),
+        terminal.elem.childElementCount - terminal.height
+    ), 0);
+    terminal.scroll_update();
+}
+
+terminal.add_line = function(text) {
+    var child = document.createElement("div");
+    child.id = "line_" + (terminal.lines + 1);
+    child.className = "console_line";
+    if (text === undefined) {
+        text = "";
+    }
+    child.textContent = text;
+
+    terminal.elem.appendChild(child);
+    terminal.lines += 1;
+    terminal.last_line = child;
+    if (terminal.autoscroll && terminal.lines > terminal.height) {
+        terminal.scroll += 1;
+        terminal.scroll_update();
+    }
+}
+
+function split_by_length(array, length) {
+    var new_array = [];
+    
+    for (var i = 0; i < array.length; i++) {
+        // Adjust 80 to desired terminal width!
+        // Because making it atuomatically follow the terminal.width is too
+        //   much work. Seriously, look at "variables in js regexp" in Google.
+        var m = array[i].match(/.{1,80}/g);
+        new_array = new_array.concat(m);
+    }
+
+    delete(array);
+    return new_array;
+}
+
+terminal.add_text = function(text) {
+    if (text.indexOf("\0") != -1) {
+        text = text.substring(0, text.indexOf("\0"));
+    }
+    // Console just got cleaned or it's freshly started
+    if (terminal.lines == 0) {
+        terminal.add_line();
+    }
+
+    var lines = text.split("\n");
+    lines[0] = terminal.last_line.textContent + lines[0];
+    lines = split_by_length(lines, 80);
+    
+    terminal.last_line.textContent = lines[0];
+
+    // Handle further lines IF they exist
+    if (lines.length > 1) {
+        for (var i = 1; i < lines.length; i++) {
+            terminal.add_line(lines[i]);
+        }
+    }
+}
+
+terminal.clear = function() {
+    var new_elem = terminal.elem.cloneNode(false);
+    terminal.holder.replaceChild(new_elem, terminal.elem);
+    terminal.elem = new_elem;
+    terminal.lines = 0;
+    terminal.scroll = 0;
+    terminal.scroll_update();
+}
+
+window.addEventListener("load", function(){
+    terminal.ui = document.getElementById("console_ui");
+    terminal.holder = document.getElementById("console_holder");
+    terminal.elem = document.getElementById("console_scrollable");
+    terminal.lines = terminal.elem.childElementCount;
+    terminal.holder.addEventListener("wheel", terminal.scroll_handler);
+    
+    terminal.autoscroll_checkbox = document.getElementById("console_autoscroll");
+    terminal.autoscroll_checkbox.addEventListener("change", function() {
+        terminal.autoscroll = terminal.autoscroll_checkbox.checked;
+    });
+
+    document.getElementById("console_clear").addEventListener("click", terminal.clear);
+    document.getElementById("console_font_plus").addEventListener("click", function() {
+        terminal.ui.style.fontSize = (++terminal.fontsize)/10 + "em";
+    });
+    document.getElementById("console_font_minus").addEventListener("click", function() {
+        terminal.ui.style.fontSize = (--terminal.fontsize)/10 + "em";
+    });
+});
 
 function tickListener(message) {
     if (message.t === "tick") {
@@ -893,49 +999,16 @@ function tickListener(message) {
         var myConsole = document.getElementById('console');
 
         if (message.cm === 0) {
-            //Clear command was sent
-            myConsole.innerHTML = "";
-            mar.lastLines = "";
+            terminal.clear();
         }
 
         //Update console
         if (message.c !== undefined) {
-            var str = mar.lastLines;
-
             for (var i = 0; i < message.c.length; i++) {
-
                 str += message.c[i];
             }
 
-            //Limit lines to 40 chars
-            myConsole.innerHTML = "";
-            var tmpBuffer = "";
-            var lines = str.split("\n");
-            for (var i = 0; i < lines.length; i++) {
-
-                if (lines[i].length >= 40) {
-
-                    //Split the line...
-                    var subLines = lines[i].match(/.{1,40}/g);
-
-                    for (var j = 0; j < subLines.length; j++) {
-
-                        //Don't put a newline at the end
-                        if (j !== subLines.length - 1) {
-                            tmpBuffer += "\n";
-                        }
-                    }
-
-                } else {
-                    tmpBuffer += lines[i] + "\n";
-                }
-            }
-
-            myConsole.innerHTML = tmpBuffer;
-            mar.lastLines = str;
-
-            //Autoscroll
-            myConsole.scrollTop = myConsole.scrollHeight;
+            terminal.add_text(str);
         }
     }
 }
