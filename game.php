@@ -143,6 +143,8 @@ if (isset($user)) {
                                         class="fa fa-long-arrow-up" aria-hidden="true"></i> <i class="fa fa-floppy-o"
                                                                                                aria-hidden="true"></i>
                             </button>
+                            <!-- style the select to something more select'y -->
+                            <select class="button editorBtn" id="editorTheme"></select>
                         </div>
 
                         <div id="gameBtns">
@@ -159,11 +161,6 @@ if (isset($user)) {
                            target="_blank">
                             Chat <i class="fa fa-commenting-o" aria-hidden="true"></i>
                         </a>
-
-                        <select id="editorTheme">
-
-                        </select>
-
 
                         <!-- Game -->
                         <div id="game" tabindex="0">
