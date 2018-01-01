@@ -17,9 +17,9 @@ if (strlen($username) < 5 || strlen($username) > 20) {
     $msg->setCookie();
     header("Location: login.php#register");
 
-} else if (strlen($password) < 8 || strlen($password) > 32) {
+} else if (strlen($password) < 8 || strlen($password) > 96) {
 
-    (new MessageCookie("Password must be 8-32 characters", "register"))->setCookie();
+    (new MessageCookie("Password must be 8-96 characters", "register"))->setCookie();
     header("Location: login.php#register");
 
 } else {

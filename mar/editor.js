@@ -257,7 +257,7 @@ function parseInstruction(line, result, currentLine) {
     if (!parseDWInstruction(line, result, currentLine)) {
 
         if (new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|hwi|hwq|nop|neg|' +
-                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar)\\b').test(mnemonic.toLowerCase())) {
+                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno)\\b').test(mnemonic.toLowerCase())) {
 
 
             if (line.indexOf(",") !== -1) {
@@ -315,7 +315,7 @@ function parseInstruction(line, result, currentLine) {
                 strO1 = line.substring(line.indexOf(mnemonic) + mnemonic.length).trim();
 
                 //Validate operand number
-                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc)\\b').test(mnemonic.toLowerCase())) {
+                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc|jo|jno)\\b').test(mnemonic.toLowerCase())) {
                     result.annotations.push({
                         row: currentLine,
                         column: 0,
