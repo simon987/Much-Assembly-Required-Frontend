@@ -345,7 +345,7 @@ function updateGameObject(object, responseObj) {
 
         } else if (responseObj.holoMode === 2) {
             //String
-            object.hologram = game.make.text(0, 32, responseObj.holoStr, {
+            object.hologram = game.make.text(0, 32, responseObj.holoStr.replace(/[\n|\t]/g, ''), {
                 fontSize: 27,
                 fill: color ? color : colorScheme.hologramFill,
                 stroke: colorScheme.hologramStroke,
