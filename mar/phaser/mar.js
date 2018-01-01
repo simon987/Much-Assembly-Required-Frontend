@@ -327,7 +327,8 @@ function updateGameObject(object, responseObj) {
 
         var color = false;
         if (responseObj.holoC) {
-            color = "#" + Number(responseObj.holoC & 0xFFFFFF).toString(16)
+            color = (responseObj.holoC & 0xFFFFFF).toString(16)
+            color = "#" + ("000000".substr(color.length) + color);
         }
 
         if (responseObj.holoMode === 1) {
