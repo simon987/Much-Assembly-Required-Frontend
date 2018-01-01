@@ -48,11 +48,11 @@ LOW_ENERGY = 100;
 
 
 if (fullscreen) {
-    RENDERER_WIDTH = window.innerWidth - 4;
-    RENDERER_HEIGHT = window.innerHeight - 4;
+    RENDERER_WIDTH = window.innerWidth* window.devicePixelRatio - 4;
+    RENDERER_HEIGHT = window.innerHeight* window.devicePixelRatio - 4;
 } else {
-    RENDERER_WIDTH = document.getElementById("game").clientWidth;
-    RENDERER_HEIGHT = (window.innerHeight / 1.25);
+    RENDERER_WIDTH = document.getElementById("game").clientWidth * window.devicePixelRatio;
+    RENDERER_HEIGHT = (window.innerHeight / 1.40) * window.devicePixelRatio;
 }
 
 var game = new Phaser.Game(RENDERER_WIDTH, RENDERER_HEIGHT, Phaser.AUTO, 'game', null, true, false);
@@ -1113,8 +1113,11 @@ BasicGame.Boot.prototype = {
         game.camera.x = 280;
         game.camera.y = 90;
         game.stage.disableVisibilityChange = true;
-
-
+        
+        this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+        this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
+     
     },
     create: function () {
 
@@ -1135,6 +1138,8 @@ BasicGame.Boot.prototype = {
 
     },
     update: function () {
+        game.scale.setShowAll();
+        game.scale.refresh(); 
         // Update the cursor position.
         // It's important to understand that screen-to-isometric projection means you have to specify a z position manually, as this cannot be easily
         // determined from the 2D pointer position without extra trickery. By default, the z position is 0 if not set.
