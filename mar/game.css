@@ -5,20 +5,26 @@
 }
 
 .container {
-    width: 1600px;
+    width: 100%;
+    
+    
 }
 
 #game {
-    box-shadow: rgba(46, 94, 134, 0.45) 10px 10px 3px;
-    margin-top: 1em;
+    box-shadow: rgba(46, 94, 80, 0.45) 0ex 0ex 2ex;
+    /*margin-top: 1em;*/
     outline: none;
+    width: 100%;
+    margin: 1em 0 1em 1em;
+    box-sizing: border-box;
+    
     /*background: #282828;*/
 }
 
 #editor {
-    margin-top: 1em;
-    height: 650px;
-    box-shadow: rgba(46, 94, 134, 0.45) 10px 10px 3px;
+    margin: 1em 0 1em 1em;
+    height: 30em;
+    box-shadow: rgba(46, 94, 80, 0.45) 0ex 0ex 2ex;
 
 }
 
