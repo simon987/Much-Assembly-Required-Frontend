@@ -143,8 +143,8 @@ if (isset($user)) {
                                         class="fa fa-long-arrow-up" aria-hidden="true"></i> <i class="fa fa-floppy-o"
                                                                                                aria-hidden="true"></i>
                             </button>
-                            <!-- style the select to something more select'y -->
-                            <select class="button editorBtn" id="editorTheme"></select>
+                            <!-- Style the select to something more select'y -->
+                            <select title="Select Theme" class="button editorBtn" id="editorTheme"></select>
                         </div>
 
                         <div id="gameBtns">
@@ -176,7 +176,7 @@ if (isset($user)) {
 
                             <script src="./mar/editor.js"></script>
                             <script>
-                                // check if browser supports local storage if not than bad luck, use something else than IE7
+                                //Check if browser supports local storage if not than bad luck, use something else than IE7
                                 var editorStorage;
                                 if(typeof window.localStorage !== 'undefined') {
                                     editorStorage = window.localStorage;
@@ -184,7 +184,7 @@ if (isset($user)) {
                                     editorStorage = false;
                                 }
 
-                                // default should be 'theme/tommorow.js' or loaded from local storage
+                                //Default should be 'theme/tommorow.js' or loaded from local storage
                                 var editorThemeOptions = {
                                     available : [
                                         "theme/ambiance", "theme/chaos", "theme/chrome",
@@ -201,20 +201,20 @@ if (isset($user)) {
                                         "theme/tomorrow_night", "theme/twilight", "theme/vibrant_ink", "theme/xcode"
                                     ],
                                     default : "theme/tomorrow"
-                                }
+                                };
 
-                                // get the stored default theme
+                                //Get the stored default theme
                                 if(editorStorage) {
                                     var storedTheme = editorStorage.getItem('editorTheme');
-                                    if(storedTheme !== null && editorThemeOptions.available.indexOf(storedTheme) != -1) {
+                                    if (storedTheme !== null && editorThemeOptions.available.indexOf(storedTheme) !== -1) {
                                         editorThemeOptions.default = storedTheme;
                                     }
                                 }
 
-                                // cache element reference
+                                //Cache element reference
                                 var editorThemeSelectElement = document.getElementById("editorTheme");
 
-                                // event handler
+                                //Event handler
                                 function editorOnThemeChange() {
                                     if(editorThemeSelectElement === null) {
                                         console.error("editorOnThemeChange() :: editorThemeSelectElement seems to be 'null'");
@@ -223,30 +223,30 @@ if (isset($user)) {
                                     var select = editorThemeSelectElement;
                                     var option = select.options[select.selectedIndex];
 
-                                    if(!editorThemeOptions.available.indexOf(option.value) == -1) {
+                                    if (editorThemeOptions.available.indexOf(option.value) === -1) {
                                         console.error("editorOnThemeChange() :: user somehow selected an invalid theme : '" + option.value  + "' for '" + option.text + "'");
                                         return;
                                     }
 
-                                    // store locally so it gets remembered
+                                    //Store locally so it gets remembered
                                     if(editorStorage) {
                                         editorStorage.setItem('editorTheme', option.value);
                                     }
 
-                                    // set theme
+                                    //Set theme
                                     editor.setTheme("ace/" + option.value);
                                 }
 
-                                // add handler to listen to event
+                                //Add handler to listen to event
                                 editorThemeSelectElement.addEventListener('change', editorOnThemeChange);
 
-                                // populate select
+                                //Populate select
                                 editorThemeOptions.available.forEach(function(theme) {
                                     var option = document.createElement("option");
                                     option.value = theme;
                                     option.text = theme.substring(6); // "theme/{text}" -> extract text to set as text user sees
 
-                                    // make sure default is also the one that is selected
+                                    //Make sure default is also the one that is selected
                                     if(theme === editorThemeOptions.default) {
                                         option.selected = true;
                                     }
@@ -254,7 +254,7 @@ if (isset($user)) {
                                     editorThemeSelectElement.appendChild(option);
                                 });
 
-                                // manualy call handler once
+                                //Manually call handler once
                                 editorOnThemeChange();
 
                                 editor.getSession().setMode("ace/mode/mar");
