@@ -95,6 +95,21 @@ if (isset($user)) {
                             display: inline;
                         }
 
+                        #console {
+                            font-family: fixedsys, monospace;
+                            font-size: 24pt;
+                            line-height: 21px;
+                            resize: none;
+                            overflow-y: scroll;
+                            width: 680px;
+                            height: 180px;
+                        }
+
+                        #consoleContainer {
+                            margin: 20px;
+                            text-align: center;
+                        }
+
 
                     </style>
 
@@ -145,6 +160,10 @@ if (isset($user)) {
                             Chat <i class="fa fa-commenting-o" aria-hidden="true"></i>
                         </a>
 
+                        <select id="editorTheme">
+
+                        </select>
+
 
                         <!-- Game -->
                         <div id="game" tabindex="0">
@@ -160,13 +179,101 @@ if (isset($user)) {
 
                             <script src="./mar/editor.js"></script>
                             <script>
-                                editor.setTheme("ace/theme/tomorrow");
+                                // check if browser supports local storage if not than bad luck, use something else than IE7
+                                var editorStorage;
+                                if(typeof window.localStorage !== 'undefined') {
+                                    editorStorage = window.localStorage;
+                                } else {
+                                    editorStorage = false;
+                                }
+
+                                // default should be 'theme/tommorow.js' or loaded from local storage
+                                var editorThemeOptions = {
+                                    available : [
+                                        "theme/ambiance", "theme/chaos", "theme/chrome",
+                                        "theme/clouds", "theme/clouds_midnight", "theme/cobalt",
+                                        "theme/crimson_editor", "theme/dawn", "theme/dracula",
+                                        "theme/dreamweaver", "theme/eclipse", "theme/github",
+                                        "theme/gob", "theme/gruvbox", "theme/idle_fingers",
+                                        "theme/iplastic", "theme/katzenmilch", "theme/kr_theme",
+                                        "theme/kuroir", "theme/merbivore", "theme/merbivore_soft",
+                                        "theme/mono_industrial", "theme/monokai", "theme/pastel_on_dark",
+                                        "theme/solarized_dark", "theme/solarized_light", "theme/sqlserver",
+                                        "theme/terminal", "theme/textmate", "theme/tomorrow",
+                                        "theme/tomorrow_night_blue", "theme/tomorrow_night_bright", "theme/tomorrow_night_eighties",
+                                        "theme/tomorrow_night", "theme/twilight", "theme/vibrant_ink", "theme/xcode"
+                                    ],
+                                    default : "theme/tomorrow"
+                                }
+
+                                // get the stored default theme
+                                if(editorStorage) {
+                                    var storedTheme = editorStorage.getItem('editorTheme');
+                                    if(storedTheme !== null && editorThemeOptions.available.indexOf(storedTheme) != -1) {
+                                        editorThemeOptions.default = storedTheme;
+                                    }
+                                }
+
+                                // cache element reference
+                                var editorThemeSelectElement = document.getElementById("editorTheme");
+
+                                // event handler
+                                function editorOnThemeChange() {
+                                    if(editorThemeSelectElement === null) {
+                                        console.error("editorOnThemeChange() :: editorThemeSelectElement seems to be 'null'");
+                                        return;
+                                    }
+                                    var select = editorThemeSelectElement;
+                                    var option = select.options[select.selectedIndex];
+
+                                    if(!editorThemeOptions.available.indexOf(option.value) == -1) {
+                                        console.error("editorOnThemeChange() :: user somehow selected an invalid theme : '" + option.value  + "' for '" + option.text + "'");
+                                        return;
+                                    }
+
+                                    // store locally so it gets remembered
+                                    if(editorStorage) {
+                                        editorStorage.setItem('editorTheme', option.value);
+                                    }
+
+                                    // set theme
+                                    editor.setTheme("ace/" + option.value);
+                                }
+
+                                // add handler to listen to event
+                                editorThemeSelectElement.addEventListener('change', editorOnThemeChange);
+
+                                // populate select
+                                editorThemeOptions.available.forEach(function(theme) {
+                                    var option = document.createElement("option");
+                                    option.value = theme;
+                                    option.text = theme.substring(6); // "theme/{text}" -> extract text to set as text user sees
+
+                                    // make sure default is also the one that is selected
+                                    if(theme === editorThemeOptions.default) {
+                                        option.selected = true;
+                                    }
+
+                                    editorThemeSelectElement.appendChild(option);
+                                });
+
+                                // manualy call handler once
+                                editorOnThemeChange();
+
                                 editor.getSession().setMode("ace/mode/mar");
                                 editor.setFontSize(16);
                                 editor.setDisplayIndentGuides(false);
                                 document.getElementById('editor').style.fontFamily="fixedsys";
                             </script>
 
+                        </div>
+
+                        <!-- Console-->
+                        <div id="consoleContainer">
+                            <textarea id="console" readonly title="console"></textarea>
+
+                            <a class="button" style="vertical-align: top"
+                               onclick="document.getElementById('console').innerHTML=''">Clear</a>
                         </div>
 
 
