@@ -1005,10 +1005,8 @@ function tickListener(message) {
         //Update console
         if (message.c !== undefined) {
             for (var i = 0; i < message.c.length; i++) {
-                str += message.c[i];
+                terminal.add_text(message.c[i]);
             }
-
-            terminal.add_text(str);
         }
     }
 }
