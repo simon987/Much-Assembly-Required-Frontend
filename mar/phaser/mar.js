@@ -887,16 +887,20 @@ terminal.height = 8;
 terminal.fontsize = 10; // In tenths of em
 
 terminal.scroll_update = function() {
-    terminal.elem.style.marginTop = (terminal.scroll * -1.1) + "em";
-}
-
-terminal.scroll_handler = function(wheel_event) {
-    terminal.scroll += (Math.abs(wheel_event.deltaY) / wheel_event.deltaY);
+    var old = terminal.scroll;
     terminal.scroll = Math.max(Math.min(
         Math.max(terminal.scroll, 0),
         terminal.elem.childElementCount - terminal.height
     ), 0);
-    terminal.scroll_update();
+    terminal.elem.style.marginTop = (terminal.scroll * -1.1) + "em";
+    return terminal.scroll - old; // Actually it is always 0 on successful scroll. On edges it's +-1
+}
+
+terminal.scroll_handler = function(wheel_event) {
+    terminal.scroll += (Math.abs(wheel_event.deltaY) / wheel_event.deltaY);
+    if (terminal.scroll_update() == 0) {
+        wheel_event.preventDefault();
+    }
 }
 
 terminal.add_line = function(text) {
