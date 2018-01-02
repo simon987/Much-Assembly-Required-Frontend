@@ -1,7 +1,11 @@
 -- make sure it exists
 create database if not exists mar;
 
--- switch to use it
+-- create user (will be created if not exists) and grant privileges
+grant all privileges on `mar`.* to `mar`@`localhost` identified by 'mar';
+flush privileges;
+
+-- switch to use the database
 use mar;
 
 -- create tables
