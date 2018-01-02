@@ -1,3 +1,10 @@
+-- make sure it exists
+create database if not exists mar;
+
+-- switch to use it
+use mar;
+
+-- create tables
 create table mar_user
 (
   username varchar(20) not null
