@@ -421,7 +421,7 @@ var lazySave = (function() {
     // This will prevent unnececary saving on every change
     return function(event) {
         // if another timeout was waiting clear that one
-        if(timeout === null) {
+        if(timeout !== null) {
             clearTimeout(timeout);
         }
         // and set a new one
