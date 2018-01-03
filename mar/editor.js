@@ -12,6 +12,38 @@ editor.session.setOption("useWorker", false);
 //Remove message
 editor.$blockScrolling = Infinity;
 
+var MarParserSyntax = {
+    singleCharRegisters : [
+        'a', 'b', 'c', 'd', 'x', 'y'
+    ],
+    doubleCharRegisters : [
+        'bp', 'sp'
+    ],
+    doubleOperandInstructions : [
+        'mov', 'add', 'sub', 'and', 'or', 'test', 'cmp', 'shl', 'shr', 'xor', 'rol', 'ror', 'sal', 'sar'
+    ],
+    singleOperandInstructions : [
+        'push', 'mul', 'pop', 'div', 'neg', 'call', 'jnz', 'jg', 'jl', 'jge', 'jle', 'hwi', 'hwq', 'jz',
+        'js', 'jns', 'ret', 'jmp', 'not', 'jc', 'jnc', 'jo', 'jno'
+    ],
+    zeroOperandInstructions : [
+        'ret', 'brk', 'nop'
+    ]
+};
+
+var MarParserRegExp = {
+    allRegisters : new RegExp('^(' +
+        MarParserSyntax.singleCharRegisters.concat(MarParserSyntax.doubleCharRegisters).join('|')
+    + ')$'),
+    singleCharRegisters : new RegExp('^(' + MarParserSyntax.singleCharRegisters.join('|') + ')$'),
+    doubleCharRegisters : new RegExp('^(' + MarParserSyntax.doubleCharRegisters.join('|') + ')$'),
+    allInstructions : new RegExp('\\b(?:' +
+        MarParserSyntax.doubleOperandInstructions.concat(MarParserSyntax.singleOperandInstructions).concat(MarParserSyntax.zeroOperandInstructions).join('|')
+    + ')\\b'),
+    doubleOperandInstructions : new RegExp('\\b(?:' + MarParserSyntax.doubleOperandInstructions.join('|') + ')\\b'),
+    singleOperandInstructions : new RegExp('\\b(?:' + MarParserSyntax.singleOperandInstructions.join('|') + ')\\b'),
+    zeroOperandInstructions : new RegExp('\\b(?:' + MarParserSyntax.zeroOperandInstructions.join('|') + ')\\b'),
+};
 
 function removeComment(line) {
     if (line.indexOf(";") !== -1) {
@@ -177,7 +209,7 @@ function getOperandType(text, result) {
     }
 
     //Check REG
-    if (new RegExp('^(a|b|c|d|x|y|bp|sp)$').test(text.toLowerCase())) {
+    if (MarParserRegExp.allRegisters.test(text.toLowerCase())) {
         return OPERAND_REG;
     }
 
@@ -205,10 +237,10 @@ function getOperandType(text, result) {
 
         //Check for MEM_REG (+ x)
         var expr = "";
-        if (new RegExp('^(bp|sp)$').test(text.toLowerCase().substring(0, 2).toLowerCase())) {
+        if (MarParserRegExp.doubleCharRegisters.test(text.toLowerCase().substring(0, 2).toLowerCase())) {
             //Starts with 2-char register
             expr = text.substring(2);
-        } else if (new RegExp('^(a|b|c|d|x|y)$').test(text.toLowerCase().substring(0, 1).toLowerCase())) {
+        } else if (MarParserRegExp.singleCharRegisters.test(text.toLowerCase().substring(0, 1).toLowerCase())) {
             //Starts with 1-char register
             expr = text.substring(1);
         } else {
@@ -256,8 +288,7 @@ function parseInstruction(line, result, currentLine) {
 
     if (!parseDWInstruction(line, result, currentLine)) {
 
-        if (new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|hwi|hwq|nop|neg|' +
-                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno)\\b').test(mnemonic.toLowerCase())) {
+        if (MarParserRegExp.allInstructions.test(mnemonic.toLowerCase())) {
 
 
             if (line.indexOf(",") !== -1) {
@@ -267,7 +298,7 @@ function parseInstruction(line, result, currentLine) {
 
 
                 //Validate operand number
-                if (!new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|xor|rol|ror|sal|sar)\\b').test(mnemonic.toLowerCase())) {
+                if (!MarParserRegExp.doubleOperandInstructions.test(mnemonic.toLowerCase())) {
                     result.annotations.push({
                         row: currentLine,
                         column: 0,
@@ -315,7 +346,7 @@ function parseInstruction(line, result, currentLine) {
                 strO1 = line.substring(line.indexOf(mnemonic) + mnemonic.length).trim();
 
                 //Validate operand number
-                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc|jo|jno)\\b').test(mnemonic.toLowerCase())) {
+                if (!MarParserRegExp.singleOperandInstructions.test(mnemonic.toLowerCase())) {
                     result.annotations.push({
                         row: currentLine,
                         column: 0,
@@ -338,7 +369,7 @@ function parseInstruction(line, result, currentLine) {
 
             } else {
                 //No operand
-                if (!new RegExp('\\b(?:ret|brk|nop)\\b').test(mnemonic.toLowerCase())) {
+                if (!MarParserRegExp.zeroOperandInstructions.test(mnemonic.toLowerCase())) {
 
                     //Validate operand number
                     result.annotations.push({
