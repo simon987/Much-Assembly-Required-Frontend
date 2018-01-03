@@ -127,11 +127,17 @@ if (isset($user)) {
                         <ul>
                             <li><a class="button alt" href="#game" onclick="gameClick()">Game</a>
                             </li>
+                            <?php if($user) { ?>
                             <li><a class="button alt" href="#editorTab" onclick="editorClick()">Editor</a>
                             </li>
+                            <?php } else { ?>
+                            <li><a class="button alt" onclick="window.location = '/login.php';">Editor</a>
+                            </li>
+                            <?php } ?>
                         </ul>
 
                         <!-- Editor buttons -->
+                        <?php if($user) { ?>
                         <div id="editorBtns" style="display: none">
                             <a class="button editorBtn" onclick="mar.client.uploadCode(ace.edit('editor').getValue())">Upload</a>
                             <a class="button editorBtn" onclick="mar.client.reloadCode()">Reload</a>
@@ -146,6 +152,7 @@ if (isset($user)) {
                             <!-- Style the select to something more select'y -->
                             <select title="Select Theme" class="button editorBtn" id="editorTheme"></select>
                         </div>
+                        <?php } ?>
 
                         <div id="gameBtns">
                             <a class="button editorBtn" onclick="findMyRobot()">Find My Robot</a>
