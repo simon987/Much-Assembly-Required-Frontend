@@ -20,7 +20,8 @@ var MarParserSyntax = {
         'bp', 'sp'
     ],
     doubleOperandInstructions : [
-        'mov', 'add', 'sub', 'and', 'or', 'test', 'cmp', 'shl', 'shr', 'xor', 'rol', 'ror', 'sal', 'sar'
+        'mov', 'add', 'sub', 'and', 'or', 'test', 'cmp', 'shl', 'shr', 'xor', 'rol', 'ror', 'sal', 'sar',
+        'xchg', 'rcl', 'rcr'
     ],
     singleOperandInstructions : [
         'push', 'mul', 'pop', 'div', 'neg', 'call', 'jnz', 'jg', 'jl', 'jge', 'jle', 'hwi', 'hwq', 'jz',
