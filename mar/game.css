@@ -4,10 +4,14 @@
     src: url("./fonts/FSEX301-L2.ttf");
 }
 
+#tabs {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
 .container {
     width: 100%;
-    
-    
+
 }
 
 #game {
@@ -23,7 +27,7 @@
 
 #editor {
     margin: 1em 0 1em 1em;
-    height: 30em;
+    height: 35em;
     box-shadow: rgba(46, 94, 80, 0.45) 0ex 0ex 2ex;
 
 }

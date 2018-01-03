@@ -33,7 +33,7 @@ $user = SessionManager::get();
     <nav id="nav">
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="game.php">Game</a></li>
+            <li><a href="servers.php">Play</a></li>
             <li class="current">
                 <a href="#">Account</a>
                 <ul>

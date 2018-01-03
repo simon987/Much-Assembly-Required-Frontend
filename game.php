@@ -14,7 +14,7 @@ if (isset($user)) {
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Official Game Server</title>
+    <title><?php echo MAR_SERVER_NAME ?></title>
     <meta name="description" content="Offical Much Assembly Required game server page">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -48,7 +48,7 @@ if (isset($user)) {
     <nav id="nav">
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li class="current"><a href="game.php">Game</a></li>
+            <li class="current"><a href="servers.php">Play</a></li>
             <li>
                 <a href="#">Account</a>
                 <ul>
