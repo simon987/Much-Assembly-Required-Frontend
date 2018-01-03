@@ -404,4 +404,34 @@ function editorClick() {
     document.getElementById("gameBtns").setAttribute("style", "display: none");
 }
 
+/*
+    im using a closure because i don't like putting everything in global scope
+    feel free to disagree
+*/
+var lazySave = (function() {
+    if(typeof window.localStorage === 'undefined') {
+        return function() {}; // if browser does not support local storage make it a no op (no idea what browsers)
+    }
+
+    // store a reference to the timeout
+    var DELAY = 3000;
+    var timeout = null;
+
+    // Basicly on every change set a timeout that will wait DELAY milliseconds before storing the code.
+    // This will prevent unnececary saving on every change
+    return function(event) {
+        // if another timeout was waiting clear that one
+        if(timeout === null) {
+            clearTimeout(timeout);
+        }
+        // and set a new one
+        timeout = setTimeout(function() {
+            window.localStorage.setItem('editorCodeContents', ace.edit("editor").getValue());
+            timeout = null; // clear the timeout cached variable after its function has run
+        }, DELAY);
+    };
+})();
+
 editor.on("change", parse);
+// You can add multiple handlers on events
+editor.on("change", lazySave);
