@@ -29,6 +29,7 @@ mar.kbBufferText = "";
 mar.animationFrames = {};
 mar.controlledUnitVisible = false;
 mar.lastLines = "";
+mar.bigMessage = "";
 
 CUBOT_WALK_FRAMES = {
     south: 240,
@@ -274,11 +275,25 @@ function updateGameObject(object, responseObj) {
         //Update location
         if ((object.tileX !== responseObj.x || object.tileY !== responseObj.y)) {
             //location changed
-            dispatchTileLeave(object.tileX, object.tileY);
 
-            object.tileX = responseObj.x;
-            object.tileY = responseObj.y;
-            cubotWalk(object, object.direction, undefined, CUBOT_WALK_FRAMES);
+            //Walk
+            if (object.action === 2) {
+                dispatchTileLeave(object.tileX, object.tileY);
+
+                object.tileX = responseObj.x;
+                object.tileY = responseObj.y;
+
+                cubotMove(object, object.direction, undefined, CUBOT_WALK_FRAMES);
+            } else if (object.action === 6) {
+                //Jump
+                dispatchTileLeave(object.tileX, object.tileY);
+
+                object.tileX = responseObj.x;
+                object.tileY = responseObj.y;
+
+                cubotMove(object, object.direction, undefined, CUBOT_WALK_FRAMES, true);
+            }
+
         }
 
         //Update Inventory
@@ -388,7 +403,7 @@ function updateGameObject(object, responseObj) {
 
             object.tileX = responseObj.x;
             object.tileY = responseObj.y;
-            cubotWalk(object, object.direction, undefined, HARVESTER_WALK_FRAMES);
+            cubotMove(object, object.direction, undefined, HARVESTER_WALK_FRAMES);
         }
 
         //Update direction
@@ -831,38 +846,61 @@ function userInfoListener(message) {
 function terrainListener(message) {
     if (message.t === "terrain") {
 
-        if (mar.world !== undefined) {
-            mar.client.socket.send(JSON.stringify({t: "object", x: mar.worldX, y: mar.worldY}));
-            mar.world.update(message.terrain);
-
-        } else {
-            mar.world = new Word(message.terrain);
-            console.log("Gameloop started");
-
-            //Handle keypresses
-            game.input.keyboard.onDownCallback = function (event) {
-
-                //If the game has focus
-                if (document.activeElement === document.getElementById("game")) {
-                    if ((event.keyCode >= 37 && event.keyCode <= 40) || event.keyCode === 116 || event.keyCode === 32) {
-                        event.preventDefault();
-                    }
-
-                    if (mar.client.username !== "guest" && mar.kbBuffer.length <= 16) {
-                        mar.client.sendKeypress(event.keyCode);
-
-                        //Locally update the buffer
-                        mar.kbBuffer.push(event.keyCode);
-                        mar.kbBufferText = formattedKeyBuffer(mar.kbBuffer);
-                    }
-                }
-            };
-
-            //Grab focus when clicked (For chrome, Opera)
-            game.input.onDown.add(function () {
-                document.getElementById("game").focus();
-            })
+        if (mar.bigMessage) {
+            mar.bigMessage.destroy();
         }
+
+        if (message.ok) {
+
+            if (mar.world !== undefined) {
+                mar.client.socket.send(JSON.stringify({t: "object", x: mar.worldX, y: mar.worldY}));
+                mar.world.update(message.terrain);
+
+            } else {
+                mar.world = new Word(message.terrain);
+                console.log("Gameloop started");
+
+                //Handle keypresses
+                game.input.keyboard.onDownCallback = function (event) {
+
+                    //If the game has focus
+                    if (document.activeElement === document.getElementById("game")) {
+                        if ((event.keyCode >= 37 && event.keyCode <= 40) || event.keyCode === 116 || event.keyCode === 32) {
+                            event.preventDefault();
+                        }
+
+                        if (mar.client.username !== "guest" && mar.kbBuffer.length <= 16) {
+                            mar.client.sendKeypress(event.keyCode);
+
+                            //Locally update the buffer
+                            mar.kbBuffer.push(event.keyCode);
+                            mar.kbBufferText = formattedKeyBuffer(mar.kbBuffer);
+                        }
+                    }
+                };
+
+                //Grab focus when clicked (For chrome, Opera)
+                game.input.onDown.add(function () {
+                    document.getElementById("game").focus();
+                })
+            }
+        } else {
+            //World is not available
+            if (mar.world !== undefined) {
+                mar.world.update([]);
+            } else {
+                mar.world = new Word([])
+            }
+            mar.bigMessage = game.add.text(908, 450, "[Uncharted World]", {
+                fontSize: 46,
+                fill: "#ff803d",
+                stroke: colorScheme.textStroke,
+                strokeThickness: 2,
+                font: "fixedsys"
+            }, textGroup);
+        }
+
+
     }
 }
 
@@ -1090,6 +1128,7 @@ BasicGame.Boot = function (game) {
 };
 
 var isoGroup, cursorPos, cursor;
+var textGroup;
 var debugTile;
 var debugObj;
 var objectsGroup;
@@ -1124,6 +1163,7 @@ BasicGame.Boot.prototype = {
         // Create a group for our tiles.
         isoGroup = game.add.group();
         objectsGroup = game.add.group();
+        textGroup = game.add.group();
 
         //Initialise Cubot Animations Frames lists
         initialiseAnimations();
@@ -1333,7 +1373,7 @@ function cubotDig(cubot, direction, callback) {
     }
 }
 
-function cubotWalk(cubot, direction, callback, walkFrames) {
+function cubotMove(cubot, direction, callback, walkFrames, jump) {
 
     var tween;
 
@@ -1341,9 +1381,22 @@ function cubotWalk(cubot, direction, callback, walkFrames) {
 
         var walk = function (duration) {
 
-            cubot.animations.play("walk_s", 60, true);
-            tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
-                duration, Phaser.Easing.Linear.None, true);
+
+            if (jump) {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                var zTween1 = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoZ: 90},
+                    duration / 2, Phaser.Easing.Quadratic.Out, true);
+                zTween1.onComplete.add(function () {
+                    game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoZ: 5},
+                        duration / 2, Phaser.Easing.Quadratic.In, true);
+                })
+            } else {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                cubot.animations.play("walk_s", 60, true);
+            }
+
 
             dispatchTileEnter(cubot.tileX, cubot.tileY);
 
@@ -1371,9 +1424,20 @@ function cubotWalk(cubot, direction, callback, walkFrames) {
 
         walk = function (duration) {
 
-            cubot.animations.play("walk_n", 60, true);
-            tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
-                duration, Phaser.Easing.Linear.None, true);
+            if (jump) {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                var zTween1 = game.add.tween(cubot).to({isoZ: 90},
+                    duration / 2, Phaser.Easing.Quadratic.Out, true);
+                zTween1.onComplete.add(function () {
+                    game.add.tween(cubot).to({isoZ: 5},
+                        duration / 2, Phaser.Easing.Quadratic.In, true);
+                })
+            } else {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                cubot.animations.play("walk_n", 60, true);
+            }
             dispatchTileEnter(cubot.tileX, cubot.tileY);
 
             tween.onComplete.add(function () {
@@ -1400,9 +1464,20 @@ function cubotWalk(cubot, direction, callback, walkFrames) {
         walk = function (duration) {
 
 
-            cubot.animations.play("walk_w", 60, true);
-            tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
-                duration, Phaser.Easing.Linear.None, true);
+            if (jump) {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                var zTween1 = game.add.tween(cubot).to({isoZ: 90},
+                    duration / 2, Phaser.Easing.Quadratic.Out, true);
+                zTween1.onComplete.add(function () {
+                    game.add.tween(cubot).to({isoZ: 5},
+                        duration / 2, Phaser.Easing.Quadratic.In, true);
+                })
+            } else {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                cubot.animations.play("walk_w", 60, true);
+            }
 
             dispatchTileEnter(cubot.tileX, cubot.tileY);
 
@@ -1430,9 +1505,20 @@ function cubotWalk(cubot, direction, callback, walkFrames) {
     } else if (direction === DIR_EAST) {
         walk = function (duration) {
 
-            cubot.animations.play("walk_e", 60, true);
-            tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
-                duration, Phaser.Easing.Linear.None, true);
+            if (jump) {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                var zTween1 = game.add.tween(cubot).to({isoZ: 90},
+                    duration / 2, Phaser.Easing.Quadratic.Out, true);
+                zTween1.onComplete.add(function () {
+                    game.add.tween(cubot).to({isoZ: 5},
+                        duration / 2, Phaser.Easing.Quadratic.In, true);
+                })
+            } else {
+                tween = game.add.tween(cubot).to({isoX: getIsoX(cubot.tileX), isoY: getIsoY(cubot.tileY)},
+                    duration, Phaser.Easing.Linear.None, true);
+                cubot.animations.play("walk_e", 60, true);
+            }
 
             dispatchTileEnter(cubot.tileX, cubot.tileY);
 
