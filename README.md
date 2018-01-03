@@ -1,9 +1,10 @@
 # Much-Assembly-Required-Frontend
-Files for https://muchassemblyrequired.com/ frontend.
+Frontend files for the https://muchassemblyrequired.com/ game. 
+Information about the backend can be found [here](https://github.com/simon987/Much-Assembly-Required).
 
 Installation instructions:
 1. Install a PHP environnment and a MySQL server (e.g. XAMPP on Windows). 
-2. Configure the MAR database, using the installation script [database.sql](https://github.com/simon987/Much-Assembly-Required-Frontend/blob/master/database.sql)):
+2. Configure the MAR database, using the installation script [database.sql](https://github.com/simon987/Much-Assembly-Required-Frontend/blob/master/database.sql):
 ```bash
 $ pwd
 ~/Much-Assembly-Required-Frontend/
@@ -21,13 +22,15 @@ Bye
 $ # if '\. database.sql' failed you were not in the right directory. make sure you are in the repo root directory
 $ # before running these commands
 ```
-Make sure to change the configuration in /include/config.php.    
-> Tough if you used the snippet above there is nothing to change (except the title if you want)
+
+Running instructions:
+1. Start Apache and MySQL.
+2. Start the backend (see [here](https://github.com/simon987/Much-Assembly-Required) for further details).
 3. Run the frontend from localhost. 
 When using XAMPP, for example, you can place the frontend files in the ```xampp/htdocs/MAR``` folder, 
-and you can run the frontend by typing ```localhost/MAR``` in your web browser. 
+and you can run the frontend by typing ```http://localhost/MAR``` in your web browser. 
 
+If you didn't use the MySQL snippet above to configure your database, you may need to change the configuration in /include/config.php.    
 
-More information about the game [here.](https://github.com/simon987/Much-Assembly-Required)   
 HTML template by ajlkn  
 Pixel art for the 'Factory' sprite by harveydentmd   
