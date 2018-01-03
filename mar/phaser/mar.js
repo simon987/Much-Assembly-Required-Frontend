@@ -803,16 +803,16 @@ function codeListener(message) {
  * Listens for authentications responses from the server
  */
 function authListener(message) {
-
-    if (message.t === "auth") {
-
-        if (message.m === "ok") {
-            console.log("Auth successful");
-            mar.client.requestUserInfo();
-
-        } else {
-            alert("Authentication failed. Please make sure you are logged in and reload the page.");
+    if (message.t === "code") {
+        var code = message.code;
+        if(typeof window.localStorage !== 'undefined') { // localStorage is supported
+            var value = window.localStorage.getItem("editorCodeContents");
+            // if item does not exist null is returned
+            if(value !== null) {
+                code = value;
+            }
         }
+        ace.edit("editor").setValue(code);
     }
 }
 
