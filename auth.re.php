@@ -6,7 +6,7 @@ include_once "include/MessageCookie.php";
 include_once "include/SessionManager.php";
 
 $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-$password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+$password = $_POST['password'];
 
 
 $user = UserManager::auth($username, $password);
