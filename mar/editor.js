@@ -211,6 +211,12 @@ function getOperandType(text, result) {
         } else if (new RegExp('^(a|b|c|d|x|y)$').test(text.toLowerCase().substring(0, 1).toLowerCase())) {
             //Starts with 1-char register
             expr = text.substring(1);
+        } else if (new RegExp('^(bp|sp)$').test(text.toLowerCase().substring(text.length - 2))) {
+            //Ends with 2-char register
+            expr = text.substring(0, text.length - 2);
+        } else if(new RegExp('^(a|b|c|d|x|y)$').test(text.toLowerCase().substring(text.length - 1))) {
+            //Ends with 1-char register
+            expr = text.substring(0, text.length - 1);
         } else {
             return OPERAND_INVALID;
         }
@@ -224,13 +230,19 @@ function getOperandType(text, result) {
         //Remove white space
         expr = expr.replace(/\s+/g, '');
         //expr should now look like this: '+1' '-3' '+0x02' '+myLabel'
+        //or have '-'/'+' as suffix instead of prefix
 
         //Check for label
         for (i = 0; i < result.labels.length; i++) {
-            if (expr.substring(1) === result.labels[i]) {
+            if (expr.substring(1) === result.labels[i] || expr.substring(0, expr.length - 1) == result.labels[i]) {
                 return OPERAND_MEM_REG;
             }
         }
+
+        // it should remove either ONE '+' or ONE '-'
+        // else the operand is invalid
+        expr = expr.replace(/\+|\-/, '');
+
         //Check for number
         if (!isNaN(Number(expr)) && Number(expr) === Math.floor(Number(expr))) {
             return OPERAND_MEM_REG;
