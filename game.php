@@ -185,6 +185,9 @@ if (isset($user)) {
                             </div>
                         </div>
 
+                        <?php } ?>
+
+
                         <form id="floppyForm">
                             <input id="floppyIn" type="file" name="floppyIn" style="display: none;"/>
                         </form>
