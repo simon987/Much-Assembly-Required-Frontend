@@ -791,11 +791,8 @@ function manhanttanDistance(x1, y1, x2, y2) {
 }
 
 function codeListener(message) {
-
     if (message.t === "code") {
-
         ace.edit("editor").setValue(message.code);
-
     }
 }
 
@@ -1035,7 +1032,15 @@ var GameClient = function (callback) {
 
                         };
 
-                        self.reloadCode();
+                        // check if we can load code locally first
+                        try {
+                            var value = window.localStorage.getItem("editorCodeContents");
+                            if(value === null) throw new TypeError("no code stored locally under key: 'editorCodeContents'")
+                            ace.edit("editor").setValue(value);
+
+                        } catch(e) {
+                            self.reloadCode();
+                        }
 
 
                         if (callback !== undefined) {
@@ -1152,11 +1157,11 @@ BasicGame.Boot.prototype = {
         game.camera.x = 280;
         game.camera.y = 90;
         game.stage.disableVisibilityChange = true;
-        
+
         this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
-     
+
     },
     create: function () {
 
@@ -1179,7 +1184,7 @@ BasicGame.Boot.prototype = {
     },
     update: function () {
         game.scale.setShowAll();
-        game.scale.refresh(); 
+        game.scale.refresh();
         // Update the cursor position.
         // It's important to understand that screen-to-isometric projection means you have to specify a z position manually, as this cannot be easily
         // determined from the 2D pointer position without extra trickery. By default, the z position is 0 if not set.
