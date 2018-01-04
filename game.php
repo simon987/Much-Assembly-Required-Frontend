@@ -175,7 +175,7 @@ if (isset($user)) {
                             <script src="./mar/phaser/phaser-plugin-isometric.min.js"></script>
                             <script src="./mar/phaser/mar.js"></script>
                         </div>
-
+                        <?php if ($user) { ?>
                         <!-- Editor -->
                         <div id="editorTab">
                             <div id="editor"></div>
@@ -272,6 +272,7 @@ if (isset($user)) {
 
                         </div>
 
+
                         <!-- Console-->
                         <div id="consoleContainer">
                             <textarea id="console" readonly title="console"></textarea>
@@ -279,6 +280,8 @@ if (isset($user)) {
                             <a class="button" style="vertical-align: top"
                                onclick="document.getElementById('console').innerHTML=''">Clear</a>
                         </div>
+
+                        <?php } ?>
 
 
                         <form id="floppyForm">
