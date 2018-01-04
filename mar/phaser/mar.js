@@ -958,7 +958,7 @@ function tickListener(message) {
                     var subLines = lines[i].match(/.{1,40}/g);
 
                     for (var j = 0; j < subLines.length; j++) {
-
+                        tmpBuffer += subLines[j];
                         //Don't put a newline at the end
                         if (j !== subLines.length - 1) {
                             tmpBuffer += "\n";
