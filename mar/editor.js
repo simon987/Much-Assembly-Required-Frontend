@@ -256,7 +256,7 @@ function parseInstruction(line, result, currentLine) {
 
     if (!parseDWInstruction(line, result, currentLine)) {
 
-        if (new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|hwi|hwq|nop|neg|inc|dec' +
+        if (new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|hwi|hwq|nop|neg|inc|dec|' +
                 'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno)\\b').test(mnemonic.toLowerCase())) {
 
 
