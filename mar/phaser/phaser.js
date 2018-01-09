@@ -240,7 +240,7 @@
                 /**
                  * Vertices that this polygon consists of. An array of array of numbers, example: [[0,0],[1,0],..]
                  * @property vertices
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.vertices = [];
             }
@@ -815,7 +815,7 @@
                 /**
                  * The lower bound of the bounding box.
                  * @property lowerBound
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.lowerBound = vec2.create();
                 if (options && options.lowerBound) {
@@ -825,7 +825,7 @@
                 /**
                  * The upper bound of the bounding box.
                  * @property upperBound
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.upperBound = vec2.create();
                 if (options && options.upperBound) {
@@ -1017,34 +1017,34 @@
                 /**
                  * The resulting overlapping pairs. Will be filled with results during .getCollisionPairs().
                  * @property result
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.result = [];
 
                 /**
                  * The world to search for collision pairs in. To change it, use .setWorld()
                  * @property world
-                 * @type {World}
+                 * @objType {World}
                  * @readOnly
                  */
                 this.world = null;
 
                 /**
-                 * The bounding volume type to use in the broadphase algorithms. Should be set to Broadphase.AABB or Broadphase.BOUNDING_CIRCLE.
+                 * The bounding volume objType to use in the broadphase algorithms. Should be set to Broadphase.AABB or Broadphase.BOUNDING_CIRCLE.
                  * @property {Number} boundingVolumeType
                  */
                 this.boundingVolumeType = Broadphase.AABB;
             }
 
             /**
-             * Axis aligned bounding box type.
+             * Axis aligned bounding box objType.
              * @static
              * @property {Number} AABB
              */
             Broadphase.AABB = 1;
 
             /**
-             * Bounding circle type.
+             * Bounding circle objType.
              * @static
              * @property {Number} BOUNDING_CIRCLE
              */
@@ -1113,7 +1113,7 @@
                         result = Broadphase.aabbCheck(bodyA, bodyB);
                         break;
                     default:
-                        throw new Error('Bounding volume type not recognized: ' + this.boundingVolumeType);
+                        throw new Error('Bounding volume objType not recognized: ' + this.boundingVolumeType);
                 }
                 return result;
             };
@@ -1300,41 +1300,41 @@
 
                 /**
                  * @property contactEquations
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.contactEquations = [];
 
                 /**
                  * @property frictionEquations
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.frictionEquations = [];
 
                 /**
                  * Whether to make friction equations in the upcoming contacts.
                  * @property enableFriction
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.enableFriction = true;
 
                 /**
                  * Whether to make equations enabled in upcoming contacts.
                  * @property enabledEquations
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.enabledEquations = true;
 
                 /**
                  * The friction slip force to use when creating friction equations.
                  * @property slipForce
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.slipForce = 10.0;
 
                 /**
                  * The friction value to use in the upcoming friction equations.
                  * @property frictionCoefficient
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.frictionCoefficient = 0.3;
 
@@ -1366,7 +1366,7 @@
                 /**
                  * The restitution value to use in the next contact equations.
                  * @property restitution
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.restitution = 0;
 
@@ -1385,21 +1385,21 @@
                 /**
                  * The stiffness value to use in the next friction equations.
                  * @property frictionStiffness
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.frictionStiffness = Equation.DEFAULT_STIFFNESS;
 
                 /**
                  * The relaxation value to use in the next friction equations.
                  * @property frictionRelaxation
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.frictionRelaxation = Equation.DEFAULT_RELAXATION;
 
                 /**
                  * Enable reduction of friction equations. If disabled, a box on a plane will generate 2 contact equations and 2 friction equations. If enabled, there will be only one friction equation. Same kind of simplifications are made  for all collision types.
                  * @property enableFrictionReduction
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @deprecated This flag will be removed when the feature is stable enough.
                  * @default true
                  */
@@ -1409,7 +1409,7 @@
                  * Keeps track of the colliding bodies last step.
                  * @private
                  * @property collidingBodiesLastStep
-                 * @type {TupleDictionary}
+                 * @objType {TupleDictionary}
                  */
                 this.collidingBodiesLastStep = new TupleDictionary();
 
@@ -4132,14 +4132,14 @@
                 /**
                  * List of bodies currently in the broadphase.
                  * @property axisList
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.axisList = [];
 
                 /**
                  * The axis to sort along. 0 means x-axis and 1 y-axis. If your bodies are more spread out over the X axis, set axisIndex to 0, and you will gain some performance.
                  * @property axisIndex
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.axisIndex = 0;
 
@@ -4320,8 +4320,8 @@
             function Constraint(bodyA, bodyB, type, options) {
 
                 /**
-                 * The type of constraint. May be one of Constraint.DISTANCE, Constraint.GEAR, Constraint.LOCK, Constraint.PRISMATIC or Constraint.REVOLUTE.
-                 * @property {number} type
+                 * The objType of constraint. May be one of Constraint.DISTANCE, Constraint.GEAR, Constraint.LOCK, Constraint.PRISMATIC or Constraint.REVOLUTE.
+                 * @property {number} objType
                  */
                 this.type = type;
 
@@ -4334,28 +4334,28 @@
                  * Equations to be solved in this constraint
                  *
                  * @property equations
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.equations = [];
 
                 /**
                  * First body participating in the constraint.
                  * @property bodyA
-                 * @type {Body}
+                 * @objType {Body}
                  */
                 this.bodyA = bodyA;
 
                 /**
                  * Second body participating in the constraint.
                  * @property bodyB
-                 * @type {Body}
+                 * @objType {Body}
                  */
                 this.bodyB = bodyB;
 
                 /**
                  * Set to true if you want the connected bodies to collide.
                  * @property collideConnected
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.collideConnected = options.collideConnected;
@@ -4489,14 +4489,14 @@
                 /**
                  * Local anchor in body A.
                  * @property localAnchorA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAnchorA = vec2.fromValues(options.localAnchorA[0], options.localAnchorA[1]);
 
                 /**
                  * Local anchor in body B.
                  * @property localAnchorB
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAnchorB = vec2.fromValues(options.localAnchorB[0], options.localAnchorB[1]);
 
@@ -4506,7 +4506,7 @@
                 /**
                  * The distance to keep.
                  * @property distance
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.distance = 0;
 
@@ -4750,14 +4750,14 @@
                 /**
                  * The gear ratio.
                  * @property ratio
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.ratio = options.ratio !== undefined ? options.ratio : 1;
 
                 /**
                  * The relative angle
                  * @property angle
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.angle = options.angle !== undefined ? options.angle : bodyB.angle - this.ratio * bodyA.angle;
 
@@ -5031,19 +5031,19 @@
 
                 /**
                  * @property localAnchorA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAnchorA = localAnchorA;
 
                 /**
                  * @property localAnchorB
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAnchorB = localAnchorB;
 
                 /**
                  * @property localAxisA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAxisA = localAxisA;
 
@@ -5106,7 +5106,7 @@
                 /**
                  * The position of anchor A relative to anchor B, along the constraint axis.
                  * @property position
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.position = 0;
 
@@ -5116,28 +5116,28 @@
                 /**
                  * Set to true to enable lower limit.
                  * @property lowerLimitEnabled
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.lowerLimitEnabled = typeof(options.lowerLimit) !== "undefined" ? true : false;
 
                 /**
                  * Set to true to enable upper limit.
                  * @property upperLimitEnabled
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.upperLimitEnabled = typeof(options.upperLimit) !== "undefined" ? true : false;
 
                 /**
                  * Lower constraint limit. The constraint position is forced to be larger than this value.
                  * @property lowerLimit
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.lowerLimit = typeof(options.lowerLimit) !== "undefined" ? options.lowerLimit : 0;
 
                 /**
                  * Upper constraint limit. The constraint position is forced to be smaller than this value.
                  * @property upperLimit
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.upperLimit = typeof(options.upperLimit) !== "undefined" ? options.upperLimit : 1;
 
@@ -5152,21 +5152,21 @@
                 /**
                  * Equation used for the motor.
                  * @property motorEquation
-                 * @type {Equation}
+                 * @objType {Equation}
                  */
                 this.motorEquation = new Equation(bodyA, bodyB);
 
                 /**
                  * The current motor state. Enable or disable the motor using .enableMotor
                  * @property motorEnabled
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.motorEnabled = false;
 
                 /**
                  * Set the target speed for the motor.
                  * @property motorSpeed
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.motorSpeed = 0;
 
@@ -5468,7 +5468,7 @@
                 /**
                  * The constraint position.
                  * @property angle
-                 * @type {Number}
+                 * @objType {Number}
                  * @readOnly
                  */
                 this.angle = 0;
@@ -5476,28 +5476,28 @@
                 /**
                  * Set to true to enable lower limit
                  * @property lowerLimitEnabled
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.lowerLimitEnabled = false;
 
                 /**
                  * Set to true to enable upper limit
                  * @property upperLimitEnabled
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.upperLimitEnabled = false;
 
                 /**
                  * The lower limit on the constraint angle.
                  * @property lowerLimit
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.lowerLimit = 0;
 
                 /**
                  * The upper limit on the constraint angle.
                  * @property upperLimit
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.upperLimit = 0;
 
@@ -5772,7 +5772,7 @@
                 /**
                  * Vector from body i center of mass to the contact point.
                  * @property contactPointA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.contactPointA = vec2.create();
                 this.penetrationVec = vec2.create();
@@ -5780,28 +5780,28 @@
                 /**
                  * World-oriented vector from body A center of mass to the contact point.
                  * @property contactPointB
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.contactPointB = vec2.create();
 
                 /**
                  * The normal vector, pointing out of body i
                  * @property normalA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.normalA = vec2.create();
 
                 /**
                  * The restitution to use (0=no bounciness, 1=max bounciness).
                  * @property restitution
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.restitution = 0;
 
                 /**
                  * This property is set to true if this is the first impact between the bodies (not persistant contact).
                  * @property firstImpact
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @readOnly
                  */
                 this.firstImpact = false;
@@ -5809,14 +5809,14 @@
                 /**
                  * The shape in body i that triggered this contact.
                  * @property shapeA
-                 * @type {Shape}
+                 * @objType {Shape}
                  */
                 this.shapeA = null;
 
                 /**
                  * The shape in body j that triggered this contact.
                  * @property shapeB
-                 * @type {Shape}
+                 * @objType {Shape}
                  */
                 this.shapeB = null;
             }
@@ -5907,49 +5907,49 @@
                 /**
                  * Minimum force to apply when solving.
                  * @property minForce
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.minForce = typeof(minForce) === "undefined" ? -Number.MAX_VALUE : minForce;
 
                 /**
                  * Max force to apply when solving.
                  * @property maxForce
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.maxForce = typeof(maxForce) === "undefined" ? Number.MAX_VALUE : maxForce;
 
                 /**
                  * First body participating in the constraint
                  * @property bodyA
-                 * @type {Body}
+                 * @objType {Body}
                  */
                 this.bodyA = bodyA;
 
                 /**
                  * Second body participating in the constraint
                  * @property bodyB
-                 * @type {Body}
+                 * @objType {Body}
                  */
                 this.bodyB = bodyB;
 
                 /**
                  * The stiffness of this equation. Typically chosen to a large number (~1e7), but can be chosen somewhat freely to get a stable simulation.
                  * @property stiffness
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.stiffness = Equation.DEFAULT_STIFFNESS;
 
                 /**
                  * The number of time steps needed to stabilize the constraint equation. Typically between 3 and 5 time steps.
                  * @property relaxation
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.relaxation = Equation.DEFAULT_RELAXATION;
 
                 /**
                  * The Jacobian entry of this equation. 6 numbers, 3 per body (x,y,angle).
                  * @property G
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.G = new Utils.ARRAY_TYPE(6);
                 for (var i = 0; i < 6; i++) {
@@ -5972,7 +5972,7 @@
                 /**
                  * The resulting constraint multiplier from the last solve. This is mostly equivalent to the force produced by the constraint.
                  * @property multiplier
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.multiplier = 0;
 
@@ -6234,35 +6234,35 @@
                 /**
                  * Relative vector from center of body A to the contact point, world oriented.
                  * @property contactPointA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.contactPointA = vec2.create();
 
                 /**
                  * Relative vector from center of body B to the contact point, world oriented.
                  * @property contactPointB
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.contactPointB = vec2.create();
 
                 /**
                  * Tangent vector that the friction force will act along. World oriented.
                  * @property t
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.t = vec2.create();
 
                 /**
                  * ContactEquations connected to this friction equation. The contact equations can be used to rescale the max force for the friction. If more than one contact equation is given, then the max force can be set to the average.
                  * @property contactEquations
-                 * @type {ContactEquation}
+                 * @objType {ContactEquation}
                  */
                 this.contactEquations = [];
 
                 /**
                  * The shape in body i that triggered this friction.
                  * @property shapeA
-                 * @type {Shape}
+                 * @objType {Shape}
                  * @todo Needed? The shape can be looked up via contactEquation.shapeA...
                  */
                 this.shapeA = null;
@@ -6270,7 +6270,7 @@
                 /**
                  * The shape in body j that triggered this friction.
                  * @property shapeB
-                 * @type {Shape}
+                 * @objType {Shape}
                  * @todo Needed? The shape can be looked up via contactEquation.shapeB...
                  */
                 this.shapeB = null;
@@ -6278,7 +6278,7 @@
                 /**
                  * The friction coefficient to use.
                  * @property frictionCoefficient
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.frictionCoefficient = 0.3;
             }
@@ -6497,7 +6497,7 @@
                  * Emit an event.
                  * @method emit
                  * @param  {Object} event
-                 * @param  {String} event.type
+                 * @param  {String} event.objType
                  * @return {EventEmitter} The self object, for chainability.
                  */
                 emit: function (event) {
@@ -6550,28 +6550,28 @@
                 /**
                  * The contact material identifier
                  * @property id
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.id = ContactMaterial.idCounter++;
 
                 /**
                  * First material participating in the contact material
                  * @property materialA
-                 * @type {Material}
+                 * @objType {Material}
                  */
                 this.materialA = materialA;
 
                 /**
                  * Second material participating in the contact material
                  * @property materialB
-                 * @type {Material}
+                 * @objType {Material}
                  */
                 this.materialB = materialB;
 
                 /**
                  * Friction coefficient to use in the contact of these two materials. Friction = 0 will make the involved objects super slippery, and friction = 1 will make it much less slippery. A friction coefficient larger than 1 will allow for very large friction forces, which can be convenient for preventing car tires not slip on the ground.
                  * @property friction
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 0.3
                  */
                 this.friction = typeof(options.friction) !== "undefined" ? Number(options.friction) : 0.3;
@@ -6579,7 +6579,7 @@
                 /**
                  * Restitution, or "bounciness" to use in the contact of these two materials. A restitution of 0 will make no bounce, while restitution=1 will approximately bounce back with the same velocity the object came with.
                  * @property restitution
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 0
                  */
                 this.restitution = typeof(options.restitution) !== "undefined" ? Number(options.restitution) : 0;
@@ -6587,28 +6587,28 @@
                 /**
                  * Hardness of the contact. Less stiffness will make the objects penetrate more, and will make the contact act more like a spring than a contact force. Default value is {{#crossLink "Equation/DEFAULT_STIFFNESS:property"}}Equation.DEFAULT_STIFFNESS{{/crossLink}}.
                  * @property stiffness
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.stiffness = typeof(options.stiffness) !== "undefined" ? Number(options.stiffness) : Equation.DEFAULT_STIFFNESS;
 
                 /**
                  * Relaxation of the resulting ContactEquation that this ContactMaterial generate. Default value is {{#crossLink "Equation/DEFAULT_RELAXATION:property"}}Equation.DEFAULT_RELAXATION{{/crossLink}}.
                  * @property relaxation
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.relaxation = typeof(options.relaxation) !== "undefined" ? Number(options.relaxation) : Equation.DEFAULT_RELAXATION;
 
                 /**
                  * Stiffness of the resulting friction force. For most cases, the value of this property should be a large number. I cannot think of any case where you would want less frictionStiffness. Default value is {{#crossLink "Equation/DEFAULT_STIFFNESS:property"}}Equation.DEFAULT_STIFFNESS{{/crossLink}}.
                  * @property frictionStiffness
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.frictionStiffness = typeof(options.frictionStiffness) !== "undefined" ? Number(options.frictionStiffness) : Equation.DEFAULT_STIFFNESS;
 
                 /**
                  * Relaxation of the resulting friction force. The default value should be good for most simulations. Default value is {{#crossLink "Equation/DEFAULT_RELAXATION:property"}}Equation.DEFAULT_RELAXATION{{/crossLink}}.
                  * @property frictionRelaxation
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.frictionRelaxation = typeof(options.frictionRelaxation) !== "undefined" ? Number(options.frictionRelaxation) : Equation.DEFAULT_RELAXATION;
 
@@ -6622,7 +6622,7 @@
                 /**
                  * Offset to be set on ContactEquations. A positive value will make the bodies penetrate more into each other. Can be useful in scenes where contacts need to be more persistent, for example when stacking. Aka "cure for nervous contacts".
                  * @property contactSkinSize
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.contactSkinSize = 0.005;
             }
@@ -6644,7 +6644,7 @@
                 /**
                  * The material identifier
                  * @property id
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.id = id || Material.idCounter++;
             }
@@ -7722,7 +7722,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
              * @param {Number} [options.fixedRotation=false]
              * @param {Number} [options.gravityScale]
              * @param {Number} [options.id]
-             * @param {Number} [options.mass=0] A number >= 0. If zero, the .type will be set to Body.STATIC.
+             * @param {Number} [options.mass=0] A number >= 0. If zero, the .objType will be set to Body.STATIC.
              * @param {Number} [options.sleepSpeedLimit]
              * @param {Number} [options.sleepTimeLimit]
              * @param {Object} [options]
@@ -7752,14 +7752,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The body identifyer
                  * @property id
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.id = options.id || ++Body._idCounter;
 
                 /**
                  * The world that this body is added to. This property is set to NULL if the body is not added to any world.
                  * @property world
-                 * @type {World}
+                 * @objType {World}
                  */
                 this.world = null;
 
@@ -7767,35 +7767,35 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * The shapes of the body.
                  *
                  * @property shapes
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.shapes = [];
 
                 /**
                  * The mass of the body.
                  * @property mass
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.mass = options.mass || 0;
 
                 /**
                  * The inverse mass of the body.
                  * @property invMass
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.invMass = 0;
 
                 /**
                  * The inertia of the body around the Z axis.
                  * @property inertia
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.inertia = 0;
 
                 /**
                  * The inverse inertia of the body.
                  * @property invInertia
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.invInertia = 0;
 
@@ -7805,7 +7805,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Set to true if you want to fix the rotation of the body.
                  * @property fixedRotation
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.fixedRotation = !!options.fixedRotation;
 
@@ -7830,7 +7830,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The position of the body
                  * @property position
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.position = vec2.fromValues(0, 0);
                 if (options.position) {
@@ -7840,35 +7840,35 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The interpolated position of the body. Use this for rendering.
                  * @property interpolatedPosition
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.interpolatedPosition = vec2.fromValues(0, 0);
 
                 /**
                  * The interpolated angle of the body. Use this for rendering.
                  * @property interpolatedAngle
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.interpolatedAngle = 0;
 
                 /**
                  * The previous position of the body.
                  * @property previousPosition
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.previousPosition = vec2.fromValues(0, 0);
 
                 /**
                  * The previous angle of the body.
                  * @property previousAngle
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.previousAngle = 0;
 
                 /**
                  * The current velocity of the body.
                  * @property velocity
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.velocity = vec2.fromValues(0, 0);
                 if (options.velocity) {
@@ -7878,21 +7878,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Constraint velocity that was added to the body during the last step.
                  * @property vlambda
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.vlambda = vec2.fromValues(0, 0);
 
                 /**
                  * Angular constraint velocity that was added to the body during last step.
                  * @property wlambda
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.wlambda = 0;
 
                 /**
                  * The angle of the body, in radians.
                  * @property angle
-                 * @type {number}
+                 * @objType {number}
                  * @example
                  *     // The angle property is not normalized to the interval 0 to 2*pi, it can be any value.
                  *     // If you need a value between 0 and 2*pi, use the following function to normalize it.
@@ -7909,14 +7909,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The angular velocity of the body, in radians per second.
                  * @property angularVelocity
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.angularVelocity = options.angularVelocity || 0;
 
                 /**
                  * The force acting on the body. Since the body force (and {{#crossLink "Body/angularForce:property"}}{{/crossLink}}) will be zeroed after each step, so you need to set the force before each step.
                  * @property force
-                 * @type {Array}
+                 * @objType {Array}
                  *
                  * @example
                  *     // This produces a forcefield of 1 Newton in the positive x direction.
@@ -7940,14 +7940,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The angular force acting on the body. See {{#crossLink "Body/force:property"}}{{/crossLink}}.
                  * @property angularForce
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.angularForce = options.angularForce || 0;
 
                 /**
                  * The linear damping acting on the body in the velocity direction. Should be a value between 0 and 1.
                  * @property damping
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 0.1
                  */
                 this.damping = typeof(options.damping) === "number" ? options.damping : 0.1;
@@ -7955,25 +7955,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The angular force acting on the body. Should be a value between 0 and 1.
                  * @property angularDamping
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 0.1
                  */
                 this.angularDamping = typeof(options.angularDamping) === "number" ? options.angularDamping : 0.1;
 
                 /**
-                 * The type of motion this body has. Should be one of: {{#crossLink "Body/STATIC:property"}}Body.STATIC{{/crossLink}}, {{#crossLink "Body/DYNAMIC:property"}}Body.DYNAMIC{{/crossLink}} and {{#crossLink "Body/KINEMATIC:property"}}Body.KINEMATIC{{/crossLink}}.
+                 * The objType of motion this body has. Should be one of: {{#crossLink "Body/STATIC:property"}}Body.STATIC{{/crossLink}}, {{#crossLink "Body/DYNAMIC:property"}}Body.DYNAMIC{{/crossLink}} and {{#crossLink "Body/KINEMATIC:property"}}Body.KINEMATIC{{/crossLink}}.
                  *
                  * * Static bodies do not move, and they do not respond to forces or collision.
                  * * Dynamic bodies body can move and respond to collisions and forces.
                  * * Kinematic bodies only moves according to its .velocity, and does not respond to collisions or force.
                  *
                  * @property type
-                 * @type {number}
+                 * @objType {number}
                  *
                  * @example
                  *     // Bodies are static by default. Static bodies will never move.
                  *     var body = new Body();
-                 *     console.log(body.type == Body.STATIC); // true
+                 *     console.log(body.objType == Body.STATIC); // true
                  *
                  * @example
                  *     // By setting the mass of a body to a nonzero number, the body
@@ -7981,12 +7981,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  *     var dynamicBody = new Body({
      *         mass : 1
      *     });
-                 *     console.log(dynamicBody.type == Body.DYNAMIC); // true
+                 *     console.log(dynamicBody.objType == Body.DYNAMIC); // true
                  *
                  * @example
                  *     // Kinematic bodies will only move if you change their velocity.
                  *     var kinematicBody = new Body({
-     *         type: Body.KINEMATIC // Type can be set via the options object.
+     *         objType: Body.KINEMATIC // Type can be set via the options object.
      *     });
                  */
                 this.type = Body.STATIC;
@@ -8002,21 +8002,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Bounding circle radius.
                  * @property boundingRadius
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.boundingRadius = 0;
 
                 /**
                  * Bounding box of this body.
                  * @property aabb
-                 * @type {AABB}
+                 * @objType {AABB}
                  */
                 this.aabb = new AABB();
 
                 /**
                  * Indicates if the AABB needs update. Update it with {{#crossLink "Body/updateAABB:method"}}.updateAABB(){{/crossLink}}.
                  * @property aabbNeedsUpdate
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @see updateAABB
                  *
                  * @example
@@ -8030,7 +8030,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * If true, the body will automatically fall to sleep. Note that you need to enable sleeping in the {{#crossLink "World"}}{{/crossLink}} before anything will happen.
                  * @property allowSleep
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.allowSleep = options.allowSleep !== undefined ? options.allowSleep : true;
@@ -8043,7 +8043,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * The body is initially Body.AWAKE. If its velocity norm is below .sleepSpeedLimit, the sleepState will become Body.SLEEPY. If the body continues to be Body.SLEEPY for .sleepTimeLimit seconds, it will fall asleep (Body.SLEEPY).
                  *
                  * @property sleepState
-                 * @type {Number}
+                 * @objType {Number}
                  * @default Body.AWAKE
                  */
                 this.sleepState = Body.AWAKE;
@@ -8051,7 +8051,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * If the speed (the norm of the velocity) is smaller than this value, the body is considered sleepy.
                  * @property sleepSpeedLimit
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 0.2
                  */
                 this.sleepSpeedLimit = options.sleepSpeedLimit !== undefined ? options.sleepSpeedLimit : 0.2;
@@ -8059,7 +8059,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * If the body has been sleepy for this sleepTimeLimit seconds, it is considered sleeping.
                  * @property sleepTimeLimit
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 1
                  */
                 this.sleepTimeLimit = options.sleepTimeLimit !== undefined ? options.sleepTimeLimit : 1;
@@ -8867,7 +8867,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             /**
              * Dynamic body.
              * @property DYNAMIC
-             * @type {Number}
+             * @objType {Number}
              * @static
              */
             Body.DYNAMIC = 1;
@@ -8875,7 +8875,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             /**
              * Static body.
              * @property STATIC
-             * @type {Number}
+             * @objType {Number}
              * @static
              */
             Body.STATIC = 2;
@@ -8883,28 +8883,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             /**
              * Kinematic body.
              * @property KINEMATIC
-             * @type {Number}
+             * @objType {Number}
              * @static
              */
             Body.KINEMATIC = 4;
 
             /**
              * @property AWAKE
-             * @type {Number}
+             * @objType {Number}
              * @static
              */
             Body.AWAKE = 0;
 
             /**
              * @property SLEEPY
-             * @type {Number}
+             * @objType {Number}
              * @static
              */
             Body.SLEEPY = 1;
 
             /**
              * @property SLEEPING
-             * @type {Number}
+             * @objType {Number}
              * @static
              */
             Body.SLEEPING = 2;
@@ -8953,14 +8953,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Anchor for bodyA in local bodyA coordinates.
                  * @property localAnchorA
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAnchorA = vec2.fromValues(0, 0);
 
                 /**
                  * Anchor for bodyB in local bodyB coordinates.
                  * @property localAnchorB
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.localAnchorB = vec2.fromValues(0, 0);
 
@@ -8986,7 +8986,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Rest length of the spring.
                  * @property restLength
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.restLength = typeof(options.restLength) === "number" ? options.restLength : worldDistance;
             }
@@ -9128,7 +9128,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Rest angle of the spring.
                  * @property restAngle
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.restAngle = typeof(options.restAngle) === "number" ? options.restAngle : bodyB.angle - bodyA.angle;
             }
@@ -9186,28 +9186,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Stiffness of the spring.
                  * @property stiffness
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.stiffness = options.stiffness;
 
                 /**
                  * Damping of the spring.
                  * @property damping
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.damping = options.damping;
 
                 /**
                  * First connected body.
                  * @property bodyA
-                 * @type {Body}
+                 * @objType {Body}
                  */
                 this.bodyA = bodyA;
 
                 /**
                  * Second connected body.
                  * @property bodyB
-                 * @type {Body}
+                 * @objType {Body}
                  */
                 this.bodyB = bodyB;
             }
@@ -9592,14 +9592,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Total width of the box
                  * @property width
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 var width = this.width = options.width || 1;
 
                 /**
                  * Total height of the box
                  * @property height
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 var height = this.height = options.height || 1;
 
@@ -9909,7 +9909,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The radius of the circle.
                  * @property radius
-                 * @type {number}
+                 * @objType {number}
                  */
                 this.radius = options.radius || 1;
 
@@ -10063,7 +10063,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Vertices defined in the local frame.
                  * @property vertices
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.vertices = [];
 
@@ -10078,7 +10078,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Axes defined in the local frame.
                  * @property axes
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.axes = [];
 
@@ -10114,14 +10114,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The center of mass of the Convex
                  * @property centerOfMass
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.centerOfMass = vec2.fromValues(0, 0);
 
                 /**
                  * Triangulated version of this convex. The structure is Array of 3-Arrays, and each subarray contains 3 integers, referencing the vertices.
                  * @property triangles
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.triangles = [];
 
@@ -10133,7 +10133,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The bounding radius of the convex
                  * @property boundingRadius
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.boundingRadius = 0;
 
@@ -10956,7 +10956,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
              * @param {number} [options.collisionMask=1]
              * @param {boolean} [options.sensor=false]
              * @param {boolean} [options.collisionResponse=true]
-             * @param {object} [options.type=0]
+             * @param {object} [options.objType=0]
              */
             function Shape(options) {
                 options = options || {};
@@ -10983,7 +10983,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 this.angle = options.angle || 0;
 
                 /**
-                 * The type of the shape. One of:
+                 * The objType of the shape. One of:
                  *
                  * * {{#crossLink "Shape/CIRCLE:property"}}Shape.CIRCLE{{/crossLink}}
                  * * {{#crossLink "Shape/PARTICLE:property"}}Shape.PARTICLE{{/crossLink}}
@@ -10994,13 +10994,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * * {{#crossLink "Shape/CAPSULE:property"}}Shape.CAPSULE{{/crossLink}}
                  * * {{#crossLink "Shape/HEIGHTFIELD:property"}}Shape.HEIGHTFIELD{{/crossLink}}
                  *
-                 * @property {number} type
+                 * @property {number} objType
                  */
                 this.type = options.type || 0;
 
                 /**
                  * Shape object identifier.
-                 * @type {Number}
+                 * @objType {Number}
                  * @property id
                  */
                 this.id = Shape.idCounter++;
@@ -11008,14 +11008,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Bounding circle radius of this shape
                  * @property boundingRadius
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.boundingRadius = 0;
 
                 /**
                  * Collision group that this shape belongs to (bit mask). See <a href="http://www.aurelienribon.com/blog/2011/07/box2d-tutorial-collision-filtering/">this tutorial</a>.
                  * @property collisionGroup
-                 * @type {Number}
+                 * @objType {Number}
                  * @example
                  *     // Setup bits for each available group
                  *     var PLAYER = Math.pow(2,0),
@@ -11052,21 +11052,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Collision mask of this shape. See .collisionGroup.
                  * @property collisionMask
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.collisionMask = options.collisionMask !== undefined ? options.collisionMask : 1;
 
                 /**
                  * Material to use in collisions for this Shape. If this is set to null, the world will use default material properties instead.
                  * @property material
-                 * @type {Material}
+                 * @objType {Material}
                  */
                 this.material = options.material || null;
 
                 /**
                  * Area of this shape.
                  * @property area
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.area = 0;
 
@@ -11213,14 +11213,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The max number of iterations to do when solving. More gives better results, but is more expensive.
                  * @property iterations
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.iterations = options.iterations || 10;
 
                 /**
                  * The error tolerance, per constraint. If the total error is below this limit, the solver will stop iterating. Set to zero for as good solution as possible, but to something larger than zero to make computations faster.
                  * @property tolerance
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 1e-7
                  */
                 this.tolerance = options.tolerance || 1e-7;
@@ -11233,7 +11233,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Set to true to set all right hand side terms to zero when solving. Can be handy for a few applications.
                  * @property useZeroRHS
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @todo Remove, not used
                  */
                 this.useZeroRHS = false;
@@ -11244,7 +11244,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * Use only frictionIterations > 0 if the approximated normal force (F_normal = mass * gravity) is not good enough. Examples of where it can happen is in space games where gravity is zero, or in tall stacks where the normal force is large at bottom but small at top.
                  *
                  * @property frictionIterations
-                 * @type {Number}
+                 * @objType {Number}
                  * @default 0
                  */
                 this.frictionIterations = options.frictionIterations !== undefined ? 0 : options.frictionIterations;
@@ -11463,14 +11463,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * Current equations in the solver.
                  *
                  * @property equations
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.equations = [];
 
                 /**
                  * Function that is used to sort all equations before each solve.
                  * @property equationSortFunction
-                 * @type {function|boolean}
+                 * @objType {function|boolean}
                  */
                 this.equationSortFunction = options.equationSortFunction || false;
             }
@@ -11979,7 +11979,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
                 /**
                  * @property {Array} objects
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.objects = [];
 
@@ -12044,7 +12044,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The data storage
                  * @property data
-                 * @type {Object}
+                 * @objType {Object}
                  */
                 this.data = {};
 
@@ -12200,12 +12200,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             };
 
             /**
-             * The array type to use for internal numeric computations throughout the library. Float32Array is used if it is available, but falls back on Array. If you want to set array type manually, inject it via the global variable P2_ARRAY_TYPE. See example below.
+             * The array objType to use for internal numeric computations throughout the library. Float32Array is used if it is available, but falls back on Array. If you want to set array objType manually, inject it via the global variable P2_ARRAY_TYPE. See example below.
              * @static
              * @property {function} ARRAY_TYPE
              * @example
              *     <script>
-             *         <!-- Inject your preferred array type before loading p2.js -->
+             *         <!-- Inject your preferred array objType before loading p2.js -->
              *         P2_ARRAY_TYPE = Array;
              *     </script>
              *     <script src="p2.js"></script>
@@ -12265,14 +12265,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Current equations in this island.
                  * @property equations
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.equations = [];
 
                 /**
                  * Current bodies in this island.
                  * @property bodies
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.bodies = [];
             }
@@ -12360,13 +12360,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
                 /**
                  * @property nodePool
-                 * @type {IslandNodePool}
+                 * @objType {IslandNodePool}
                  */
                 this.nodePool = new IslandNodePool({size: 16});
 
                 /**
                  * @property islandPool
-                 * @type {IslandPool}
+                 * @objType {IslandPool}
                  */
                 this.islandPool = new IslandPool({size: 8});
 
@@ -12577,7 +12577,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * If this node was visiting during the graph traversal.
                  * @property visited
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  */
                 this.visited = false;
             }
@@ -12657,7 +12657,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * All springs in the world. To add a spring to the world, use {{#crossLink "World/addSpring:method"}}{{/crossLink}}.
                  *
                  * @property springs
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.springs = [];
 
@@ -12684,7 +12684,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * The narrowphase to use to generate contacts.
                  *
                  * @property narrowphase
-                 * @type {Narrowphase}
+                 * @objType {Narrowphase}
                  */
                 this.narrowphase = new Narrowphase(this);
 
@@ -12698,7 +12698,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * Gravity in the world. This is applied on all bodies in the beginning of each step().
                  *
                  * @property gravity
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.gravity = vec2.fromValues(0, -9.78);
                 if (options.gravity) {
@@ -12729,7 +12729,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * The broadphase algorithm to use.
                  *
                  * @property broadphase
-                 * @type {Broadphase}
+                 * @objType {Broadphase}
                  */
                 this.broadphase = options.broadphase || new SAPBroadphase();
                 this.broadphase.setWorld(this);
@@ -12738,7 +12738,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * User-added constraints.
                  *
                  * @property constraints
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.constraints = [];
 
@@ -12757,14 +12757,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * For keeping track of what time step size we used last step
                  * @property lastTimeStep
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.lastTimeStep = 1 / 60;
 
                 /**
                  * Enable to automatically apply spring forces each step.
                  * @property applySpringForces
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.applySpringForces = true;
@@ -12772,7 +12772,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Enable to automatically apply body damping each step.
                  * @property applyDamping
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.applyDamping = true;
@@ -12780,7 +12780,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Enable to automatically apply gravity each step.
                  * @property applyGravity
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.applyGravity = true;
@@ -12788,7 +12788,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Enable/disable constraint solving in each step.
                  * @property solveConstraints
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.solveConstraints = true;
@@ -12796,14 +12796,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * The ContactMaterials added to the World.
                  * @property contactMaterials
-                 * @type {Array}
+                 * @objType {Array}
                  */
                 this.contactMaterials = [];
 
                 /**
                  * World time.
                  * @property time
-                 * @type {Number}
+                 * @objType {Number}
                  */
                 this.time = 0.0;
                 this.accumulator = 0;
@@ -12831,7 +12831,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 /**
                  * Set to true if you want to the world to emit the "impact" event. Turning this off could improve performance.
                  * @property emitImpactEvent
-                 * @type {Boolean}
+                 * @objType {Boolean}
                  * @default true
                  */
                 this.emitImpactEvent = true;
@@ -12909,7 +12909,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                  * How to deactivate bodies during simulation. Possible modes are: {{#crossLink "World/NO_SLEEPING:property"}}World.NO_SLEEPING{{/crossLink}}, {{#crossLink "World/BODY_SLEEPING:property"}}World.BODY_SLEEPING{{/crossLink}} and {{#crossLink "World/ISLAND_SLEEPING:property"}}World.ISLAND_SLEEPING{{/crossLink}}.
                  * If sleeping is enabled, you might need to {{#crossLink "Body/wakeUp:method"}}wake up{{/crossLink}} the bodies if they fall asleep when they shouldn't. If you want to enable sleeping in the world, but want to disable it for a particular body, see {{#crossLink "Body/allowSleep:property"}}Body.allowSleep{{/crossLink}}.
                  * @property sleepMode
-                 * @type {number}
+                 * @objType {number}
                  * @default World.NO_SLEEPING
                  */
                 this.sleepMode = World.NO_SLEEPING;
@@ -13368,7 +13368,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 for (var i = 0; i !== Nbodies; i++) {
                     var body = bodies[i];
 
-                    // if(body.sleepState !== Body.SLEEPING && body.type !== Body.STATIC){
+                    // if(body.sleepState !== Body.SLEEPING && body.objType !== Body.STATIC){
                     body.integrate(dt);
                     // }
                 }
@@ -14025,7 +14025,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Setting it is a neat way of optimising the hitTest function that the interactionManager will use (as it will not need to hit test all the children)
          *
          * @property hitArea
-         * @type Rectangle|Circle|Ellipse|Polygon
+         * @objType Rectangle|Circle|Ellipse|Polygon
          */
         this.hitArea = null;
 
@@ -14130,7 +14130,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The rectangular area used by filters when rendering a shader for this DisplayObject.
          *
          * @property {PIXI.Rectangle} filterArea
-         * @type Rectangle
+         * @objType Rectangle
          * @default
          */
         this.filterArea = null;
@@ -14759,7 +14759,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * [read-only] The array of children of this container.
          *
          * @property children
-         * @type Array(DisplayObject)
+         * @objType Array(DisplayObject)
          * @readOnly
          */
         this.children = [];
@@ -15273,7 +15273,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The width of the displayObjectContainer, setting this will actually modify the scale to achieve the value set
      *
      * @property width
-     * @type Number
+     * @objType Number
      */
     Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'width', {
 
@@ -15300,7 +15300,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The height of the displayObjectContainer, setting this will actually modify the scale to achieve the value set
      *
      * @property height
-     * @type Number
+     * @objType Number
      */
     Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'height', {
 
@@ -15349,7 +15349,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * You can modify the default values in PIXI.Sprite.defaultAnchor.
          *
          * @property anchor
-         * @type Point
+         * @objType Point
          */
         this.anchor = new PIXI.Point(PIXI.Sprite.defaultAnchor.x, PIXI.Sprite.defaultAnchor.y);
 
@@ -15357,7 +15357,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The texture that the sprite is using
          *
          * @property texture
-         * @type Texture
+         * @objType Texture
          */
         this.texture = texture || PIXI.Texture.emptyTexture;
 
@@ -15365,7 +15365,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The width of the sprite (this is initially set by the texture)
          *
          * @property _width
-         * @type Number
+         * @objType Number
          * @private
          */
         this._width = 0;
@@ -15374,7 +15374,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The height of the sprite (this is initially set by the texture)
          *
          * @property _height
-         * @type Number
+         * @objType Number
          * @private
          */
         this._height = 0;
@@ -15383,7 +15383,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The tint applied to the sprite. This is a hex value. A value of 0xFFFFFF will remove any tint effect.
          *
          * @property tint
-         * @type Number
+         * @objType Number
          * @default 0xFFFFFF
          */
         this.tint = 0xFFFFFF;
@@ -15393,7 +15393,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          *
          * @property cachedTint
          * @private
-         * @type Number
+         * @objType Number
          * @default -1
          */
         this.cachedTint = -1;
@@ -15402,7 +15402,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * A canvas that contains the tinted version of the Sprite (in Canvas mode, WebGL doesn't populate this)
          *
          * @property tintedTexture
-         * @type Canvas
+         * @objType Canvas
          * @default null
          */
         this.tintedTexture = null;
@@ -15413,7 +15413,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Warning: You cannot have a blend mode and a filter active on the same Sprite. Doing so will render the sprite invisible.
          *
          * @property blendMode
-         * @type Number
+         * @objType Number
          * @default PIXI.blendModes.NORMAL;
          */
         this.blendMode = PIXI.blendModes.NORMAL;
@@ -15423,7 +15423,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Set to null to remove a current shader.
          *
          * @property shader
-         * @type Phaser.Filter
+         * @objType Phaser.Filter
          * @default null
          */
         this.shader = null;
@@ -15432,7 +15432,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Controls if this Sprite is processed by the core Phaser game loops and Group loops (except {@link Phaser.Group#update}).
          *
          * @property exists
-         * @type Boolean
+         * @objType Boolean
          * @default true
          */
         this.exists = true;
@@ -15447,7 +15447,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
     /**
      * @property PIXI.Sprite.defaultAnchor - A Point-like object.
-     * @type {{x: number, y: number}}
+     * @objType {{x: number, y: number}}
      * @default
      */
     PIXI.Sprite.defaultAnchor = {x: 0, y: 0};
@@ -15460,7 +15460,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The width of the sprite, setting this will actually modify the scale to achieve the value set
      *
      * @property width
-     * @type Number
+     * @objType Number
      */
     Object.defineProperty(PIXI.Sprite.prototype, 'width', {
 
@@ -15479,7 +15479,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The height of the sprite, setting this will actually modify the scale to achieve the value set
      *
      * @property height
-     * @type Number
+     * @objType Number
      */
     Object.defineProperty(PIXI.Sprite.prototype, 'height', {
 
@@ -15959,42 +15959,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.PixiShader = function (gl) {
         /**
          * @property _UID
-         * @type Number
+         * @objType Number
          * @private
          */
         this._UID = Phaser._UID++;
 
         /**
          * @property gl
-         * @type WebGLContext
+         * @objType WebGLContext
          */
         this.gl = gl;
 
         /**
          * The WebGL program.
          * @property program
-         * @type Any
+         * @objType Any
          */
         this.program = null;
 
         /**
          * The fragment shader.
          * @property fragmentSrc
-         * @type Array
+         * @objType Array
          */
         this.fragmentSrc = null;
 
         /**
          * A local texture counter for multi-texture shaders.
          * @property textureCount
-         * @type Number
+         * @objType Number
          */
         this.textureCount = 0;
 
         /**
          * A local flag
          * @property firstRun
-         * @type Boolean
+         * @objType Boolean
          * @private
          */
         this.firstRun = true;
@@ -16002,14 +16002,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * A dirty flag
          * @property dirty
-         * @type Boolean
+         * @objType Boolean
          */
         this.dirty = true;
 
         /**
          * Uniform attributes cache.
          * @property attributes
-         * @type Array
+         * @objType Array
          * @private
          */
         this.attributes = [];
@@ -16285,11 +16285,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 var height = (data.height) ? data.height : 2;
                 var border = (data.border) ? data.border : 0;
 
-                // void texImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, ArrayBufferView? pixels);
+                // void texImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum objType, ArrayBufferView? pixels);
                 gl.texImage2D(gl.TEXTURE_2D, 0, format, width, height, border, format, gl.UNSIGNED_BYTE, null);
             }
             else {
-                //  void texImage2D(GLenum target, GLint level, GLenum internalformat, GLenum format, GLenum type, ImageData? pixels);
+                //  void texImage2D(GLenum target, GLint level, GLenum internalformat, GLenum format, GLenum objType, ImageData? pixels);
                 gl.texImage2D(gl.TEXTURE_2D, 0, format, gl.RGBA, gl.UNSIGNED_BYTE, uniform.value.baseTexture.source);
             }
 
@@ -16378,7 +16378,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The Default Vertex shader source.
      *
      * @property defaultVertexSrc
-     * @type String
+     * @objType String
      */
     PIXI.PixiShader.defaultVertexSrc = [
         '// PixiShader Vertex Shader',
@@ -16418,21 +16418,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.PixiFastShader = function (gl) {
         /**
          * @property _UID
-         * @type Number
+         * @objType Number
          * @private
          */
         this._UID = Phaser._UID++;
 
         /**
          * @property gl
-         * @type WebGLContext
+         * @objType WebGLContext
          */
         this.gl = gl;
 
         /**
          * The WebGL program.
          * @property program
-         * @type Any
+         * @objType Any
          */
         this.program = null;
 
@@ -16449,7 +16449,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             /**
              * The fragment shader.
              * @property fragmentSrc
-             * @type Array
+             * @objType Array
              */
             this.fragmentSrc = [
                 '// PixiFastShader Fragment Shader.',
@@ -16488,7 +16488,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * The vertex shader.
          * @property vertexSrc
-         * @type Array
+         * @objType Array
          */
         this.vertexSrc = [
             '// PixiFastShader Vertex Shader.',
@@ -16527,7 +16527,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * A local texture counter for multi-texture shaders.
          * @property textureCount
-         * @type Number
+         * @objType Number
          */
         this.textureCount = 0;
 
@@ -16636,21 +16636,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.StripShader = function (gl) {
         /**
          * @property _UID
-         * @type Number
+         * @objType Number
          * @private
          */
         this._UID = Phaser._UID++;
 
         /**
          * @property gl
-         * @type WebGLContext
+         * @objType WebGLContext
          */
         this.gl = gl;
 
         /**
          * The WebGL program.
          * @property program
-         * @type Any
+         * @objType Any
          */
         this.program = null;
 
@@ -16668,7 +16668,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             /**
              * The fragment shader.
              * @property fragmentSrc
-             * @type Array
+             * @objType Array
              */
             this.fragmentSrc = [
                 '//StripShader Fragment Shader.',
@@ -16695,7 +16695,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
             /**
              * The fragment shader.
              * @property fragmentSrc
-             * @type Array
+             * @objType Array
              */
             this.fragmentSrc = [
                 '//StripShader Fragment Shader.',
@@ -16714,7 +16714,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * The vertex shader.
          * @property vertexSrc
-         * @type Array
+         * @objType Array
          */
         this.vertexSrc = [
             '//StripShader Vertex Shader.',
@@ -16820,28 +16820,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.PrimitiveShader = function (gl) {
         /**
          * @property _UID
-         * @type Number
+         * @objType Number
          * @private
          */
         this._UID = Phaser._UID++;
 
         /**
          * @property gl
-         * @type WebGLContext
+         * @objType WebGLContext
          */
         this.gl = gl;
 
         /**
          * The WebGL program.
          * @property program
-         * @type Any
+         * @objType Any
          */
         this.program = null;
 
         /**
          * The fragment shader.
          * @property fragmentSrc
-         * @type Array
+         * @objType Array
          */
         this.fragmentSrc = [
             'precision mediump float;',
@@ -16855,7 +16855,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * The vertex shader.
          * @property vertexSrc
-         * @type Array
+         * @objType Array
          */
         this.vertexSrc = [
             'attribute vec2 aVertexPosition;',
@@ -16935,28 +16935,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.ComplexPrimitiveShader = function (gl) {
         /**
          * @property _UID
-         * @type Number
+         * @objType Number
          * @private
          */
         this._UID = Phaser._UID++;
 
         /**
          * @property gl
-         * @type WebGLContext
+         * @objType WebGLContext
          */
         this.gl = gl;
 
         /**
          * The WebGL program.
          * @property program
-         * @type Any
+         * @objType Any
          */
         this.program = null;
 
         /**
          * The fragment shader.
          * @property fragmentSrc
-         * @type Array
+         * @objType Array
          */
         this.fragmentSrc = [
 
@@ -16972,7 +16972,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * The vertex shader.
          * @property vertexSrc
-         * @type Array
+         * @objType Array
          */
         this.vertexSrc = [
             'attribute vec2 aVertexPosition;',
@@ -17076,7 +17076,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property type
-         * @type Number
+         * @objType Number
          */
         this.type = Phaser.WEBGL;
 
@@ -17084,7 +17084,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The resolution of the renderer
          *
          * @property resolution
-         * @type Number
+         * @objType Number
          * @default 1
          */
         this.resolution = game.resolution;
@@ -17093,7 +17093,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Whether the render view is transparent
          *
          * @property transparent
-         * @type Boolean
+         * @objType Boolean
          */
         this.transparent = game.transparent;
 
@@ -17101,7 +17101,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Whether the render view should be resized automatically
          *
          * @property autoResize
-         * @type Boolean
+         * @objType Boolean
          */
         this.autoResize = false;
 
@@ -17109,7 +17109,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The value of the preserveDrawingBuffer flag affects whether or not the contents of the stencil buffer is retained after rendering.
          *
          * @property preserveDrawingBuffer
-         * @type Boolean
+         * @objType Boolean
          */
         this.preserveDrawingBuffer = game.preserveDrawingBuffer;
 
@@ -17120,7 +17120,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Disable this by setting this to false. For example: if your game has a canvas filling background image, you often don't need this set.
          *
          * @property clearBeforeRender
-         * @type Boolean
+         * @objType Boolean
          * @default
          */
         this.clearBeforeRender = game.clearBeforeRender;
@@ -17129,7 +17129,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The width of the canvas view
          *
          * @property width
-         * @type Number
+         * @objType Number
          */
         this.width = game.width;
 
@@ -17137,7 +17137,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The height of the canvas view
          *
          * @property height
-         * @type Number
+         * @objType Number
          */
         this.height = game.height;
 
@@ -17145,13 +17145,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The canvas element that everything is drawn to
          *
          * @property view
-         * @type HTMLCanvasElement
+         * @objType HTMLCanvasElement
          */
         this.view = game.canvas;
 
         /**
          * @property _contextOptions
-         * @type Object
+         * @objType Object
          * @private
          */
         this._contextOptions = {
@@ -17164,13 +17164,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property projection
-         * @type Point
+         * @objType Point
          */
         this.projection = new PIXI.Point();
 
         /**
          * @property offset
-         * @type Point
+         * @objType Point
          */
         this.offset = new PIXI.Point();
 
@@ -17179,54 +17179,54 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * Deals with managing the shader programs and their attribs
          * @property shaderManager
-         * @type WebGLShaderManager
+         * @objType WebGLShaderManager
          */
         this.shaderManager = new PIXI.WebGLShaderManager();
 
         /**
          * Manages the rendering of sprites
          * @property spriteBatch
-         * @type WebGLSpriteBatch
+         * @objType WebGLSpriteBatch
          */
         this.spriteBatch = new PIXI.WebGLSpriteBatch(game);
 
         /**
          * Manages the masks using the stencil buffer
          * @property maskManager
-         * @type WebGLMaskManager
+         * @objType WebGLMaskManager
          */
         this.maskManager = new PIXI.WebGLMaskManager();
 
         /**
          * Manages the filters
          * @property filterManager
-         * @type WebGLFilterManager
+         * @objType WebGLFilterManager
          */
         this.filterManager = new PIXI.WebGLFilterManager();
 
         /**
          * Manages the stencil buffer
          * @property stencilManager
-         * @type WebGLStencilManager
+         * @objType WebGLStencilManager
          */
         this.stencilManager = new PIXI.WebGLStencilManager();
 
         /**
          * Manages the blendModes
          * @property blendModeManager
-         * @type WebGLBlendModeManager
+         * @objType WebGLBlendModeManager
          */
         this.blendModeManager = new PIXI.WebGLBlendModeManager();
 
         /**
          * @property renderSession
-         * @type Object
+         * @objType Object
          */
         this.renderSession = {};
 
         /**
          * @property currentBatchedTextures
-         * @type Array
+         * @objType Array
          */
         this.currentBatchedTextures = [];
 
@@ -17689,7 +17689,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.WebGLBlendModeManager = function () {
         /**
          * @property currentBlendMode
-         * @type Number
+         * @objType Number
          */
         this.currentBlendMode = 99999;
     };
@@ -18086,19 +18086,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.WebGLShaderManager = function () {
         /**
          * @property maxAttibs
-         * @type Number
+         * @objType Number
          */
         this.maxAttibs = 10;
 
         /**
          * @property attribState
-         * @type Array
+         * @objType Array
          */
         this.attribState = [];
 
         /**
          * @property tempAttribState
-         * @type Array
+         * @objType Array
          */
         this.tempAttribState = [];
 
@@ -18108,7 +18108,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property stack
-         * @type Array
+         * @objType Array
          */
         this.stack = [];
 
@@ -18254,14 +18254,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property vertSize
-         * @type Number
+         * @objType Number
          */
         this.vertSize = 5;
 
         /**
          * The number of images in the SpriteBatch before it flushes
          * @property size
-         * @type Number
+         * @objType Number
          */
         this.size = 2000; //Math.pow(2, 16) /  this.vertSize;
 
@@ -18279,7 +18279,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Holds the vertices
          *
          * @property vertices
-         * @type ArrayBuffer
+         * @objType ArrayBuffer
          */
         this.vertices = new ArrayBuffer(numVerts);
 
@@ -18287,7 +18287,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * View on the vertices as a Float32Array
          *
          * @property positions
-         * @type Float32Array
+         * @objType Float32Array
          */
         this.positions = new Float32Array(this.vertices);
 
@@ -18295,7 +18295,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * View on the vertices as a Uint32Array
          *
          * @property colors
-         * @type Uint32Array
+         * @objType Uint32Array
          */
         this.colors = new Uint32Array(this.vertices);
 
@@ -18303,13 +18303,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Holds the indices
          *
          * @property indices
-         * @type Uint16Array
+         * @objType Uint16Array
          */
         this.indices = new Uint16Array(numIndices);
 
         /**
          * @property lastIndexCount
-         * @type Number
+         * @objType Number
          */
         this.lastIndexCount = 0;
 
@@ -18324,55 +18324,55 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property drawing
-         * @type Boolean
+         * @objType Boolean
          */
         this.drawing = false;
 
         /**
          * @property currentBatchSize
-         * @type Number
+         * @objType Number
          */
         this.currentBatchSize = 0;
 
         /**
          * @property currentBaseTexture
-         * @type BaseTexture
+         * @objType BaseTexture
          */
         this.currentBaseTexture = null;
 
         /**
          * @property dirty
-         * @type Boolean
+         * @objType Boolean
          */
         this.dirty = true;
 
         /**
          * @property textures
-         * @type Array
+         * @objType Array
          */
         this.textures = [];
 
         /**
          * @property blendModes
-         * @type Array
+         * @objType Array
          */
         this.blendModes = [];
 
         /**
          * @property shaders
-         * @type Array
+         * @objType Array
          */
         this.shaders = [];
 
         /**
          * @property sprites
-         * @type Array
+         * @objType Array
          */
         this.sprites = [];
 
         /**
          * @property defaultShader
-         * @type Phaser.Filter
+         * @objType Phaser.Filter
          */
         this.defaultShader = null;
     };
@@ -18992,19 +18992,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property vertSize
-         * @type Number
+         * @objType Number
          */
         this.vertSize = 11;
 
         /**
          * @property maxSize
-         * @type Number
+         * @objType Number
          */
         this.maxSize = 6000;//Math.pow(2, 16) /  this.vertSize;
 
         /**
          * @property size
-         * @type Number
+         * @objType Number
          */
         this.size = this.maxSize;
 
@@ -19017,32 +19017,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * Vertex data
          * @property vertices
-         * @type Float32Array
+         * @objType Float32Array
          */
         this.vertices = new Float32Array(numVerts);
 
         /**
          * Index data
          * @property indices
-         * @type Uint16Array
+         * @objType Uint16Array
          */
         this.indices = new Uint16Array(numIndices);
 
         /**
          * @property vertexBuffer
-         * @type Object
+         * @objType Object
          */
         this.vertexBuffer = null;
 
         /**
          * @property indexBuffer
-         * @type Object
+         * @objType Object
          */
         this.indexBuffer = null;
 
         /**
          * @property lastIndexCount
-         * @type Number
+         * @objType Number
          */
         this.lastIndexCount = 0;
 
@@ -19057,43 +19057,43 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property drawing
-         * @type Boolean
+         * @objType Boolean
          */
         this.drawing = false;
 
         /**
          * @property currentBatchSize
-         * @type Number
+         * @objType Number
          */
         this.currentBatchSize = 0;
 
         /**
          * @property currentBaseTexture
-         * @type BaseTexture
+         * @objType BaseTexture
          */
         this.currentBaseTexture = null;
 
         /**
          * @property currentBlendMode
-         * @type Number
+         * @objType Number
          */
         this.currentBlendMode = 0;
 
         /**
          * @property renderSession
-         * @type Object
+         * @objType Object
          */
         this.renderSession = null;
 
         /**
          * @property shader
-         * @type Object
+         * @objType Object
          */
         this.shader = null;
 
         /**
          * @property matrix
-         * @type Matrix
+         * @objType Matrix
          */
         this.matrix = null;
 
@@ -19412,19 +19412,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     PIXI.WebGLFilterManager = function () {
         /**
          * @property filterStack
-         * @type Array
+         * @objType Array
          */
         this.filterStack = [];
 
         /**
          * @property offsetX
-         * @type Number
+         * @objType Number
          */
         this.offsetX = 0;
 
         /**
          * @property offsetY
-         * @type Number
+         * @objType Number
          */
         this.offsetY = 0;
     };
@@ -19923,19 +19923,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         textureUnit = typeof textureUnit === 'number' ? textureUnit : 0;
         /**
          * @property gl
-         * @type WebGLContext
+         * @objType WebGLContext
          */
         this.gl = gl;
         // next time to create a frame buffer and texture
 
         /**
          * @property frameBuffer
-         * @type Any
+         * @objType Any
          */
         this.frameBuffer = _CreateFramebuffer(gl, width, height, scaleMode || PIXI.scaleModes.DEFAULT, textureUnit);
         /**
          * @property texture
-         * @type Any
+         * @objType Any
          */
         this.texture = this.frameBuffer.targetTexture;
         this.width = width;
@@ -20009,7 +20009,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The width of the Canvas in pixels.
          *
          * @property width
-         * @type Number
+         * @objType Number
          */
         this.width = width;
 
@@ -20017,7 +20017,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The height of the Canvas in pixels.
          *
          * @property height
-         * @type Number
+         * @objType Number
          */
         this.height = height;
 
@@ -20025,7 +20025,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The Canvas object that belongs to this CanvasBuffer.
          *
          * @property canvas
-         * @type HTMLCanvasElement
+         * @objType HTMLCanvasElement
          */
         this.canvas = Phaser.CanvasPool.create(this, this.width, this.height);
 
@@ -20033,7 +20033,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * A CanvasRenderingContext2D object representing a two-dimensional rendering context.
          *
          * @property context
-         * @type CanvasRenderingContext2D
+         * @objType CanvasRenderingContext2D
          */
         this.context = this.canvas.getContext("2d");
 
@@ -20279,10 +20279,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         }
 
         /**
-         * The renderer type.
+         * The renderer objType.
          *
          * @property type
-         * @type Number
+         * @objType Number
          */
         this.type = Phaser.CANVAS;
 
@@ -20290,7 +20290,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The resolution of the canvas.
          *
          * @property resolution
-         * @type Number
+         * @objType Number
          */
         this.resolution = game.resolution;
 
@@ -20301,7 +20301,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Disable this by setting this to false. For example if your game has a canvas filling background image you often don't need this set.
          *
          * @property clearBeforeRender
-         * @type Boolean
+         * @objType Boolean
          * @default
          */
         this.clearBeforeRender = game.clearBeforeRender;
@@ -20310,7 +20310,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Whether the render view is transparent
          *
          * @property transparent
-         * @type Boolean
+         * @objType Boolean
          */
         this.transparent = game.transparent;
 
@@ -20318,7 +20318,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Whether the render view should be resized automatically
          *
          * @property autoResize
-         * @type Boolean
+         * @objType Boolean
          */
         this.autoResize = false;
 
@@ -20326,7 +20326,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The width of the canvas view
          *
          * @property width
-         * @type Number
+         * @objType Number
          * @default 800
          */
         this.width = game.width * this.resolution;
@@ -20335,7 +20335,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The height of the canvas view
          *
          * @property height
-         * @type Number
+         * @objType Number
          * @default 600
          */
         this.height = game.height * this.resolution;
@@ -20344,14 +20344,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The canvas element that everything is drawn to.
          *
          * @property view
-         * @type HTMLCanvasElement
+         * @objType HTMLCanvasElement
          */
         this.view = game.canvas;
 
         /**
          * The canvas 2d context that everything is drawn with
          * @property context
-         * @type CanvasRenderingContext2D
+         * @objType CanvasRenderingContext2D
          */
         this.context = this.view.getContext("2d", {alpha: this.transparent});
 
@@ -20359,7 +20359,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Boolean flag controlling canvas refresh.
          *
          * @property refresh
-         * @type Boolean
+         * @objType Boolean
          */
         this.refresh = true;
 
@@ -20367,21 +20367,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Internal var.
          *
          * @property count
-         * @type Number
+         * @objType Number
          */
         this.count = 0;
 
         /**
          * Instance of a PIXI.CanvasMaskManager, handles masking when using the canvas renderer
          * @property CanvasMaskManager
-         * @type CanvasMaskManager
+         * @objType CanvasMaskManager
          */
         this.maskManager = new PIXI.CanvasMaskManager();
 
         /**
          * The render session is just a bunch of parameter used for rendering
          * @property renderSession
-         * @type Object
+         * @objType Object
          */
         this.renderSession = {
             context: this.context,
@@ -20570,7 +20570,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The Resolution of the texture.
          *
          * @property resolution
-         * @type Number
+         * @objType Number
          */
         this.resolution = resolution || 1;
 
@@ -20578,7 +20578,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * [read-only] The width of the base texture set when the image has loaded
          *
          * @property width
-         * @type Number
+         * @objType Number
          * @readOnly
          */
         this.width = 100;
@@ -20587,7 +20587,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * [read-only] The height of the base texture set when the image has loaded
          *
          * @property height
-         * @type Number
+         * @objType Number
          * @readOnly
          */
         this.height = 100;
@@ -20596,7 +20596,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The scale mode to apply when scaling this texture
          *
          * @property scaleMode
-         * @type {Number}
+         * @objType {Number}
          * @default PIXI.scaleModes.LINEAR
          */
         this.scaleMode = scaleMode || PIXI.scaleModes.DEFAULT;
@@ -20605,7 +20605,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * [read-only] Set to true once the base texture has loaded
          *
          * @property hasLoaded
-         * @type Boolean
+         * @objType Boolean
          * @readOnly
          */
         this.hasLoaded = false;
@@ -20614,7 +20614,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The image source that is used to create the texture.
          *
          * @property source
-         * @type Image
+         * @objType Image
          */
         this.source = source;
 
@@ -20622,7 +20622,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Controls if RGB channels should be pre-multiplied by Alpha  (WebGL only)
          *
          * @property premultipliedAlpha
-         * @type Boolean
+         * @objType Boolean
          * @default true
          */
         this.premultipliedAlpha = true;
@@ -20631,7 +20631,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * @property _glTextures
-         * @type Array
+         * @objType Array
          * @private
          */
         this._glTextures = [];
@@ -20641,20 +20641,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Also the texture must be a power of two size to work
          *
          * @property mipmap
-         * @type {Boolean}
+         * @objType {Boolean}
          */
         this.mipmap = false;
 
         /**
          * The multi texture batching index number.
          * @property textureIndex
-         * @type Number
+         * @objType Number
          */
         this.textureIndex = 0;
 
         /**
          * @property _dirty
-         * @type Array
+         * @objType Array
          * @private
          */
         this._dirty = [true, true, true, true];
@@ -20677,13 +20677,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * that has children that you do want to render, without causing a batch flush in the process.
          *
          * @property skipRender
-         * @type Boolean
+         * @objType Boolean
          */
         this.skipRender = false;
 
         /**
          * @property _powerOf2
-         * @type Boolean
+         * @objType Boolean
          * @private
          */
         this._powerOf2 = false;
@@ -20803,7 +20803,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * If `true` then {@link PIXI.Texture#setFrame} will no longer throw an error if the texture dimensions are incorrect.
      * Instead {@link PIXI.Texture#valid} will be set to `false` (#1556)
      *
-     * @type {boolean}
+     * @objType {boolean}
      */
     PIXI.TextureSilentFail = false;
 
@@ -20823,7 +20823,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Does this Texture have any frame data assigned to it?
          *
          * @property noFrame
-         * @type Boolean
+         * @objType Boolean
          */
         this.noFrame = false;
 
@@ -20840,7 +20840,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The base texture that this texture uses.
          *
          * @property baseTexture
-         * @type BaseTexture
+         * @objType BaseTexture
          */
         this.baseTexture = baseTexture;
 
@@ -20848,7 +20848,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The frame specifies the region of the base texture that this texture uses
          *
          * @property frame
-         * @type Rectangle
+         * @objType Rectangle
          */
         this.frame = frame;
 
@@ -20856,7 +20856,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The texture trim data.
          *
          * @property trim
-         * @type Rectangle
+         * @objType Rectangle
          */
         this.trim = trim;
 
@@ -20864,7 +20864,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * This will let the renderer know if the texture is valid. If it's not then it cannot be rendered.
          *
          * @property valid
-         * @type Boolean
+         * @objType Boolean
          */
         this.valid = false;
 
@@ -20872,7 +20872,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Is this a tiling texture? As used by the likes of a TilingSprite.
          *
          * @property isTiling
-         * @type Boolean
+         * @objType Boolean
          */
         this.isTiling = false;
 
@@ -20880,7 +20880,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * This will let a renderer know that a texture has been updated (used mainly for webGL uv updates)
          *
          * @property requiresUpdate
-         * @type Boolean
+         * @objType Boolean
          */
         this.requiresUpdate = false;
 
@@ -20888,7 +20888,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * This will let a renderer know that a tinted parent has updated its texture.
          *
          * @property requiresReTint
-         * @type Boolean
+         * @objType Boolean
          */
         this.requiresReTint = false;
 
@@ -20896,7 +20896,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The WebGL UV data cache.
          *
          * @property _uvs
-         * @type Object
+         * @objType Object
          * @private
          */
         this._uvs = null;
@@ -20905,7 +20905,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The width of the Texture in pixels.
          *
          * @property width
-         * @type Number
+         * @objType Number
          */
         this.width = 0;
 
@@ -20913,7 +20913,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * The height of the Texture in pixels.
          *
          * @property height
-         * @type Number
+         * @objType Number
          */
         this.height = 0;
 
@@ -20922,7 +20922,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * irrespective of the actual frame size or placement (which can be influenced by trimmed texture atlases)
          *
          * @property crop
-         * @type Rectangle
+         * @objType Rectangle
          */
         this.crop = crop || new PIXI.Rectangle(0, 0, 1, 1);
 
@@ -20932,7 +20932,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * Sprite rotation.
          *
          * @property rotated
-         * @type Boolean
+         * @objType Boolean
          */
         this.rotated = false;
 
@@ -21141,469 +21141,469 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * The Phaser version number.
          * @constant Phaser.VERSION
-         * @type {string}
+         * @objType {string}
          */
         VERSION: '2.9.1',
 
         /**
          * An array of Phaser game instances.
          * @constant Phaser.GAMES
-         * @type {array}
+         * @objType {array}
          */
         GAMES: [],
 
         /**
          * AUTO renderer - picks between WebGL or Canvas based on device.
          * @constant Phaser.AUTO
-         * @type {integer}
+         * @objType {integer}
          */
         AUTO: 0,
 
         /**
          * Canvas Renderer.
          * @constant Phaser.CANVAS
-         * @type {integer}
+         * @objType {integer}
          */
         CANVAS: 1,
 
         /**
          * WebGL Renderer.
          * @constant Phaser.WEBGL
-         * @type {integer}
+         * @objType {integer}
          */
         WEBGL: 2,
 
         /**
          * Headless renderer (not visual output)
          * @constant Phaser.HEADLESS
-         * @type {integer}
+         * @objType {integer}
          */
         HEADLESS: 3,
 
         /**
          * WebGL Renderer with MultiTexture support enabled.
          * @constant Phaser.WEBGL_MULTI
-         * @type {integer}
+         * @objType {integer}
          */
         WEBGL_MULTI: 4,
 
         /**
          * Direction constant.
          * @constant Phaser.NONE
-         * @type {integer}
+         * @objType {integer}
          */
         NONE: 0,
 
         /**
          * Direction constant.
          * @constant Phaser.LEFT
-         * @type {integer}
+         * @objType {integer}
          */
         LEFT: 1,
 
         /**
          * Direction constant.
          * @constant Phaser.RIGHT
-         * @type {integer}
+         * @objType {integer}
          */
         RIGHT: 2,
 
         /**
          * Direction constant.
          * @constant Phaser.UP
-         * @type {integer}
+         * @objType {integer}
          */
         UP: 3,
 
         /**
          * Direction constant.
          * @constant Phaser.DOWN
-         * @type {integer}
+         * @objType {integer}
          */
         DOWN: 4,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.SPRITE
-         * @type {integer}
+         * @objType {integer}
          */
         SPRITE: 0,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.BUTTON
-         * @type {integer}
+         * @objType {integer}
          */
         BUTTON: 1,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.IMAGE
-         * @type {integer}
+         * @objType {integer}
          */
         IMAGE: 2,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.GRAPHICS
-         * @type {integer}
+         * @objType {integer}
          */
         GRAPHICS: 3,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.TEXT
-         * @type {integer}
+         * @objType {integer}
          */
         TEXT: 4,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.TILESPRITE
-         * @type {integer}
+         * @objType {integer}
          */
         TILESPRITE: 5,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.BITMAPTEXT
-         * @type {integer}
+         * @objType {integer}
          */
         BITMAPTEXT: 6,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.GROUP
-         * @type {integer}
+         * @objType {integer}
          */
         GROUP: 7,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.RENDERTEXTURE
-         * @type {integer}
+         * @objType {integer}
          */
         RENDERTEXTURE: 8,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.TILEMAP
-         * @type {integer}
+         * @objType {integer}
          */
         TILEMAP: 9,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.TILEMAPLAYER
-         * @type {integer}
+         * @objType {integer}
          */
         TILEMAPLAYER: 10,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.EMITTER
-         * @type {integer}
+         * @objType {integer}
          */
         EMITTER: 11,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.POLYGON
-         * @type {integer}
+         * @objType {integer}
          */
         POLYGON: 12,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.BITMAPDATA
-         * @type {integer}
+         * @objType {integer}
          */
         BITMAPDATA: 13,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.CANVAS_FILTER
-         * @type {integer}
+         * @objType {integer}
          */
         CANVAS_FILTER: 14,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.WEBGL_FILTER
-         * @type {integer}
+         * @objType {integer}
          */
         WEBGL_FILTER: 15,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.ELLIPSE
-         * @type {integer}
+         * @objType {integer}
          */
         ELLIPSE: 16,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.SPRITEBATCH
-         * @type {integer}
+         * @objType {integer}
          */
         SPRITEBATCH: 17,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.RETROFONT
-         * @type {integer}
+         * @objType {integer}
          */
         RETROFONT: 18,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.POINTER
-         * @type {integer}
+         * @objType {integer}
          */
         POINTER: 19,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.ROPE
-         * @type {integer}
+         * @objType {integer}
          */
         ROPE: 20,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.CIRCLE
-         * @type {integer}
+         * @objType {integer}
          */
         CIRCLE: 21,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.RECTANGLE
-         * @type {integer}
+         * @objType {integer}
          */
         RECTANGLE: 22,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.LINE
-         * @type {integer}
+         * @objType {integer}
          */
         LINE: 23,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.MATRIX
-         * @type {integer}
+         * @objType {integer}
          */
         MATRIX: 24,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.POINT
-         * @type {integer}
+         * @objType {integer}
          */
         POINT: 25,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.ROUNDEDRECTANGLE
-         * @type {integer}
+         * @objType {integer}
          */
         ROUNDEDRECTANGLE: 26,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.CREATURE
-         * @type {integer}
+         * @objType {integer}
          */
         CREATURE: 27,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.VIDEO
-         * @type {integer}
+         * @objType {integer}
          */
         VIDEO: 28,
 
         /**
-         * Game Object type.
+         * Game Object objType.
          * @constant Phaser.PENDING_ATLAS
-         * @type {integer}
+         * @objType {integer}
          */
         PENDING_ATLAS: -1,
 
         /**
          * A horizontal orientation
          * @constant Phaser.HORIZONTAL
-         * @type {integer}
+         * @objType {integer}
          */
         HORIZONTAL: 0,
 
         /**
          * A vertical orientation
          * @constant Phaser.VERTICAL
-         * @type {integer}
+         * @objType {integer}
          */
         VERTICAL: 1,
 
         /**
          * A landscape orientation
          * @constant Phaser.LANDSCAPE
-         * @type {integer}
+         * @objType {integer}
          */
         LANDSCAPE: 0,
 
         /**
          * A portrait orientation
          * @constant Phaser.PORTRAIT
-         * @type {integer}
+         * @objType {integer}
          */
         PORTRAIT: 1,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face up.
          * @constant Phaser.ANGLE_UP
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_UP: 270,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face down.
          * @constant Phaser.ANGLE_DOWN
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_DOWN: 90,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face left.
          * @constant Phaser.ANGLE_LEFT
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_LEFT: 180,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face right.
          * @constant Phaser.ANGLE_RIGHT
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_RIGHT: 0,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face north east.
          * @constant Phaser.ANGLE_NORTH_EAST
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_NORTH_EAST: 315,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face north west.
          * @constant Phaser.ANGLE_NORTH_WEST
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_NORTH_WEST: 225,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face south east.
          * @constant Phaser.ANGLE_SOUTH_EAST
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_SOUTH_EAST: 45,
 
         /**
          * The Angle (in degrees) a Game Object needs to be set to in order to face south west.
          * @constant Phaser.ANGLE_SOUTH_WEST
-         * @type {integer}
+         * @objType {integer}
          */
         ANGLE_SOUTH_WEST: 135,
 
         /**
          * A constant representing a top-left alignment or position.
          * @constant  Phaser.TOP_LEFT
-         * @type {integer}
+         * @objType {integer}
          */
         TOP_LEFT: 0,
 
         /**
          * A constant representing a top-center alignment or position.
          * @constant Phaser.TOP_CENTER
-         * @type {integer}
+         * @objType {integer}
          */
         TOP_CENTER: 1,
 
         /**
          * A constant representing a top-right alignment or position.
          * @constant Phaser.TOP_RIGHT
-         * @type {integer}
+         * @objType {integer}
          */
         TOP_RIGHT: 2,
 
         /**
          * A constant representing a left-top alignment or position.
          * @constant Phaser.Phaser.LEFT_TOP
-         * @type {integer}
+         * @objType {integer}
          */
         LEFT_TOP: 3,
 
         /**
          * A constant representing a left-center alignment or position.
          * @constant Phaser.LEFT_TOP
-         * @type {integer}
+         * @objType {integer}
          */
         LEFT_CENTER: 4,
 
         /**
          * A constant representing a left-bottom alignment or position.
          * @constant Phaser.LEFT_BOTTOM
-         * @type {integer}
+         * @objType {integer}
          */
         LEFT_BOTTOM: 5,
 
         /**
          * A constant representing a center alignment or position.
          * @constant Phaser.CENTER
-         * @type {integer}
+         * @objType {integer}
          */
         CENTER: 6,
 
         /**
          * A constant representing a right-top alignment or position.
          * @constant Phaser.RIGHT_TOP
-         * @type {integer}
+         * @objType {integer}
          */
         RIGHT_TOP: 7,
 
         /**
          * A constant representing a right-center alignment or position.
          * @constant Phaser.RIGHT_CENTER
-         * @type {integer}
+         * @objType {integer}
          */
         RIGHT_CENTER: 8,
 
         /**
          * A constant representing a right-bottom alignment or position.
          * @constant Phaser.RIGHT_BOTTOM
-         * @type {integer}
+         * @objType {integer}
          */
         RIGHT_BOTTOM: 9,
 
         /**
          * A constant representing a bottom-left alignment or position.
          * @constant Phaser.BOTTOM_LEFT
-         * @type {integer}
+         * @objType {integer}
          */
         BOTTOM_LEFT: 10,
 
         /**
          * A constant representing a bottom-center alignment or position.
          * @constant Phaser.BOTTOM_CENTER
-         * @type {integer}
+         * @objType {integer}
          */
         BOTTOM_CENTER: 11,
 
         /**
          * A constant representing a bottom-right alignment or position.
          * @constant Phaser.BOTTOM_RIGHT
-         * @type {integer}
+         * @objType {integer}
          */
         BOTTOM_RIGHT: 12,
 
@@ -22380,7 +22380,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         }
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.CIRCLE;
@@ -23026,7 +23026,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.height = height;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.ELLIPSE;
@@ -23379,7 +23379,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.end = new Phaser.Point(x2, y2);
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.LINE;
@@ -24220,7 +24220,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.ty = ty;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.MATRIX;
@@ -24570,7 +24570,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.y = y;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.POINT;
@@ -25654,7 +25654,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.flattened = false;
 
         /**
-         * @property {number} type - The base object type.
+         * @property {number} objType - The base object objType.
          */
         this.type = Phaser.POLYGON;
 
@@ -25810,7 +25810,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
                 var y0 = Number.MAX_VALUE;
 
-                //  Allows for mixed-type arguments
+                //  Allows for mixed-objType arguments
                 for (var i = 0, len = points.length; i < len; i++) {
                     if (typeof points[i] === 'number') {
                         var p = new PIXI.Point(points[i], points[i + 1]);
@@ -25905,7 +25905,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
     });
 
-//  Because PIXI uses its own type, we'll replace it with ours to avoid duplicating code or confusion.
+//  Because PIXI uses its own objType, we'll replace it with ours to avoid duplicating code or confusion.
     PIXI.Polygon = Phaser.Polygon;
 
     /**
@@ -25953,7 +25953,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.height = height;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.RECTANGLE;
@@ -27090,7 +27090,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.radius = radius || 20;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.ROUNDEDRECTANGLE;
@@ -27143,7 +27143,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
     Phaser.RoundedRectangle.prototype.constructor = Phaser.RoundedRectangle;
 
-//  Because PIXI uses its own type, we'll replace it with ours to avoid duplicating code or confusion.
+//  Because PIXI uses its own objType, we'll replace it with ours to avoid duplicating code or confusion.
     PIXI.RoundedRectangle = Phaser.RoundedRectangle;
 
     /**
@@ -27323,7 +27323,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this._fxDuration = 0;
 
         /**
-         * @property {number} _fxType - The FX type running.
+         * @property {number} _fxType - The FX objType running.
          * @private
          */
         this._fxType = 0;
@@ -27340,7 +27340,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * A follow style that uses no deadzone.
      *
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.FOLLOW_LOCKON = 0;
 
@@ -27348,7 +27348,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * A follow style that uses a tall, narrow deadzone (0.33 x 0.125) with a center slightly above the view center.
      *
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.FOLLOW_PLATFORMER = 1;
 
@@ -27356,7 +27356,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * A follow style that uses a square deadzone (0.25 of the larger view edge).
      *
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.FOLLOW_TOPDOWN = 2;
 
@@ -27364,31 +27364,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * A follow style that uses a small square deadzone (0.125 of the larger view edge).
      *
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.FOLLOW_TOPDOWN_TIGHT = 3;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.SHAKE_BOTH = 4;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.SHAKE_HORIZONTAL = 5;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Camera.SHAKE_VERTICAL = 6;
 
     /**
      * @constant
-     * @type {boolean}
+     * @objType {boolean}
      */
     Phaser.Camera.ENABLE_FX = true;
 
@@ -27430,7 +27430,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * Tell the camera which sprite to follow.
          *
-         * You can set the follow type and a linear interpolation value.
+         * You can set the follow objType and a linear interpolation value.
          * Use low lerp values (such as 0.1) to automatically smooth the camera motion.
          *
          * If you find you're getting a slight "jitter" effect when following a Sprite it's probably to do with sub-pixel rendering of the Sprite position.
@@ -29845,15 +29845,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The default uniforms, types and values for all Filters are:
      *
      * ```javascript
-     * resolution: { type: '2f', value: { x: 256, y: 256 }}
-     * time: { type: '1f', value: 0 }
-     * mouse: { type: '2f', value: { x: 0.0, y: 0.0 } }
-     * date: { type: '4fv', value: [ d.getFullYear(),  d.getMonth(),  d.getDate(), d.getHours() *60 * 60 + d.getMinutes() * 60 + d.getSeconds() ] }
-     * sampleRate: { type: '1f', value: 44100.0 }
-     * iChannel0: { type: 'sampler2D', value: null, textureData: { repeat: true } }
-     * iChannel1: { type: 'sampler2D', value: null, textureData: { repeat: true } }
-     * iChannel2: { type: 'sampler2D', value: null, textureData: { repeat: true } }
-     * iChannel3: { type: 'sampler2D', value: null, textureData: { repeat: true } }
+     * resolution: { objType: '2f', value: { x: 256, y: 256 }}
+     * time: { objType: '1f', value: 0 }
+     * mouse: { objType: '2f', value: { x: 0.0, y: 0.0 } }
+     * date: { objType: '4fv', value: [ d.getFullYear(),  d.getMonth(),  d.getDate(), d.getHours() *60 * 60 + d.getMinutes() * 60 + d.getSeconds() ] }
+     * sampleRate: { objType: '1f', value: 44100.0 }
+     * iChannel0: { objType: 'sampler2D', value: null, textureData: { repeat: true } }
+     * iChannel1: { objType: 'sampler2D', value: null, textureData: { repeat: true } }
+     * iChannel2: { objType: 'sampler2D', value: null, textureData: { repeat: true } }
+     * iChannel3: { objType: 'sampler2D', value: null, textureData: { repeat: true } }
      * ```
      *
      * The vast majority of filters (including all of those that ship with Phaser) use fragment shaders, and
@@ -29873,7 +29873,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.game = game;
 
         /**
-         * @property {number} type - The const type of this object, either Phaser.WEBGL_FILTER or Phaser.CANVAS_FILTER.
+         * @property {number} objType - The const objType of this object, either Phaser.WEBGL_FILTER or Phaser.CANVAS_FILTER.
          * @default
          */
         this.type = Phaser.WEBGL_FILTER;
@@ -30829,7 +30829,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * - `visibilitychange` (visible) and CocoonJS's `onActivated` {@link Phaser.Game#gameResumed resume the game} unless {@link #disableVisibilityChange} is on.
      *
      * @method Phaser.Stage#visibilityChange
-     * @param {Event} event - Its type will be used to decide whether the game should be paused or not.
+     * @param {Event} event - Its objType will be used to decide whether the game should be paused or not.
      */
     Phaser.Stage.prototype.visibilityChange = function (event) {
 
@@ -30982,8 +30982,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      *     If undefined/unspecified the Group will be added to the {@link Phaser.Game#world Game World}; if null the Group will not be added to any parent.
      * @param {string} [name='group'] - A name for this group. Not used internally but useful for debugging.
      * @param {boolean} [addToStage=false] - If true this group will be added directly to the Game.Stage instead of Game.World.
-     * @param {boolean} [enableBody=false] - If true all Sprites created with {@link #create} or {@link #createMulitple} will have a physics body created on them. Change the body type with {@link #physicsBodyType}.
-     * @param {integer} [physicsBodyType=0] - The physics body type to use when physics bodies are automatically added. See {@link #physicsBodyType} for values.
+     * @param {boolean} [enableBody=false] - If true all Sprites created with {@link #create} or {@link #createMulitple} will have a physics body created on them. Change the body objType with {@link #physicsBodyType}.
+     * @param {integer} [physicsBodyType=0] - The physics body objType to use when physics bodies are automatically added. See {@link #physicsBodyType} for values.
      */
     Phaser.Group = function (game, parent, name, addToStage, enableBody, physicsBodyType) {
 
@@ -31037,13 +31037,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * Internal Phaser Type value.
-         * @property {integer} type
+         * @property {integer} objType
          * @protected
          */
         this.type = Phaser.GROUP;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.GROUP;
@@ -31082,7 +31082,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.pendingDestroy = false;
 
         /**
-         * The type of objects that will be created when using {@link #create} or {@link #createMultiple}.
+         * The objType of objects that will be created when using {@link #create} or {@link #createMultiple}.
          *
          * It should extend either Sprite or Image and accept the same constructor arguments: `(game, x, y, key, frame)`.
          *
@@ -31172,7 +31172,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          *
          * If there are children already in the Group at the time you set this property, they are not changed.
          *
-         * The default body type is controlled with {@link #physicsBodyType}.
+         * The default body objType is controlled with {@link #physicsBodyType}.
          * @property {boolean} enableBody
          */
         this.enableBody = enableBody;
@@ -31187,7 +31187,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.enableBodyDebug = false;
 
         /**
-         * If {@link #enableBody} is true this is the type of physics body that is created on new Sprites.
+         * If {@link #enableBody} is true this is the objType of physics body that is created on new Sprites.
          *
          * The valid values are {@link Phaser.Physics.ARCADE}, {@link Phaser.Physics.P2JS}, {@link Phaser.Physics.NINJA}, etc.
          * @property {integer} physicsBodyType
@@ -31269,42 +31269,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     /**
      * A returnType value, as specified in {@link #iterate} eg.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Group.RETURN_NONE = 0;
 
     /**
      * A returnType value, as specified in {@link #iterate} eg.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Group.RETURN_TOTAL = 1;
 
     /**
      * A returnType value, as specified in {@link #iterate} eg.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Group.RETURN_CHILD = 2;
 
     /**
      * A returnType value, as specified in {@link #iterate} eg.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Group.RETURN_ALL = 3;
 
     /**
      * A sort ordering value, as specified in {@link #sort} eg.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Group.SORT_ASCENDING = -1;
 
     /**
      * A sort ordering value, as specified in {@link #sort} eg.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Group.SORT_DESCENDING = 1;
 
@@ -31498,7 +31498,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     /**
      * Creates a new Phaser.Sprite object and adds it to the top of this group.
      *
-     * Use {@link #classType} to change the type of object created.
+     * Use {@link #classType} to change the objType of object created.
      *
      * The child is automatically added to the top of the group, and is displayed above every previous child.
      *
@@ -31539,7 +31539,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      *
      * This method is useful if you need to quickly generate a pool of sprites, such as bullets.
      *
-     * Use {@link #classType} to change the type of object created.
+     * Use {@link #classType} to change the objType of object created.
      *
      * You can provide an array as the `key` and / or `frame` arguments. When you do this
      * it will create `quantity` Sprites for every key (and frame) in the arrays.
@@ -34651,7 +34651,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * Has support for Multiple bound Textures in WebGL been enabled? This is a read-only property.
-         * To set it you need to either specify `Phaser.WEBGL_MULTI` as the renderer type, or use the Game
+         * To set it you need to either specify `Phaser.WEBGL_MULTI` as the renderer objType, or use the Game
          * Configuration object with the property `multiTexture` set to true. It has to be enabled before
          * Pixi boots, and cannot be changed after the game is running. Once enabled, take advantage of it
          * via the `game.renderer.setTexturePriority` method.
@@ -35806,7 +35806,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         /**
          * When enabled, input (eg. Keyboard, Mouse, Touch) will be processed - as long as the individual sources are enabled themselves.
          *
-         * When not enabled, _all_ input sources are ignored. To disable just one type of input; for example, the Mouse, use `input.mouse.enabled = false`.
+         * When not enabled, _all_ input sources are ignored. To disable just one objType of input; for example, the Mouse, use `input.mouse.enabled = false`.
          * @property {boolean} enabled
          * @default
          */
@@ -36127,26 +36127,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Input.MOUSE_OVERRIDES_TOUCH = 0;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Input.TOUCH_OVERRIDES_MOUSE = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Input.MOUSE_TOUCH_COMBINE = 2;
 
     /**
      * The maximum number of pointers that can be added. This excludes the mouse pointer.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Input.MAX_POINTERS = 10;
 
@@ -36346,7 +36346,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         },
 
         /**
-         * Execute any {@link #touchLockCallbacks} of the given type.
+         * Execute any {@link #touchLockCallbacks} of the given objType.
          *
          * @method Phaser.Input#executeTouchLockCallbacks
          * @private
@@ -37109,49 +37109,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.NO_BUTTON = -1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.LEFT_BUTTON = 0;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.MIDDLE_BUTTON = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.RIGHT_BUTTON = 2;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.BACK_BUTTON = 3;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.FORWARD_BUTTON = 4;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.WHEEL_UP = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Mouse.WHEEL_DOWN = -1;
 
@@ -38439,7 +38439,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.id = id;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.POINTER;
@@ -38776,28 +38776,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     /**
      * No buttons at all.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.NO_BUTTON = 0;
 
     /**
      * The Left Mouse button, or in PointerEvent devices a Touch contact or Pen contact.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.LEFT_BUTTON = 1;
 
     /**
      * The Right Mouse button, or in PointerEvent devices a Pen contact with a barrel button.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.RIGHT_BUTTON = 2;
 
     /**
      * The Middle Mouse button.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.MIDDLE_BUTTON = 4;
 
@@ -38805,7 +38805,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The X1 button. This is typically the mouse Back button, but is often reconfigured.
      * On Linux (GTK) this is unsupported. On Windows if advanced pointer software (such as IntelliPoint) is installed this doesn't register.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.BACK_BUTTON = 8;
 
@@ -38813,14 +38813,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      * The X2 button. This is typically the mouse Forward button, but is often reconfigured.
      * On Linux (GTK) this is unsupported. On Windows if advanced pointer software (such as IntelliPoint) is installed this doesn't register.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.FORWARD_BUTTON = 16;
 
     /**
      * The Eraser pen button on PointerEvent supported devices only.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Pointer.ERASER_BUTTON = 32;
 
@@ -44746,7 +44746,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     };
 
     /**
-     * @property {boolean} skipTypeChecks - Skip type checks in {@link #init}.
+     * @property {boolean} skipTypeChecks - Skip objType checks in {@link #init}.
      * @static
      * @default
      */
@@ -47295,8 +47295,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * @param {any} [parent] - The parent Group or DisplayObjectContainer that will hold this group, if any. If set to null the Group won't be added to the display list. If undefined it will be added to World by default.
          * @param {string} [name='group'] - A name for this Group. Not used internally but useful for debugging.
          * @param {boolean} [addToStage=false] - If set to true this Group will be added directly to the Game.Stage instead of Game.World.
-         * @param {boolean} [enableBody=false] - If true all Sprites created with `Group.create` or `Group.createMulitple` will have a physics body created on them. Change the body type with physicsBodyType.
-         * @param {number} [physicsBodyType=0] - If enableBody is true this is the type of physics body that is created on new Sprites. Phaser.Physics.ARCADE, Phaser.Physics.P2, Phaser.Physics.NINJA, etc.
+         * @param {boolean} [enableBody=false] - If true all Sprites created with `Group.create` or `Group.createMulitple` will have a physics body created on them. Change the body objType with physicsBodyType.
+         * @param {number} [physicsBodyType=0] - If enableBody is true this is the objType of physics body that is created on new Sprites. Phaser.Physics.ARCADE, Phaser.Physics.P2, Phaser.Physics.NINJA, etc.
          * @return {Phaser.Group} The newly created Group.
          */
         group: function (parent, name, addToStage, enableBody, physicsBodyType) {
@@ -47312,7 +47312,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * are automatically given a physics body.
          *
          * @method Phaser.GameObjectFactory#physicsGroup
-         * @param {number} [physicsBodyType=Phaser.Physics.ARCADE] - If enableBody is true this is the type of physics body that is created on new Sprites. Phaser.Physics.ARCADE, Phaser.Physics.P2JS, Phaser.Physics.NINJA, etc.
+         * @param {number} [physicsBodyType=Phaser.Physics.ARCADE] - If enableBody is true this is the objType of physics body that is created on new Sprites. Phaser.Physics.ARCADE, Phaser.Physics.P2JS, Phaser.Physics.NINJA, etc.
          * @param {any} [parent] - The parent Group or DisplayObjectContainer that will hold this group, if any. If set to null the Group won't be added to the display list. If undefined it will be added to World by default.
          * @param {string} [name='group'] - A name for this Group. Not used internally but useful for debugging.
          * @param {boolean} [addToStage=false] - If set to true this Group will be added directly to the Game.Stage instead of Game.World.
@@ -47822,8 +47822,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
          * @param {any} parent - The parent Group or DisplayObjectContainer that will hold this group, if any.
          * @param {string} [name='group'] - A name for this Group. Not used internally but useful for debugging.
          * @param {boolean} [addToStage=false] - If set to true this Group will be added directly to the Game.Stage instead of Game.World.
-         * @param {boolean} [enableBody=false] - If true all Sprites created with `Group.create` or `Group.createMulitple` will have a physics body created on them. Change the body type with physicsBodyType.
-         * @param {number} [physicsBodyType=0] - If enableBody is true this is the type of physics body that is created on new Sprites. Phaser.Physics.ARCADE, Phaser.Physics.P2, Phaser.Physics.NINJA, etc.
+         * @param {boolean} [enableBody=false] - If true all Sprites created with `Group.create` or `Group.createMulitple` will have a physics body created on them. Change the body objType with physicsBodyType.
+         * @param {number} [physicsBodyType=0] - If enableBody is true this is the objType of physics body that is created on new Sprites. Phaser.Physics.ARCADE, Phaser.Physics.P2, Phaser.Physics.NINJA, etc.
          * @return {Phaser.Group} The newly created Group.
          */
         group: function (parent, name, addToStage, enableBody, physicsBodyType) {
@@ -48224,13 +48224,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         frame = frame || null;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
-        this.type = Phaser.SPRITE;
+        this.objType = Phaser.SPRITE;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.SPRITE;
@@ -48333,7 +48333,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         frame = frame || null;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.IMAGE;
@@ -48392,7 +48392,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
      */
 
     /**
-     * Create a new `Button` object. A Button is a special type of Sprite that is set-up to handle Pointer events automatically.
+     * Create a new `Button` object. A Button is a special objType of Sprite that is set-up to handle Pointer events automatically.
      *
      * The four states a Button responds to are:
      *
@@ -48431,13 +48431,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
         /**
          * The Phaser Object Type.
-         * @property {number} type
+         * @property {number} objType
          * @readonly
          */
         this.type = Phaser.BUTTON;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.SPRITE;
@@ -48974,7 +48974,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         Phaser.Group.call(this, game, parent, name, addToStage);
 
         /**
-         * @property {number} type - Internal Phaser Type value.
+         * @property {number} objType - Internal Phaser Type value.
          * @protected
          */
         this.type = Phaser.SPRITEBATCH;
@@ -49267,7 +49267,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         this.texture.frame = this.textureFrame;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @default
          */
         this.type = Phaser.BITMAPDATA;
@@ -50761,7 +50761,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 this.copyTransform(child, blendMode, roundPx);
             }
 
-            if (child.type === Phaser.GROUP && child.exists) {
+            if (child.objType === Phaser.GROUP && child.exists) {
                 this.drawGroup(child, blendMode, roundPx);
             }
             else {
@@ -50805,8 +50805,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
                 return this;
             }
 
-            if (parent.type !== Phaser.GROUP && parent.type !== Phaser.EMITTER && parent.type !== Phaser.BITMAPTEXT) {
-                if (parent.type === Phaser.GRAPHICS) {
+            if (parent.objType !== Phaser.GROUP && parent.objType !== Phaser.EMITTER && parent.objType !== Phaser.BITMAPTEXT) {
+                if (parent.objType === Phaser.GRAPHICS) {
                     var bounds = parent.getBounds();
                     this.ctx.save();
                     this.ctx.translate(bounds.x, bounds.y);
@@ -52272,7 +52272,7 @@ THIS SOFTWARE.
     /**
      * The number of points beyond which Pixi swaps to using the Stencil Buffer to render the Graphics.
      *
-     * @type {number}
+     * @objType {number}
      */
     PIXI.WebGLGraphics.stencilBufferLimit = 6;
 
@@ -53465,7 +53465,7 @@ THIS SOFTWARE.
         this.shape = shape;
 
         /*
-     * @member {number} The type of the shape, see the Const.Shapes file for all the existing types,
+     * @member {number} The objType of the shape, see the Const.Shapes file for all the existing types,
      */
         this.type = shape.type;
 
@@ -53551,13 +53551,13 @@ THIS SOFTWARE.
         }
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @default
          */
         this.type = Phaser.GRAPHICS;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.SPRITE;
@@ -53576,7 +53576,7 @@ THIS SOFTWARE.
          * The alpha value used when filling the Graphics object.
          *
          * @property fillAlpha
-         * @type Number
+         * @objType Number
          */
         this.fillAlpha = 1;
 
@@ -53584,7 +53584,7 @@ THIS SOFTWARE.
          * The width (thickness) of any lines drawn.
          *
          * @property lineWidth
-         * @type Number
+         * @objType Number
          */
         this.lineWidth = 0;
 
@@ -53592,7 +53592,7 @@ THIS SOFTWARE.
          * The color of any lines drawn.
          *
          * @property lineColor
-         * @type String
+         * @objType String
          * @default 0
          */
         this.lineColor = 0;
@@ -53601,7 +53601,7 @@ THIS SOFTWARE.
          * Graphics data
          *
          * @property graphicsData
-         * @type Array
+         * @objType Array
          * @private
          */
         this.graphicsData = [];
@@ -53610,7 +53610,7 @@ THIS SOFTWARE.
          * The tint applied to the graphic shape. This is a hex value. Apply a value of 0xFFFFFF to reset the tint.
          *
          * @property tint
-         * @type Number
+         * @objType Number
          * @default 0xFFFFFF
          */
         this.tint = 0xFFFFFF;
@@ -53619,7 +53619,7 @@ THIS SOFTWARE.
          * The blend mode to be applied to the graphic shape. Apply a value of PIXI.blendModes.NORMAL to reset the blend mode.
          *
          * @property blendMode
-         * @type Number
+         * @objType Number
          * @default PIXI.blendModes.NORMAL;
          */
         this.blendMode = PIXI.blendModes.NORMAL;
@@ -53628,7 +53628,7 @@ THIS SOFTWARE.
          * Current path
          *
          * @property currentPath
-         * @type Object
+         * @objType Object
          * @private
          */
         this.currentPath = null;
@@ -53637,7 +53637,7 @@ THIS SOFTWARE.
          * Array containing some WebGL-related properties used by the WebGL renderer.
          *
          * @property _webGL
-         * @type Array
+         * @objType Array
          * @private
          */
         this._webGL = [];
@@ -53646,7 +53646,7 @@ THIS SOFTWARE.
          * Whether this shape is being used as a mask.
          *
          * @property isMask
-         * @type Boolean
+         * @objType Boolean
          */
         this.isMask = false;
 
@@ -53654,7 +53654,7 @@ THIS SOFTWARE.
          * The bounds' padding used for bounds calculation.
          *
          * @property boundsPadding
-         * @type Number
+         * @objType Number
          */
         this.boundsPadding = 0;
 
@@ -53664,7 +53664,7 @@ THIS SOFTWARE.
          * Used to detect if the graphics object has changed. If this is set to true then the graphics object will be recalculated.
          *
          * @property dirty
-         * @type Boolean
+         * @objType Boolean
          * @private
          */
         this.dirty = true;
@@ -53674,7 +53674,7 @@ THIS SOFTWARE.
          * If this is set to true then the updateLocalBounds is called once in the postUpdate method.
          *
          * @property _boundsDirty
-         * @type Boolean
+         * @objType Boolean
          * @private
          */
         this._boundsDirty = false;
@@ -53683,7 +53683,7 @@ THIS SOFTWARE.
          * Used to detect if the webgl graphics object has changed. If this is set to true then the graphics object will be recalculated.
          *
          * @property webGLDirty
-         * @type Boolean
+         * @objType Boolean
          * @private
          */
         this.webGLDirty = false;
@@ -53692,7 +53692,7 @@ THIS SOFTWARE.
          * Used to detect if the cached sprite object needs to be updated.
          *
          * @property cachedSpriteDirty
-         * @type Boolean
+         * @objType Boolean
          * @private
          */
         this.cachedSpriteDirty = false;
@@ -54913,7 +54913,7 @@ THIS SOFTWARE.
 
         this.currentPath = null;
 
-        //  Handle mixed-type polygons
+        //  Handle mixed-objType polygons
         if (shape instanceof Phaser.Polygon) {
             shape = shape.clone();
             shape.flatten();
@@ -54942,7 +54942,7 @@ THIS SOFTWARE.
      * This is not recommended if you are constantly redrawing the graphics element.
      *
      * @property cacheAsBitmap
-     * @type Boolean
+     * @objType Boolean
      * @default false
      * @private
      */
@@ -55026,7 +55026,7 @@ THIS SOFTWARE.
         this.key = key;
 
         /**
-         * @property {number} type - Base Phaser object type.
+         * @property {number} objType - Base Phaser object objType.
          */
         this.type = Phaser.RENDERTEXTURE;
 
@@ -55048,7 +55048,7 @@ THIS SOFTWARE.
          * The base texture object that this texture uses
          *
          * @property baseTexture
-         * @type BaseTexture
+         * @objType BaseTexture
          */
         this.baseTexture = new PIXI.BaseTexture();
         this.baseTexture.width = this.width * this.resolution;
@@ -55066,7 +55066,7 @@ THIS SOFTWARE.
          * The renderer this RenderTexture uses. A RenderTexture can only belong to one renderer at the moment if its webGL.
          *
          * @property renderer
-         * @type CanvasRenderer|WebGLRenderer
+         * @objType CanvasRenderer|WebGLRenderer
          */
         this.renderer = renderer;
 
@@ -55087,7 +55087,7 @@ THIS SOFTWARE.
 
         /**
          * @property valid
-         * @type Boolean
+         * @objType Boolean
          */
         this.valid = true;
 
@@ -55413,7 +55413,7 @@ THIS SOFTWARE.
     /**
      * Create a new game object for displaying Text.
      *
-     * This uses a local hidden Canvas object and renders the type into it. It then makes a texture from this for rendering to the view.
+     * This uses a local hidden Canvas object and renders the objType into it. It then makes a texture from this for rendering to the view.
      * Because of this you can only display fonts that are currently loaded and available to the browser: fonts must be pre-loaded.
      *
      * See {@link http://www.jordanm.co.uk/tinytype this compatibility table} for the available default fonts across mobile browsers.
@@ -55458,13 +55458,13 @@ THIS SOFTWARE.
         style = Phaser.Utils.extend({}, style);
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @default
          */
-        this.type = Phaser.TEXT;
+        this.objType = Phaser.TEXT;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.SPRITE;
@@ -57678,13 +57678,13 @@ THIS SOFTWARE.
         PIXI.DisplayObjectContainer.call(this);
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.BITMAPTEXT;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.SPRITE;
@@ -58454,7 +58454,7 @@ THIS SOFTWARE.
         Phaser.RenderTexture.call(this, game, 100, 100, '', Phaser.scaleModes.NEAREST);
 
         /**
-         * @property {number} type - Base Phaser object type.
+         * @property {number} objType - Base Phaser object objType.
          */
         this.type = Phaser.RETROFONT;
 
@@ -58466,98 +58466,98 @@ THIS SOFTWARE.
     /**
      * Align each line of multi-line text to the left.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.ALIGN_LEFT = "left";
 
     /**
      * Align each line of multi-line text to the right.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.ALIGN_RIGHT = "right";
 
     /**
      * Align each line of multi-line text in the center.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.ALIGN_CENTER = "center";
 
     /**
      * Text Set 1 =  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET1 = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 
     /**
      * Text Set 2 =  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET2 = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * Text Set 3 = ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET3 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
 
     /**
      * Text Set 4 = ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET4 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";
 
     /**
      * Text Set 5 = ABCDEFGHIJKLMNOPQRSTUVWXYZ.,/() '!?-*:0123456789
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET5 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,/() '!?-*:0123456789";
 
     /**
      * Text Set 6 = ABCDEFGHIJKLMNOPQRSTUVWXYZ!?:;0123456789"(),-.'
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET6 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?:;0123456789\"(),-.' ";
 
     /**
      * Text Set 7 = AGMSY+:4BHNTZ!;5CIOU.?06DJPV,(17EKQW")28FLRX-'39
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET7 = "AGMSY+:4BHNTZ!;5CIOU.?06DJPV,(17EKQW\")28FLRX-'39";
 
     /**
      * Text Set 8 = 0123456789 .ABCDEFGHIJKLMNOPQRSTUVWXYZ
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET8 = "0123456789 .ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * Text Set 9 = ABCDEFGHIJKLMNOPQRSTUVWXYZ()-0123456789.:,'"?!
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET9 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ()-0123456789.:,'\"?!";
 
     /**
      * Text Set 10 = ABCDEFGHIJKLMNOPQRSTUVWXYZ
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET10 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * Text Set 11 = ABCDEFGHIJKLMNOPQRSTUVWXYZ.,"-+!?()':;0123456789
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.RetroFont.TEXT_SET11 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,\"-+!?()':;0123456789";
 
@@ -58918,7 +58918,7 @@ THIS SOFTWARE.
         frame = frame || null;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.ROPE;
@@ -58955,7 +58955,7 @@ THIS SOFTWARE.
          * Whether the strip is dirty or not
          *
          * @property dirty
-         * @type Boolean
+         * @objType Boolean
          */
         this.dirty = true;
 
@@ -58963,7 +58963,7 @@ THIS SOFTWARE.
          * Triangles in canvas mode are automatically antialiased, use this value to force triangles to overlap a bit with each other.
          *
          * @property canvasPadding
-         * @type Number
+         * @objType Number
          */
         this.canvasPadding = 0;
 
@@ -59741,13 +59741,13 @@ THIS SOFTWARE.
         PIXI.Sprite.call(this, new PIXI.Texture(Phaser.Cache.DEFAULT.baseTexture), width, height);
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @readonly
          */
         this.type = Phaser.TILESPRITE;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.SPRITE;
@@ -60333,7 +60333,7 @@ THIS SOFTWARE.
      * The width of the sprite, setting this will actually modify the scale to achieve the value set
      *
      * @property width
-     * @type Number
+     * @objType Number
      */
     Object.defineProperty(Phaser.TileSprite.prototype, 'width', {
 
@@ -60355,7 +60355,7 @@ THIS SOFTWARE.
      * The height of the TilingSprite, setting this will actually modify the scale to achieve the value set
      *
      * @property height
-     * @type Number
+     * @objType Number
      */
     Object.defineProperty(Phaser.TileSprite.prototype, 'height', {
 
@@ -60471,7 +60471,7 @@ THIS SOFTWARE.
         },
 
         /**
-         * Looks up a canvas based on its type, and if found puts it back in the pool, freeing it up for re-use.
+         * Looks up a canvas based on its objType, and if found puts it back in the pool, freeing it up for re-use.
          * The canvas has its width and height set to 1, and its parent attribute nulled.
          *
          * @static
@@ -60555,7 +60555,7 @@ THIS SOFTWARE.
      * The pool into which the canvas elements are placed.
      *
      * @property pool
-     * @type Array
+     * @objType Array
      * @static
      */
     Phaser.CanvasPool.pool = [];
@@ -60565,7 +60565,7 @@ THIS SOFTWARE.
      * The total number of canvas elements in the {@link Phaser.CanvasPool.pool pool}.
      *
      * @property length
-     * @type number
+     * @objType number
      * @static
      * @readonly
      */
@@ -60836,7 +60836,7 @@ THIS SOFTWARE.
         this.mspointer = false;
 
         /**
-         * @property {?string} wheelType - The newest type of Wheel/Scroll event supported: 'wheel', 'mousewheel', 'DOMMouseScroll'
+         * @property {?string} wheelType - The newest objType of Wheel/Scroll event supported: 'wheel', 'mousewheel', 'DOMMouseScroll'
          * @default
          * @protected
          */
@@ -61132,7 +61132,7 @@ THIS SOFTWARE.
      * _Note_: This signal is removed after the device has been readied; if a handler has not been
      * added _before_ `new Phaser.Game(..)` it is probably too late.
      *
-     * @type {?Phaser.Signal}
+     * @objType {?Phaser.Signal}
      * @static
      */
     Phaser.Device.onInitialized = new Phaser.Signal();
@@ -61816,7 +61816,7 @@ THIS SOFTWARE.
      * @method canPlayAudio
      * @memberof Phaser.Device.prototype
      * @param {string} type - One of 'mp3, 'ogg', 'm4a', 'wav', 'webm' or 'opus'.
-     * @return {boolean} True if the given file type is supported by the browser, otherwise false.
+     * @return {boolean} True if the given file objType is supported by the browser, otherwise false.
      */
     Phaser.Device.canPlayAudio = function (type) {
 
@@ -61852,7 +61852,7 @@ THIS SOFTWARE.
      * @method canPlayVideo
      * @memberof Phaser.Device.prototype
      * @param {string} type - One of 'mp4, 'ogg', 'webm' or 'mpeg'.
-     * @return {boolean} True if the given file type is supported by the browser, otherwise false.
+     * @return {boolean} True if the given file objType is supported by the browser, otherwise false.
      */
     Phaser.Device.canPlayVideo = function (type) {
 
@@ -65998,25 +65998,25 @@ THIS SOFTWARE.
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.TweenData.PENDING = 0;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.TweenData.RUNNING = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.TweenData.LOOPED = 2;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.TweenData.COMPLETE = 3;
 
@@ -67741,28 +67741,28 @@ THIS SOFTWARE.
     /**
      * Number of milliseconds in a minute.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Timer.MINUTE = 60000;
 
     /**
      * Number of milliseconds in a second.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Timer.SECOND = 1000;
 
     /**
      * Number of milliseconds in half a second.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Timer.HALF = 500;
 
     /**
      * Number of milliseconds in a quarter of a second.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Timer.QUARTER = 250;
 
@@ -70729,140 +70729,140 @@ THIS SOFTWARE.
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.CANVAS = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.IMAGE = 2;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.TEXTURE = 3;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.SOUND = 4;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.TEXT = 5;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.PHYSICS = 6;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.TILEMAP = 7;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.BINARY = 8;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.BITMAPDATA = 9;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.BITMAPFONT = 10;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.JSON = 11;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.XML = 12;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.VIDEO = 13;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.SHADER = 14;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Cache.RENDER_TEXTURE = 15;
 
     /**
      * The default image used for a texture when no other is specified.
      * @constant
-     * @type {PIXI.Texture}
+     * @objType {PIXI.Texture}
      */
     Phaser.Cache.DEFAULT = null;
 
     /**
      * Key for the DEFAULT texture.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.Cache.DEFAULT_KEY = '__default';
 
     /**
      * URL for the DEFAULT texture.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.Cache.DEFAULT_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABVJREFUeF7NwIEAAAAAgKD9qdeocAMAoAABm3DkcAAAAABJRU5ErkJggg==';
 
     /**
      * The default image used for a texture when the source image is missing.
      * @constant
-     * @type {PIXI.Texture}
+     * @objType {PIXI.Texture}
      */
     Phaser.Cache.MISSING = null;
 
     /**
      * Key for the MISSING texture.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.Cache.MISSING_KEY = '__missing';
 
     /**
      * URL for the MISSING texture.
      * @constant
-     * @type {string}
+     * @objType {string}
      */
     Phaser.Cache.MISSING_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJ9JREFUeNq01ssOwyAMRFG46v//Mt1ESmgh+DFmE2GPOBARKb2NVjo+17PXLD8a1+pl5+A+wSgFygymWYHBb0FtsKhJDdZlncG2IzJ4ayoMDv20wTmSMzClEgbWYNTAkQ0Z+OJ+A/eWnAaR9+oxCF4Os0H8htsMUp+pwcgBBiMNnAwF8GqIgL2hAzaGFFgZauDPKABmowZ4GL369/0rwACp2yA/ttmvsQAAAABJRU5ErkJggg==';
 
     /**
      * The maximum amount of time (ms) to wait for the built-in DEFAULT and MISSING images to load.
      * @static
-     * @type {number}
+     * @objType {number}
      * @default
      */
     Phaser.Cache.READY_TIMEOUT = 1000;
@@ -71546,7 +71546,7 @@ THIS SOFTWARE.
         ////////////////////////
 
         /**
-         * Checks if a key for the given cache object type exists.
+         * Checks if a key for the given cache object objType exists.
          *
          * @method Phaser.Cache#checkKey
          * @param {integer} cache - The cache to search. One of the Cache consts such as `Phaser.Cache.IMAGE` or `Phaser.Cache.SOUND`.
@@ -73142,37 +73142,37 @@ THIS SOFTWARE.
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY = 0;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Loader.TEXTURE_ATLAS_JSON_HASH = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Loader.TEXTURE_ATLAS_XML_STARLING = 2;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Loader.PHYSICS_LIME_CORONA_JSON = 3;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Loader.PHYSICS_PHASER_JSON = 4;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Loader.TEXTURE_ATLAS_JSON_PYXEL = 5;
 
@@ -73239,7 +73239,7 @@ THIS SOFTWARE.
          * To access a loaded asset use Phaser.Cache, eg. {@link Phaser.Cache#checkImageKey}
          *
          * @method Phaser.Loader#checkKeyExists
-         * @param {string} type - The type asset you want to check.
+         * @param {string} type - The objType asset you want to check.
          * @param {string} key - Key of the asset you want to check.
          * @return {boolean} Return true if exists, otherwise return false.
          */
@@ -73255,7 +73255,7 @@ THIS SOFTWARE.
          * Only assets in the download file queue will be found.
          *
          * @method Phaser.Loader#getAssetIndex
-         * @param {string} type - The type asset you want to check.
+         * @param {string} type - The objType asset you want to check.
          * @param {string} key - Key of the asset you want to check.
          * @return {number} The index of this key in the filelist, or -1 if not found.
          *     The index may change and should only be used immediately following this call
@@ -73287,7 +73287,7 @@ THIS SOFTWARE.
          * Only assets in the download file queue will be found.
          *
          * @method Phaser.Loader#getAsset
-         * @param {string} type - The type asset you want to check.
+         * @param {string} type - The objType asset you want to check.
          * @param {string} key - Key of the asset you want to check.
          * @return {any} Returns an object if found that has 2 properties: `index` and `file`; otherwise a non-true value is returned.
          *     The index may change and should only be used immediately following this call.
@@ -73358,11 +73358,11 @@ THIS SOFTWARE.
          *
          * @method Phaser.Loader#addToFileList
          * @protected
-         * @param {string} type - The type of resource to add to the list (image, audio, xml, etc).
+         * @param {string} type - The objType of resource to add to the list (image, audio, xml, etc).
          * @param {string} key - The unique Cache ID key of this resource.
          * @param {string} [url] - The URL the asset will be loaded from.
          * @param {object} [properties=(none)] - Any additional properties needed to load the file. These are added directly to the added file object and overwrite any defaults.
-         * @param {boolean} [overwrite=false] - If true then this will overwrite a file asset of the same type/key. Otherwise it will only add a new asset. If overwrite is true, and the asset is already being loaded (or has been loaded), then it is appended instead.
+         * @param {boolean} [overwrite=false] - If true then this will overwrite a file asset of the same objType/key. Otherwise it will only add a new asset. If overwrite is true, and the asset is already being loaded (or has been loaded), then it is appended instead.
          * @param {string} [extension] - If no URL is given the Loader will sometimes auto-generate the URL based on the key, using this as the extension.
          * @return {Phaser.Loader} This instance of the Phaser Loader.
          */
@@ -73373,7 +73373,7 @@ THIS SOFTWARE.
             }
 
             if (key === undefined || key === '') {
-                console.warn("Phaser.Loader: Invalid or no key given of type " + type);
+                console.warn("Phaser.Loader: Invalid or no key given of objType " + type);
                 return this;
             }
 
@@ -73382,7 +73382,7 @@ THIS SOFTWARE.
                     url = key + extension;
                 }
                 else {
-                    console.warn("Phaser.Loader: No URL given for file type: " + type + " key: " + key);
+                    console.warn("Phaser.Loader: No URL given for file objType: " + type + " key: " + key);
                     return this;
                 }
             }
@@ -73432,7 +73432,7 @@ THIS SOFTWARE.
          *
          * @method Phaser.Loader#replaceInFileList
          * @protected
-         * @param {string} type - The type of resource to add to the list (image, audio, xml, etc).
+         * @param {string} type - The objType of resource to add to the list (image, audio, xml, etc).
          * @param {string} key - The unique Cache ID key of this resource.
          * @param {string} url - The URL the asset will be loaded from.
          * @param {object} properties - Any additional properties needed to load the file.
@@ -73981,9 +73981,9 @@ THIS SOFTWARE.
          *
          * @method Phaser.Loader#audio
          * @param {string} key - Unique asset key of the audio file.
-         * @param {string|string[]|object[]} urls - Either a single string or an array of URIs or pairs of `{uri: .., type: ..}`.
+         * @param {string|string[]|object[]} urls - Either a single string or an array of URIs or pairs of `{uri: .., objType: ..}`.
          *    If an array is specified then the first URI (or URI + mime pair) that is device-compatible will be selected.
-         *    For example: `"jump.mp3"`, `['jump.mp3', 'jump.ogg', 'jump.m4a']`, or `[{uri: "data:<opus_resource>", type: 'opus'}, 'fallback.mp3']`.
+         *    For example: `"jump.mp3"`, `['jump.mp3', 'jump.ogg', 'jump.m4a']`, or `[{uri: "data:<opus_resource>", objType: 'opus'}, 'fallback.mp3']`.
          *    BLOB and DATA URIs can be used but only support automatic detection when used in the pair form; otherwise the format must be manually checked before adding the resource.
          * @param {boolean} [autoDecode=true] - When using Web Audio the audio files can either be decoded at load time or run-time.
          *    Audio files can't be played until they are decoded and, if specified, this enables immediate decoding. Decoding is a non-blocking async process, however it consumes huge amounts of CPU time on mobiles especially.
@@ -74100,9 +74100,9 @@ THIS SOFTWARE.
          *
          * @method Phaser.Loader#video
          * @param {string} key - Unique asset key of the video file.
-         * @param {string|string[]|object[]} urls - Either a single string or an array of URIs or pairs of `{uri: .., type: ..}`.
+         * @param {string|string[]|object[]} urls - Either a single string or an array of URIs or pairs of `{uri: .., objType: ..}`.
          *    If an array is specified then the first URI (or URI + mime pair) that is device-compatible will be selected.
-         *    For example: `"boom.mp4"`, `['boom.mp4', 'boom.ogg', 'boom.webm']`, or `[{uri: "data:<opus_resource>", type: 'opus'}, 'fallback.mp4']`.
+         *    For example: `"boom.mp4"`, `['boom.mp4', 'boom.ogg', 'boom.webm']`, or `[{uri: "data:<opus_resource>", objType: 'opus'}, 'fallback.mp4']`.
          *    BLOB and DATA URIs can be used but only support automatic detection when used in the pair form; otherwise the format must be manually checked before adding the resource.
          * @param {string} [loadEvent='canplaythrough'] - This sets the Video source event to listen for before the load is considered complete.
          *    'canplaythrough' implies the video has downloaded enough, and bandwidth is high enough that it can be played to completion.
@@ -74663,7 +74663,7 @@ THIS SOFTWARE.
          * This has no effect on already loaded assets.
          *
          * @method Phaser.Loader#addSyncPoint
-         * @param {string} type - The type of resource to turn into a sync point (image, audio, xml, etc).
+         * @param {string} type - The objType of resource to turn into a sync point (image, audio, xml, etc).
          * @param {string} key - Key of the file you want to turn into a sync point.
          * @return {Phaser.Loader} This Loader instance.
          * @see {@link Phaser.Loader#withSyncPoint withSyncPoint}
@@ -74686,7 +74686,7 @@ THIS SOFTWARE.
          *
          * @method Phaser.Loader#removeFile
          * @protected
-         * @param {string} type - The type of resource to add to the list (image, audio, xml, etc).
+         * @param {string} type - The objType of resource to add to the list (image, audio, xml, etc).
          * @param {string} key - Key of the file you want to remove.
          */
         removeFile: function (type, key) {
@@ -75441,7 +75441,7 @@ THIS SOFTWARE.
         /**
          * Give a bunch of URLs, return the first URL that has an extension this device thinks it can play.
          *
-         * It is assumed that the device can play "blob:" or "data:" URIs - There is no mime-type checking on data URIs.
+         * It is assumed that the device can play "blob:" or "data:" URIs - There is no mime-objType checking on data URIs.
          *
          * @method Phaser.Loader#getVideoURL
          * @private
@@ -75454,7 +75454,7 @@ THIS SOFTWARE.
                 var url = urls[i];
                 var videoType;
 
-                if (url.uri) // {uri: .., type: ..} pair
+                if (url.uri) // {uri: .., objType: ..} pair
                 {
                     videoType = url.type;
                     url = url.uri;
@@ -75491,7 +75491,7 @@ THIS SOFTWARE.
         /**
          * Give a bunch of URLs, return the first URL that has an extension this device thinks it can play.
          *
-         * It is assumed that the device can play "blob:" or "data:" URIs - There is no mime-type checking on data URIs.
+         * It is assumed that the device can play "blob:" or "data:" URIs - There is no mime-objType checking on data URIs.
          *
          * @method Phaser.Loader#getAudioURL
          * @private
@@ -75508,7 +75508,7 @@ THIS SOFTWARE.
                 var url = urls[i];
                 var audioType;
 
-                if (url.uri) // {uri: .., type: ..} pair
+                if (url.uri) // {uri: .., objType: ..} pair
                 {
                     audioType = url.type;
                     url = url.uri;
@@ -75792,7 +75792,7 @@ THIS SOFTWARE.
          */
         xmlLoadComplete: function (file, xhr) {
 
-            // Always try parsing the content as XML, regardless of actually response type
+            // Always try parsing the content as XML, regardless of actually response objType
             var data = xhr.responseText;
             var xml = this.parseXml(data);
 
@@ -76164,7 +76164,7 @@ THIS SOFTWARE.
             // address: 4, size: 4 bytes flags
             // address: 8, size: 8 bytes pixel format
             // address: 16, size: 4 bytes color space
-            // address: 20, size: 4 bytes channel type
+            // address: 20, size: 4 bytes channel objType
             // address: 24, size: 4 bytes height
             // address: 28, size: 4 bytes width
             // address: 32, size: 4 bytes depth
@@ -76358,8 +76358,8 @@ THIS SOFTWARE.
             // ---------------------------------------
             // address: 0, size 12 bytes: Identifier '«KTX 11»\r\n\x1A\n'
             // address: 12, size 4 bytes: endianness
-            // address: 16, size 4 bytes: GL type
-            // address: 20, size 4 bytes: GL type size
+            // address: 16, size 4 bytes: GL objType
+            // address: 20, size 4 bytes: GL objType size
             // address: 24, size 4 bytes: GL format
             // address: 28, size 4 bytes: GL internal format
             // address: 32, size 4 bytes: GL base internal format
@@ -76456,7 +76456,7 @@ THIS SOFTWARE.
             // ---------------------------------------
             // address: 0, size 4 bytes: for 'PKM '
             // address: 4, size 2 bytes: for version
-            // address: 6, size 2 bytes: for type
+            // address: 6, size 2 bytes: for objType
             // address: 8, size 2 bytes: for extended width
             // address: 10, size 2 bytes: for extended height
             // address: 12, size 2 bytes: for original width
@@ -77796,7 +77796,7 @@ THIS SOFTWARE.
     /**
      * The Sound Manager is responsible for playing back audio via either the Legacy HTML Audio tag or via Web Audio if the browser supports it.
      * Note: On Firefox 25+ on Linux if you have media.gstreamer disabled in about:config then it cannot play back mp3 or m4a files.
-     * The audio file type and the encoding of those files are extremely important. Not all browsers can play all audio formats.
+     * The audio file objType and the encoding of those files are extremely important. Not all browsers can play all audio formats.
      * There is a good guide to what's supported here: http://hpr.dogphilosophy.net/test/
      *
      * If you are reloading a Phaser Game on a page that never properly refreshes (such as in an AngularJS project) then you will quickly run out
@@ -79202,7 +79202,7 @@ THIS SOFTWARE.
      * A scale mode that stretches content to fill all available space - see {@link Phaser.ScaleManager#scaleMode scaleMode}.
      *
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.ScaleManager.EXACT_FIT = 0;
 
@@ -79210,7 +79210,7 @@ THIS SOFTWARE.
      * A scale mode that prevents any scaling - see {@link Phaser.ScaleManager#scaleMode scaleMode}.
      *
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.ScaleManager.NO_SCALE = 1;
 
@@ -79218,7 +79218,7 @@ THIS SOFTWARE.
      * A scale mode that shows the entire game while maintaining proportions - see {@link Phaser.ScaleManager#scaleMode scaleMode}.
      *
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.ScaleManager.SHOW_ALL = 2;
 
@@ -79226,7 +79226,7 @@ THIS SOFTWARE.
      * A scale mode that causes the Game size to change - see {@link Phaser.ScaleManager#scaleMode scaleMode}.
      *
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.ScaleManager.RESIZE = 3;
 
@@ -79234,7 +79234,7 @@ THIS SOFTWARE.
      * A scale mode that allows a custom scale factor - see {@link Phaser.ScaleManager#scaleMode scaleMode}.
      *
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.ScaleManager.USER_SCALE = 4;
 
@@ -81594,7 +81594,7 @@ THIS SOFTWARE.
          * @param {Phaser.Rectangle|Phaser.Circle|Phaser.Ellipse|Phaser.Point|Phaser.Line} object - The geometry object to render.
          * @param {string} [color] - Color of the debug info to be rendered (format is css color string).
          * @param {boolean} [filled=true] - Render the objected as a filled (default, true) or a stroked (false)
-         * @param {number} [forceType=0] - Force rendering of a specific type. If 0 no type will be forced, otherwise 1 = Rectangle, 2 = Circle,3 = Point, 4 = Line and 5 = Ellipse.
+         * @param {number} [forceType=0] - Force rendering of a specific objType. If 0 no objType will be forced, otherwise 1 = Rectangle, 2 = Circle,3 = Point, 4 = Line and 5 = Ellipse.
          */
         geom: function (object, color, filled, forceType) {
 
@@ -82202,7 +82202,7 @@ THIS SOFTWARE.
          *
          * The properties change dynamically.
          *
-         * @type {Phaser.Rectangle}
+         * @objType {Phaser.Rectangle}
          * @property {number} x - Scroll, left offset - eg. "scrollX"
          * @property {number} y - Scroll, top offset - eg. "scrollY"
          * @property {number} width - Viewport width in pixels.
@@ -82225,7 +82225,7 @@ THIS SOFTWARE.
          *
          * The properties change dynamically.
          *
-         * @type {Phaser.Rectangle}
+         * @objType {Phaser.Rectangle}
          * @property {number} width - Viewport width in pixels.
          * @property {number} height - Viewport height in pixels.
          * @readonly
@@ -82239,7 +82239,7 @@ THIS SOFTWARE.
          *
          * The properties change dynamically.
          *
-         * @type {Phaser.Rectangle}
+         * @objType {Phaser.Rectangle}
          * @property {number} width - Document width in pixels.
          * @property {number} height - Document height in pixels.
          * @readonly
@@ -83392,35 +83392,35 @@ THIS SOFTWARE.
     /**
      * A 16 color palette by [Arne](http://androidarts.com/palette/16pal.htm)
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Create.PALETTE_ARNE = 0;
 
     /**
      * A 16 color JMP inspired palette.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Create.PALETTE_JMP = 1;
 
     /**
      * A 16 color CGA inspired palette.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Create.PALETTE_CGA = 2;
 
     /**
      * A 16 color C64 inspired palette.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Create.PALETTE_C64 = 3;
 
     /**
      * A 16 color palette inspired by Japanese computers like the MSX.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Create.PALETTE_JAPANESE_MACHINE = 4;
 
@@ -83944,7 +83944,7 @@ THIS SOFTWARE.
         /**
          * Should the FlexLayer remain through a State swap?
          *
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.persist = false;
 
@@ -85556,37 +85556,37 @@ THIS SOFTWARE.
 
     /**
      * @const
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.ARCADE = 0;
 
     /**
      * @const
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.P2JS = 1;
 
     /**
      * @const
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.NINJA = 2;
 
     /**
      * @const
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.BOX2D = 3;
 
     /**
      * @const
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.CHIPMUNK = 4;
 
     /**
      * @const
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.MATTERJS = 5;
 
@@ -85689,7 +85689,7 @@ THIS SOFTWARE.
          * Phaser.Physics.MATTER - A full-body and light-weight advanced physics system (still in development)
          * Phaser.Physics.CHIPMUNK is still in development.
          *
-         * If you require more control over what type of body is created, for example to create a Ninja Physics Circle instead of the default AABB, then see the
+         * If you require more control over what objType of body is created, for example to create a Ninja Physics Circle instead of the default AABB, then see the
          * individual physics systems `enable` methods instead of using this generic one.
          *
          * @method Phaser.Physics#enable
@@ -85975,7 +85975,7 @@ THIS SOFTWARE.
      * A constant used for the sortDirection value.
      * Use this if you don't wish to perform any pre-collision sorting at all, or will manually sort your Groups.
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.Arcade.SORT_NONE = 0;
 
@@ -85983,7 +85983,7 @@ THIS SOFTWARE.
      * A constant used for the sortDirection value.
      * Use this if your game world is wide but short and scrolls from the left to the right (i.e. Mario)
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.Arcade.LEFT_RIGHT = 1;
 
@@ -85991,7 +85991,7 @@ THIS SOFTWARE.
      * A constant used for the sortDirection value.
      * Use this if your game world is wide but short and scrolls from the right to the left (i.e. Mario backwards)
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.Arcade.RIGHT_LEFT = 2;
 
@@ -85999,7 +85999,7 @@ THIS SOFTWARE.
      * A constant used for the sortDirection value.
      * Use this if your game world is narrow but tall and scrolls from the top to the bottom (i.e. Dig Dug)
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.Arcade.TOP_BOTTOM = 3;
 
@@ -86007,7 +86007,7 @@ THIS SOFTWARE.
      * A constant used for the sortDirection value.
      * Use this if your game world is narrow but tall and scrolls from the bottom to the top (i.e. Commando or a vertically scrolling shoot-em-up)
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Physics.Arcade.BOTTOM_TOP = 4;
 
@@ -87980,7 +87980,7 @@ THIS SOFTWARE.
         this.game = sprite.game;
 
         /**
-         * @property {number} type - The type of physics system this body belongs to.
+         * @property {number} objType - The objType of physics system this body belongs to.
          */
         this.type = Phaser.Physics.ARCADE;
 
@@ -88282,7 +88282,7 @@ THIS SOFTWARE.
 
         /**
          * This flag allows you to disable the custom x separation that takes place by Physics.Arcade.separate.
-         * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
+         * Used in combination with your own collision processHandler you can create whatever objType of collision response you need.
          * @property {boolean} customSeparateX - Use a custom separation system or the built-in one?
          * @default
          */
@@ -88290,7 +88290,7 @@ THIS SOFTWARE.
 
         /**
          * This flag allows you to disable the custom y separation that takes place by Physics.Arcade.separate.
-         * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
+         * Used in combination with your own collision processHandler you can create whatever objType of collision response you need.
          * @property {boolean} customSeparateY - Use a custom separation system or the built-in one?
          * @default
          */
@@ -91063,7 +91063,7 @@ THIS SOFTWARE.
         /**
          * Populates and returns an array of all current Constraints in the world.
          * You will get an array of p2 constraints back. This can be of mixed types, for example the array may contain
-         * PrismaticConstraints, RevoluteConstraints or any other valid p2 constraint type.
+         * PrismaticConstraints, RevoluteConstraints or any other valid p2 constraint objType.
          *
          * @method Phaser.Physics.P2#getConstraints
          * @return {array<Phaser.Physics.P2.Constraint>} An array containing all current Constraints in the world.
@@ -91113,7 +91113,7 @@ THIS SOFTWARE.
                 if (bodies[i] instanceof Phaser.Physics.P2.Body && !(filterStatic && bodies[i].data.type === p2.Body.STATIC)) {
                     query.push(bodies[i].data);
                 }
-                else if (bodies[i] instanceof p2.Body && bodies[i].parent && !(filterStatic && bodies[i].type === p2.Body.STATIC)) {
+                else if (bodies[i] instanceof p2.Body && bodies[i].parent && !(filterStatic && bodies[i].objType === p2.Body.STATIC)) {
                     query.push(bodies[i]);
                 }
                 else if (bodies[i] instanceof Phaser.Sprite && bodies[i].hasOwnProperty('body') && !(filterStatic && bodies[i].body.data.type === p2.Body.STATIC)) {
@@ -92245,7 +92245,7 @@ THIS SOFTWARE.
         this.sprite = sprite;
 
         /**
-         * @property {number} type - The type of physics system this body belongs to.
+         * @property {number} objType - The objType of physics system this body belongs to.
          */
         this.type = Phaser.Physics.P2JS;
 
@@ -93644,7 +93644,7 @@ THIS SOFTWARE.
     /**
      * Dynamic body. Dynamic bodies body can move and respond to collisions and forces.
      * @property DYNAMIC
-     * @type {Number}
+     * @objType {Number}
      * @static
      */
     Phaser.Physics.P2.Body.DYNAMIC = 1;
@@ -93652,7 +93652,7 @@ THIS SOFTWARE.
     /**
      * Static body. Static bodies do not move, and they do not respond to forces or collision.
      * @property STATIC
-     * @type {Number}
+     * @objType {Number}
      * @static
      */
     Phaser.Physics.P2.Body.STATIC = 2;
@@ -93660,7 +93660,7 @@ THIS SOFTWARE.
     /**
      * Kinematic body. Kinematic bodies only moves according to its .velocity, and does not respond to collisions or force.
      * @property KINEMATIC
-     * @type {Number}
+     * @objType {Number}
      * @static
      */
     Phaser.Physics.P2.Body.KINEMATIC = 4;
@@ -93941,7 +93941,7 @@ THIS SOFTWARE.
 
     /**
      * @name Phaser.Physics.P2.Body#motionState
-     * @property {number} motionState - The type of motion this body has. Should be one of: Body.STATIC (the body does not move), Body.DYNAMIC (body can move and respond to collisions) and Body.KINEMATIC (only moves according to its .velocity).
+     * @property {number} motionState - The objType of motion this body has. Should be one of: Body.STATIC (the body does not move), Body.DYNAMIC (body can move and respond to collisions) and Body.KINEMATIC (only moves according to its .velocity).
      */
     Object.defineProperty(Phaser.Physics.P2.Body.prototype, "motionState", {
 
@@ -95276,7 +95276,7 @@ THIS SOFTWARE.
      * @class Phaser.Tile
      * @constructor
      * @param {object} layer - The layer in the Tilemap data that this tile belongs to.
-     * @param {number} index - The index of this tile type in the core map data.
+     * @param {number} index - The index of this tile objType in the core map data.
      * @param {number} x - The x coordinate of this tile.
      * @param {number} y - The y coordinate of this tile.
      * @param {number} width - Width of the tile.
@@ -95837,37 +95837,37 @@ THIS SOFTWARE.
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Tilemap.CSV = 0;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Tilemap.TILED_JSON = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Tilemap.NORTH = 0;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Tilemap.EAST = 1;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Tilemap.SOUTH = 2;
 
     /**
      * @constant
-     * @type {number}
+     * @objType {number}
      */
     Phaser.Tilemap.WEST = 3;
 
@@ -97646,16 +97646,16 @@ THIS SOFTWARE.
         this.setTexture(new PIXI.Texture(new PIXI.BaseTexture(this.canvas, null, this.game.resolution)));
 
         /**
-         * The const type of this object.
-         * @property {number} type
+         * The const objType of this object.
+         * @property {number} objType
          * @readonly
          * @protected
          * @default Phaser.TILEMAPLAYER
          */
-        this.type = Phaser.TILEMAPLAYER;
+        this.objType = Phaser.TILEMAPLAYER;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.TILEMAPLAYER;
@@ -98900,14 +98900,14 @@ THIS SOFTWARE.
 
         /**
          * When scanning the Tiled map data the TilemapParser can either insert a null value (true) or
-         * a Phaser.Tile instance with an index of -1 (false, the default). Depending on your game type
+         * a Phaser.Tile instance with an index of -1 (false, the default). Depending on your game objType
          * depends how this should be configured. If you've a large sparsely populated map and the tile
          * data doesn't need to change then setting this value to `true` will help with memory consumption.
          * However if your map is small, or you need to update the tiles (perhaps the map dynamically changes
          * during the game) then leave the default value set.
          *
          * @constant
-         * @type {boolean}
+         * @objType {boolean}
          */
         INSERT_NULL: false,
 
@@ -99585,7 +99585,7 @@ THIS SOFTWARE.
                         set = map.tilesets[sid];
 
 
-                        // if that tile type has any properties, add them to the tile object
+                        // if that tile objType has any properties, add them to the tile object
 
                         if (set.tileProperties && set.tileProperties[tile.index - set.firstgid]) {
                             tile.properties = Phaser.Utils.mixin(set.tileProperties[tile.index - set.firstgid], tile.properties);
@@ -100169,13 +100169,13 @@ THIS SOFTWARE.
         this.name = 'emitter' + this.id;
 
         /**
-         * @property {number} type - Internal Phaser Type value.
+         * @property {number} objType - Internal Phaser Type value.
          * @protected
          */
         this.type = Phaser.EMITTER;
 
         /**
-         * @property {number} physicsType - The const physics body type of this object.
+         * @property {number} physicsType - The const physics body objType of this object.
          * @readonly
          */
         this.physicsType = Phaser.GROUP;
@@ -101423,21 +101423,21 @@ THIS SOFTWARE.
 
         /**
          * This is the Phaser.Group that contains all of the bullets managed by this plugin.
-         * @type {Phaser.Group}
+         * @objType {Phaser.Group}
          */
         this.bullets = null;
 
         /**
          * Should the bullet pool run out of bullets (i.e. they are all in flight) then this
          * boolean controls if the Group will create a brand new bullet object or not.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.autoExpandBulletsGroup = false;
 
         /**
          * Will this weapon auto fire? If set to true then a new bullet will be fired
          * based on the `fireRate` value.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.autofire = false;
 
@@ -101445,7 +101445,7 @@ THIS SOFTWARE.
          * The total number of bullets this Weapon has fired so far.
          * You can limit the number of shots allowed (via `fireLimit`), and reset
          * this total via `Weapon.resetShots`.
-         * @type {number}
+         * @objType {number}
          */
         this.shots = 0;
 
@@ -101453,13 +101453,13 @@ THIS SOFTWARE.
          * The maximum number of shots that this Weapon is allowed to fire before it stops.
          * When the limit is his the `Weapon.onFireLimit` Signal is dispatched.
          * You can reset the shot counter via `Weapon.resetShots`.
-         * @type {number}
+         * @objType {number}
          */
         this.fireLimit = 0;
 
         /**
          * The rate at which this Weapon can fire. The value is given in milliseconds.
-         * @type {number}
+         * @objType {number}
          */
         this.fireRate = 100;
 
@@ -101468,7 +101468,7 @@ THIS SOFTWARE.
          * to the firing rate of the Weapon. The value is given in milliseconds.
          * If you've a `fireRate` of 200 and a `fireRateVariance` of 50 then the actual
          * firing rate of the Weapon will be between 150 and 250.
-         * @type {number}
+         * @objType {number}
          */
         this.fireRateVariance = 0;
 
@@ -101476,34 +101476,34 @@ THIS SOFTWARE.
          * This is a Rectangle from within which the bullets are fired. By default it's a 1x1
          * rectangle, the equivalent of a Point. But you can change the width and height, and if
          * larger than 1x1 it'll pick a random point within the rectangle to launch the bullet from.
-         * @type {Phaser.Rectangle}
+         * @objType {Phaser.Rectangle}
          */
         this.fireFrom = new Phaser.Rectangle(0, 0, 1, 1);
 
         /**
          * The angle at which the bullets are fired. This can be a const such as Phaser.ANGLE_UP
          * or it can be any number from 0 to 360 inclusive, where 0 degrees is to the right.
-         * @type {integer}
+         * @objType {integer}
          */
         this.fireAngle = Phaser.ANGLE_UP;
 
         /**
          * When a Bullet is fired it can optionally inherit the velocity of the `trackedSprite` if set.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.bulletInheritSpriteSpeed = false;
 
         /**
          * The string based name of the animation that the Bullet will be given on launch.
          * This is set via `Weapon.addBulletAnimation`.
-         * @type {string}
+         * @objType {string}
          */
         this.bulletAnimation = '';
 
         /**
          * If you've added a set of frames via `Weapon.setBulletFrames` then you can optionally
          * chose for each Bullet fired to pick a random frame from the set.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.bulletFrameRandom = false;
 
@@ -101513,14 +101513,14 @@ THIS SOFTWARE.
          * advanced one frame until it reaches the end of the set, then it starts from the start
          * again. Cycling frames like this allows you to create varied bullet effects via
          * sprite sheets.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.bulletFrameCycle = false;
 
         /**
          * Should the Bullets wrap around the world bounds? This automatically calls
          * `World.wrap` on the Bullet each frame. See the docs for that method for details.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.bulletWorldWrap = false;
 
@@ -101528,7 +101528,7 @@ THIS SOFTWARE.
          * If `bulletWorldWrap` is true then you can provide an optional padding value with this
          * property. It's added to the calculations determining when the Bullet should wrap around
          * the world or not. The value is given in pixels.
-         * @type {integer}
+         * @objType {integer}
          */
         this.bulletWorldWrapPadding = 0;
 
@@ -101537,7 +101537,7 @@ THIS SOFTWARE.
          * This is useful if for example your bullet sprites have been drawn facing up, instead of
          * to the right, and you want to fire them at an angle. In which case you can set the
          * angle offset to be 90 and they'll be properly rotated when fired.
-         * @type {number}
+         * @objType {number}
          */
         this.bulletAngleOffset = 0;
 
@@ -101546,14 +101546,14 @@ THIS SOFTWARE.
          * If you fire from an angle of 90 and have a `bulletAngleVariance` of 20 then the actual
          * angle of the Bullets will be between 70 and 110 degrees. This is a quick way to add a
          * great 'spread' effect to a Weapon.
-         * @type {number}
+         * @objType {number}
          */
         this.bulletAngleVariance = 0;
 
         /**
          * The speed at which the bullets are fired. This value is given in pixels per second, and
          * is used to set the starting velocity of the bullets.
-         * @type {number}
+         * @objType {number}
          */
         this.bulletSpeed = 200;
 
@@ -101561,7 +101561,7 @@ THIS SOFTWARE.
          * This is a variance added to the speed of Bullets when they are fired.
          * If bullets have a `bulletSpeed` value of 200, and a `bulletSpeedVariance` of 50
          * then the actual speed of the Bullets will be between 150 and 250 pixels per second.
-         * @type {number}
+         * @objType {number}
          */
         this.bulletSpeedVariance = 0;
 
@@ -101569,21 +101569,21 @@ THIS SOFTWARE.
          * If you've set `bulletKillType` to `Phaser.Weapon.KILL_LIFESPAN` this controls the amount
          * of lifespan the Bullets have set on launch. The value is given in milliseconds.
          * When a Bullet hits its lifespan limit it will be automatically killed.
-         * @type {number}
+         * @objType {number}
          */
         this.bulletLifespan = 0;
 
         /**
          * If you've set `bulletKillType` to `Phaser.Weapon.KILL_DISTANCE` this controls the distance
          * the Bullet can travel before it is automatically killed. The distance is given in pixels.
-         * @type {number}
+         * @objType {number}
          */
         this.bulletKillDistance = 0;
 
         /**
          * This is the amount of gravity added to the Bullets physics body when fired.
          * Gravity is expressed in pixels / second / second.
-         * @type {Phaser.Point}
+         * @objType {Phaser.Point}
          */
         this.bulletGravity = new Phaser.Point(0, 0);
 
@@ -101591,41 +101591,41 @@ THIS SOFTWARE.
          * Bullets can optionally adjust their rotation in-flight to match their velocity.
          * This can create the effect of a bullet 'pointing' to the path it is following, for example
          * an arrow being fired from a bow, and works especially well when added to `bulletGravity`.
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.bulletRotateToVelocity = false;
 
         /**
          * The Texture Key that the Bullets use when rendering.
          * Changing this has no effect on bullets in-flight, only on newly spawned bullets.
-         * @type {string}
+         * @objType {string}
          */
         this.bulletKey = '';
 
         /**
          * The Texture Frame that the Bullets use when rendering.
          * Changing this has no effect on bullets in-flight, only on newly spawned bullets.
-         * @type {string|integer}
+         * @objType {string|integer}
          */
         this.bulletFrame = '';
 
         /**
          * Private var that holds the public `bulletClass` property.
-         * @type {function}
+         * @objType {function}
          * @private
          */
         this._bulletClass = Phaser.Bullet;
 
         /**
          * Private var that holds the public `bulletCollideWorldBounds` property.
-         * @type {boolean}
+         * @objType {boolean}
          * @private
          */
         this._bulletCollideWorldBounds = false;
 
         /**
          * Private var that holds the public `bulletKillType` property.
-         * @type {integer}
+         * @objType {integer}
          * @private
          */
         this._bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -101633,7 +101633,7 @@ THIS SOFTWARE.
         /**
          * Holds internal data about custom bullet body sizes.
          *
-         * @type {Object}
+         * @objType {Object}
          * @private
          */
         this._data = {
@@ -101650,14 +101650,14 @@ THIS SOFTWARE.
          * or `Phaser.Weapon.KILL_STATIC_BOUNDS`. If you are not using either of these kill types then the bounds are ignored.
          * If you are tracking a Sprite or Point then the bounds are centered on that object every frame.
          *
-         * @type {Phaser.Rectangle}
+         * @objType {Phaser.Rectangle}
          */
         this.bounds = new Phaser.Rectangle();
 
         /**
          * The Rectangle used to calculate the bullet bounds from.
          *
-         * @type {Phaser.Rectangle}
+         * @objType {Phaser.Rectangle}
          * @private
          */
         this.bulletBounds = game.world.bounds;
@@ -101665,7 +101665,7 @@ THIS SOFTWARE.
         /**
          * This array stores the frames added via `Weapon.setBulletFrames`.
          *
-         * @type {Array}
+         * @objType {Array}
          * @protected
          */
         this.bulletFrames = [];
@@ -101673,14 +101673,14 @@ THIS SOFTWARE.
         /**
          * The index of the frame within `Weapon.bulletFrames` that is currently being used.
          * This value is only used if `Weapon.bulletFrameCycle` is set to `true`.
-         * @type {number}
+         * @objType {number}
          * @private
          */
         this.bulletFrameIndex = 0;
 
         /**
          * An internal object that stores the animation data added via `Weapon.addBulletAnimation`.
-         * @type {Object}
+         * @objType {Object}
          * @private
          */
         this.anims = {};
@@ -101690,7 +101690,7 @@ THIS SOFTWARE.
          * _successfully_ launched. The callback is set two arguments: a reference to the bullet sprite itself,
          * and a reference to the Weapon that fired the bullet.
          *
-         * @type {Phaser.Signal}
+         * @objType {Phaser.Signal}
          */
         this.onFire = new Phaser.Signal();
 
@@ -101699,7 +101699,7 @@ THIS SOFTWARE.
          * of leaving the Weapon bounds, an expiring lifespan, or exceeding a specified distance.
          * The callback is sent one argument: A reference to the bullet sprite itself.
          *
-         * @type {Phaser.Signal}
+         * @objType {Phaser.Signal}
          */
         this.onKill = new Phaser.Signal();
 
@@ -101709,7 +101709,7 @@ THIS SOFTWARE.
          * The callback is sent two arguments: A reference to the Weapon that hit the limit, and the value of
          * `Weapon.fireLimit`.
          *
-         * @type {Phaser.Signal}
+         * @objType {Phaser.Signal}
          */
         this.onFireLimit = new Phaser.Signal();
 
@@ -101717,7 +101717,7 @@ THIS SOFTWARE.
          * The Sprite currently being tracked by the Weapon, if any.
          * This is set via the `Weapon.trackSprite` method.
          *
-         * @type {Phaser.Sprite|Object}
+         * @objType {Phaser.Sprite|Object}
          */
         this.trackedSprite = null;
 
@@ -101725,7 +101725,7 @@ THIS SOFTWARE.
          * The Pointer currently being tracked by the Weapon, if any.
          * This is set via the `Weapon.trackPointer` method.
          *
-         * @type {Phaser.Pointer}
+         * @objType {Phaser.Pointer}
          */
         this.trackedPointer = null;
 
@@ -101736,14 +101736,14 @@ THIS SOFTWARE.
          * This means you can call `fire` (and similar methods) as often as you like in one
          * single game update.
          *
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.multiFire = false;
 
         /**
          * Internal multiFire test flag.
          *
-         * @type {boolean}
+         * @objType {boolean}
          */
         this._hasFired = false;
 
@@ -101752,7 +101752,7 @@ THIS SOFTWARE.
          * This is useful for a game such as Asteroids, where you want the weapon to fire based
          * on the sprites rotation.
          *
-         * @type {boolean}
+         * @objType {boolean}
          */
         this.trackRotation = false;
 
@@ -101762,14 +101762,14 @@ THIS SOFTWARE.
          * in size, but you're tracking a Sprite that is 32x32, then you can set `trackOffset.x = 16` to have
          * the bullet launched from the center of the Sprite.
          *
-         * @type {Phaser.Point}
+         * @objType {Phaser.Point}
          */
         this.trackOffset = new Phaser.Point();
 
         /**
          * Internal firing rate time tracking variable.
          *
-         * @type {number}
+         * @objType {number}
          * @private
          */
         this._nextFire = 0;
@@ -101777,7 +101777,7 @@ THIS SOFTWARE.
         /**
          * Internal firing rate time tracking variable used by multiFire.
          *
-         * @type {number}
+         * @objType {number}
          * @private
          */
         this._tempNextFire = 0;
@@ -101785,7 +101785,7 @@ THIS SOFTWARE.
         /**
          * Internal firing rotation tracking point.
          *
-         * @type {Phaser.Point}
+         * @objType {Phaser.Point}
          * @private
          */
         this._rotatedPoint = new Phaser.Point();
@@ -101798,14 +101798,14 @@ THIS SOFTWARE.
     /**
      * A `bulletKillType` constant that stops the bullets from ever being destroyed automatically.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_NEVER = 0;
 
     /**
      * A `bulletKillType` constant that automatically kills the bullets when their `bulletLifespan` expires.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_LIFESPAN = 1;
 
@@ -101813,35 +101813,35 @@ THIS SOFTWARE.
      * A `bulletKillType` constant that automatically kills the bullets after they
      * exceed the `bulletDistance` from their original firing position.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_DISTANCE = 2;
 
     /**
      * A `bulletKillType` constant that automatically kills the bullets when they leave the `Weapon.bounds` rectangle.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_WEAPON_BOUNDS = 3;
 
     /**
      * A `bulletKillType` constant that automatically kills the bullets when they leave the `Camera.bounds` rectangle.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_CAMERA_BOUNDS = 4;
 
     /**
      * A `bulletKillType` constant that automatically kills the bullets when they leave the `World.bounds` rectangle.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_WORLD_BOUNDS = 5;
 
     /**
      * A `bulletKillType` constant that automatically kills the bullets when they leave the `Weapon.bounds` rectangle.
      * @constant
-     * @type {integer}
+     * @objType {integer}
      */
     Phaser.Weapon.KILL_STATIC_BOUNDS = 6;
 
@@ -102649,7 +102649,7 @@ THIS SOFTWARE.
 
     /**
      * The Class of the bullets that are launched by this Weapon. Defaults to {@link Phaser.Bullet}, but can be
-     * overridden before calling `createBullets` and set to your own class type.
+     * overridden before calling `createBullets` and set to your own class objType.
      *
      * It should be a constructor function accepting `(game, x, y, key, frame)`.
      *
@@ -102971,7 +102971,7 @@ THIS SOFTWARE.
         this.height = 0;
 
         /**
-         * @property {number} type - The const type of this object.
+         * @property {number} objType - The const objType of this object.
          * @default
          */
         this.type = Phaser.VIDEO;

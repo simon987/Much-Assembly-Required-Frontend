@@ -1,10 +1,13 @@
 ///<reference path="phaser.plugin.isometric.d.ts"/>
 ///<reference path="phaser.d.ts"/>
 // Typescript V2.4.1
-var RENDERER_WIDTH = document.getElementById("game").clientWidth * window.devicePixelRatio;
-var RENDERER_HEIGHT = (window.innerHeight / 1.40) * window.devicePixelRatio;
-var DEBUG = true;
-var config = {
+
+let RENDERER_WIDTH = document.getElementById("game").clientWidth * window.devicePixelRatio;
+let RENDERER_HEIGHT = (window.innerHeight / 1.40) * window.devicePixelRatio;
+
+let DEBUG: boolean = true;
+
+let config = {
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
     oreTint: 0xF3F3F3,
@@ -26,14 +29,14 @@ var config = {
     plainSprite: "tiles/tile",
     wallSprite: "tiles/bigTile",
     walkDuration: 800,
-    holoStyle: function (fill) {
+    holoStyle: (fill) => {
         return {
             fontSize: 32,
             fill: fill ? fill : config.hologramFill,
             stroke: config.hologramStroke,
             strokeThickness: 1,
             font: "fixedsys"
-        };
+        }
     },
     kbBufferX: 225,
     kbBufferY: 20,
@@ -51,25 +54,29 @@ var config = {
     arrowHoverTint: 0x00FF00,
     selfUsernameColor: 0xFB4D0A,
     otherCubotAlpha: 0.6
+
 };
-var TileType;
-(function (TileType) {
-    TileType[TileType["PLAIN"] = 0] = "PLAIN";
-    TileType[TileType["WALL"] = 1] = "WALL";
-    TileType[TileType["IRON"] = 2] = "IRON";
-    TileType[TileType["COPPER"] = 3] = "COPPER";
-})(TileType || (TileType = {}));
-var Util = (function () {
-    function Util() {
-    }
+
+
+enum TileType {
+    PLAIN,
+    WALL,
+    IRON,
+    COPPER
+}
+
+class Util {
+
     //todo: find a more elegant way of doing this. Maybe this is related: https://github.com/lewster32/phaser-plugin-isometric/issues/7
-    Util.getIsoY = function (y) {
+    static getIsoY(y: number) {
         return Util.getIsoX(y);
-    };
-    Util.getIsoX = function (x) {
-        return (x * 71.5);
-    };
-    Util.getDeltaX = function (direction) {
+    }
+
+    static getIsoX(x: number) {
+        return (x * 71.5)
+    }
+
+    static getDeltaX(direction: Direction) {
         switch (direction) {
             case Direction.NORTH:
             case Direction.SOUTH:
@@ -79,8 +86,10 @@ var Util = (function () {
             case Direction.WEST:
                 return -1;
         }
-    };
-    Util.getDeltaY = function (direction) {
+    }
+
+    static getDeltaY(direction: Direction) {
+
         switch (direction) {
             case Direction.EAST:
             case Direction.WEST:
@@ -90,7 +99,9 @@ var Util = (function () {
             case Direction.SOUTH:
                 return -1;
         }
-    };
-    return Util;
-}());
-var mar = new MarGame();
+
+    }
+}
+
+let mar = new MarGame();
+

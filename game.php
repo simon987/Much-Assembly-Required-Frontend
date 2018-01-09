@@ -155,7 +155,7 @@ if (isset($user)) {
                         <?php } ?>
 
                         <div id="gameBtns">
-                            <a class="button editorBtn" onclick="findMyRobot()">Find My Robot</a>
+                            <a class="button editorBtn" onclick="mar.client.findMyRobot()">Find My Robot</a>
                         </div>
 
                         <!-- Docs link -->
@@ -173,7 +173,11 @@ if (isset($user)) {
                         <div id="game" tabindex="0">
                             <script src="./mar/phaser/phaser.min.js"></script>
                             <script src="./mar/phaser/phaser-plugin-isometric.min.js"></script>
-                            <script src="./mar/phaser/mar.js"></script>
+                            <script src="./mar/phaser/World.js"></script>
+                            <script src="./mar/phaser/MarGame.js"></script>
+                            <script src="./mar/phaser/GameClient.js"></script>
+                            <script src="./mar/phaser/GameObject.js"></script>
+                            <script src="mar/phaser/mar.js"></script>
                         </div>
                         <?php if ($user) { ?>
                         <!-- Editor -->

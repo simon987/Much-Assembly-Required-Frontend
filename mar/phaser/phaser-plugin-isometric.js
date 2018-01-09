@@ -725,7 +725,7 @@ Phaser.Plugin.Isometric.IsoSprite = function (game, x, y, z, key, frame) {
     Phaser.Sprite.call(this, game, x, y, key, frame);
 
     /**
-     * @property {number} type - The const type of this object.
+     * @property {number} objType - The const objType of this object.
      * @readonly
      */
     this.type = Phaser.Plugin.Isometric.ISOSPRITE;
@@ -2009,7 +2009,7 @@ Phaser.Plugin.Isometric.Body = function (sprite) {
     this.game = sprite.game;
 
     /**
-     * @property {number} type - The type of physics system this body belongs to.
+     * @property {number} objType - The objType of physics system this body belongs to.
      */
     this.type = Phaser.Plugin.Isometric.ISOARCADE;
 
@@ -2219,7 +2219,7 @@ Phaser.Plugin.Isometric.Body = function (sprite) {
 
     /**
      * This flag allows you to disable the custom x separation that takes place by Physics.IsoArcade.separate.
-     * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
+     * Used in combination with your own collision processHandler you can create whatever objType of collision response you need.
      * @property {boolean} customSeparateX - Use a custom separation system or the built-in one?
      * @default
      */
@@ -2227,7 +2227,7 @@ Phaser.Plugin.Isometric.Body = function (sprite) {
 
     /**
      * This flag allows you to disable the custom y separation that takes place by Physics.IsoArcade.separate.
-     * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
+     * Used in combination with your own collision processHandler you can create whatever objType of collision response you need.
      * @property {boolean} customSeparateY - Use a custom separation system or the built-in one?
      * @default
      */
@@ -2235,7 +2235,7 @@ Phaser.Plugin.Isometric.Body = function (sprite) {
 
     /**
      * This flag allows you to disable the custom z separation that takes place by Physics.IsoArcade.separate.
-     * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
+     * Used in combination with your own collision processHandler you can create whatever objType of collision response you need.
      * @property {boolean} customSeparateZ - Use a custom separation system or the built-in one?
      * @default
      */

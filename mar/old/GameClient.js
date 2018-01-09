@@ -47,7 +47,6 @@ function formattedKeyBuffer(kbBuffer) {
     }
 
     return str;
-
 }
 
 function terrainListener(message){
