@@ -119,32 +119,45 @@ var CopperTile = (function (_super) {
     return CopperTile;
 }(Tile));
 var World = (function () {
-    function World(terrain) {
+    function World(terrain, size) {
         this.tiles = [];
         this.objects = [];
-        //Create tilemap
-        this.setTerrain(terrain);
         //Setup World Arrows
-        mar.isoGroup.add(new WorldArrow(528, -10, "ui/arrow_north", Direction.NORTH));
-        mar.isoGroup.add(new WorldArrow(1115, 587, "ui/arrow_east", Direction.EAST));
-        mar.isoGroup.add(new WorldArrow(528, 1170, "ui/arrow_south", Direction.SOUTH));
-        mar.isoGroup.add(new WorldArrow(-60, 587, "ui/arrow_west", Direction.WEST));
+        this.northArrow = new WorldArrow(528, -10, "ui/arrow_north", Direction.NORTH);
+        mar.isoGroup.add(this.northArrow);
+        this.eastArrow = new WorldArrow(1115, 587, "ui/arrow_east", Direction.EAST);
+        mar.isoGroup.add(this.eastArrow);
+        this.southArrow = new WorldArrow(0, 0, "ui/arrow_south", Direction.SOUTH);
+        mar.isoGroup.add(this.southArrow);
+        this.westArrow = new WorldArrow(-60, 587, "ui/arrow_west", Direction.WEST);
+        mar.isoGroup.add(this.westArrow);
+        //Create tilemap
+        this.setTerrain(terrain, size);
     }
     /**
      * Load terrain data from array and create Tiles
      * @param terrain
+     * @param size Size of a side of the World
      */
-    World.prototype.setTerrain = function (terrain) {
+    World.prototype.setTerrain = function (terrain, size) {
         if (DEBUG) {
-            console.log("[MAR] Creating tilemap");
+            console.log("[MAR] Creating tilemap of size " + size);
         }
-        for (var x = 0; x < config.worldSize; x++) {
-            for (var y = 0; y < config.worldSize; y++) {
-                var tile = Tile.createTile(terrain[y * config.worldSize + x], x, y);
+        for (var x = 0; x < size; x++) {
+            for (var y = 0; y < size; y++) {
+                var tile = Tile.createTile(terrain[y * size + x], x, y);
                 this.tiles.push(tile);
                 mar.isoGroup.add(tile);
             }
         }
+        //Update World arrows location
+        this.eastArrow.isoY = 32 * (size + 2);
+        this.eastArrow.isoX = 72.5 * (size) - 20;
+        this.southArrow.isoX = 32 * (size + 1);
+        this.southArrow.isoY = 72.5 * (size) + 20;
+        //Update Phaser World size
+        mar.game.world.width = (size + 2) * 128;
+        mar.game.world.height = (size + 2) * 64;
     };
     World.prototype.setBigMessage = function (msg) {
         this.bigMessage = mar.game.add.text(908, 450, msg, {
@@ -226,8 +239,9 @@ var World = (function () {
     /**
      * Delete current ojects and tiles and replace them with provided terrain
      * @param terrain
+     * @param size
      */
-    World.prototype.updateTerrain = function (terrain) {
+    World.prototype.updateTerrain = function (terrain, size) {
         for (var i = 0; i < this.objects.length; i++) {
             this.objects[i].destroy();
         }
@@ -236,7 +250,7 @@ var World = (function () {
         }
         this.objects = [];
         this.tiles = [];
-        this.setTerrain(terrain);
+        this.setTerrain(terrain, size);
         mar.game.iso.topologicalSort(mar.isoGroup);
     };
     return World;

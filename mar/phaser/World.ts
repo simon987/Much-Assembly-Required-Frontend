@@ -152,42 +152,64 @@ class World {
     private tiles: Tile[] = [];
     private objects: GameObject[] = [];
 
+    private northArrow: WorldArrow;
+    private eastArrow: WorldArrow;
+    private southArrow: WorldArrow;
+    private westArrow: WorldArrow;
+
+
     /**
      * Message displayed in the middle of the World
      */
     private bigMessage: Phaser.Text;
 
-    constructor(terrain) {
-
-        //Create tilemap
-        this.setTerrain(terrain);
+    constructor(terrain, size) {
 
         //Setup World Arrows
-        mar.isoGroup.add(new WorldArrow(528, -10, "ui/arrow_north", Direction.NORTH));
-        mar.isoGroup.add(new WorldArrow(1115, 587, "ui/arrow_east", Direction.EAST));
-        mar.isoGroup.add(new WorldArrow(528, 1170, "ui/arrow_south", Direction.SOUTH));
-        mar.isoGroup.add(new WorldArrow(-60, 587, "ui/arrow_west", Direction.WEST));
+        this.northArrow = new WorldArrow(528, -10, "ui/arrow_north", Direction.NORTH);
+        mar.isoGroup.add(this.northArrow);
+        this.eastArrow = new WorldArrow(1115, 587, "ui/arrow_east", Direction.EAST);
+        mar.isoGroup.add(this.eastArrow);
+        this.southArrow = new WorldArrow(0, 0, "ui/arrow_south", Direction.SOUTH);
+        mar.isoGroup.add(this.southArrow);
+        this.westArrow = new WorldArrow(-60, 587, "ui/arrow_west", Direction.WEST);
+        mar.isoGroup.add(this.westArrow);
+
+        //Create tilemap
+        this.setTerrain(terrain, size);
     }
 
     /**
      * Load terrain data from array and create Tiles
      * @param terrain
+     * @param size Size of a side of the World
      */
-    private setTerrain(terrain: number[]) {
+    private setTerrain(terrain: number[], size: number) {
         if (DEBUG) {
-            console.log("[MAR] Creating tilemap");
+            console.log("[MAR] Creating tilemap of size " + size);
         }
 
-        for (let x = 0; x < config.worldSize; x++) {
-            for (let y = 0; y < config.worldSize; y++) {
+        for (let x = 0; x < size; x++) {
+            for (let y = 0; y < size; y++) {
 
-                let tile: Tile = Tile.createTile(terrain[y * config.worldSize + x], x, y);
+                let tile: Tile = Tile.createTile(terrain[y * size + x], x, y);
 
                 this.tiles.push(tile);
                 mar.isoGroup.add(tile);
 
             }
         }
+
+        //Update World arrows location
+        this.eastArrow.isoY = 32 * (size + 2);
+        this.eastArrow.isoX = 72.5 * (size) - 20;
+
+        this.southArrow.isoX = 32 * (size + 1);
+        this.southArrow.isoY = 72.5 * (size) + 20;
+
+        //Update Phaser World size
+        mar.game.world.width = (size + 2) * 128;
+        mar.game.world.height = (size + 2) * 64;
     }
 
     public setBigMessage(msg: string) {
@@ -287,8 +309,9 @@ class World {
     /**
      * Delete current ojects and tiles and replace them with provided terrain
      * @param terrain
+     * @param size
      */
-    public updateTerrain(terrain: number[]) {
+    public updateTerrain(terrain: number[], size: number) {
 
         for (let i = 0; i < this.objects.length; i++) {
             this.objects[i].destroy();
@@ -300,7 +323,7 @@ class World {
         this.objects = [];
         this.tiles = [];
 
-        this.setTerrain(terrain);
+        this.setTerrain(terrain, size);
         mar.game.iso.topologicalSort(mar.isoGroup);
     }
 }

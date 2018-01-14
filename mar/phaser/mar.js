@@ -50,7 +50,8 @@ var config = {
     arrowTint: 0xFFFFFF,
     arrowHoverTint: 0x00FF00,
     selfUsernameColor: 0xFB4D0A,
-    otherCubotAlpha: 0.6
+    otherCubotAlpha: 0.6,
+    defaultWorldSize: 16
 };
 var TileType;
 (function (TileType) {

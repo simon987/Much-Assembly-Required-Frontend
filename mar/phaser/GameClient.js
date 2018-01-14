@@ -125,7 +125,10 @@ var TerrainListener = (function () {
             mar.world.removeBigMessage();
         }
         if (message.ok) {
-            //todo handle vault worlds here
+            var worldSize = message.size;
+            if (worldSize == undefined) {
+                worldSize = config.defaultWorldSize;
+            }
             if (DEBUG) {
                 console.log("[MAR] World is available");
             }
@@ -133,13 +136,13 @@ var TerrainListener = (function () {
                 if (DEBUG) {
                     console.log("[MAR] Updating World terrain");
                 }
-                mar.world.updateTerrain(message.terrain);
+                mar.world.updateTerrain(message.terrain, worldSize);
             }
             else {
                 if (DEBUG) {
                     console.log("[MAR] Creating new World");
                 }
-                mar.world = new World(message.terrain);
+                mar.world = new World(message.terrain, worldSize);
             }
         }
         else {
@@ -150,13 +153,13 @@ var TerrainListener = (function () {
                 if (DEBUG) {
                     console.log("[MAR] Updating World terrain");
                 }
-                mar.world.updateTerrain([]);
+                mar.world.updateTerrain([], config.defaultWorldSize);
             }
             else {
                 if (DEBUG) {
                     console.log("[MAR] Creating new World");
                 }
-                mar.world = new World([]);
+                mar.world = new World([], config.defaultWorldSize);
             }
             if (mar.world) {
                 mar.world.setBigMessage("[Uncharted World]");
