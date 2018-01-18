@@ -96,3 +96,5 @@ class Util {
 
 let mar = new MarGame();
 
+var myVarX = 0.46;
+var myVarY = 0.46;

@@ -3,7 +3,8 @@ enum ObjectType {
     BIOMASS = 2,
     HARVESTER_NPC = 10,
     FACTORY = 3,
-    RADIO_TOWER = 4
+    RADIO_TOWER = 4,
+    VAULT_DOOR = 5,
 }
 
 enum ItemType {
@@ -62,6 +63,8 @@ abstract class GameObject extends Phaser.Plugin.Isometric.IsoSprite {
                 return new Factory(json);
             case ObjectType.RADIO_TOWER:
                 return new RadioTower(json);
+            case ObjectType.VAULT_DOOR:
+                return new VaultDoor(json);
 
             default:
                 return null;
@@ -556,7 +559,7 @@ class RadioTower extends GameObject {
     constructor(json) {
         super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/RadioTower");
 
-        this.anchor.set(0.5, 0.64);
+        this.anchor.set(0.48, 0.65);
         this.setText("Radio Tower");
         this.text.visible = false;
 
@@ -565,3 +568,42 @@ class RadioTower extends GameObject {
         this.tileY = json.y;
     }
 }
+
+class VaultDoor extends GameObject {
+
+    public onTileHover() {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotHoverTint;
+
+        this.text.visible = true;
+    }
+
+    public onTileExit() {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotTint;
+
+        this.text.visible = false;
+    }
+
+    public updateObject(json) {
+        //No op
+    }
+
+    constructor(json) {
+        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/VaultDoor");
+
+        this.anchor.set(myVarX, myVarY);
+        this.setText("Vault");
+        this.text.visible = false;
+
+        this.id = json.i;
+        this.tileX = json.x;
+        this.tileY = json.y;
+    }
+
+}
+
