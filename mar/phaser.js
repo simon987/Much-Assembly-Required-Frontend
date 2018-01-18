@@ -52424,7 +52424,7 @@ THIS SOFTWARE.
                     }
                 }
 
-                if (data.lineWidth > 0) {
+                if (data.width > 0) {
                     webGLData = PIXI.WebGLGraphics.switchMode(webGL, 0);
                     PIXI.WebGLGraphics.buildLine(data, webGLData);
 
@@ -53142,7 +53142,7 @@ THIS SOFTWARE.
             var fillColor = data._fillTint;
             var lineColor = data._lineTint;
 
-            context.lineWidth = data.lineWidth;
+            context.lineWidth = data.width;
 
             if (data.type === Phaser.POLYGON) {
                 context.beginPath();
@@ -53170,7 +53170,7 @@ THIS SOFTWARE.
                     context.fill();
                 }
 
-                if (data.lineWidth) {
+                if (data.width) {
                     context.globalAlpha = data.lineAlpha * worldAlpha;
                     context.strokeStyle = '#' + ('00000' + ( lineColor | 0).toString(16)).substr(-6);
                     context.stroke();
@@ -53183,7 +53183,7 @@ THIS SOFTWARE.
                     context.fillRect(shape.x, shape.y, shape.width, shape.height);
                 }
 
-                if (data.lineWidth) {
+                if (data.width) {
                     context.globalAlpha = data.lineAlpha * worldAlpha;
                     context.strokeStyle = '#' + ('00000' + ( lineColor | 0).toString(16)).substr(-6);
                     context.strokeRect(shape.x, shape.y, shape.width, shape.height);
@@ -53201,7 +53201,7 @@ THIS SOFTWARE.
                     context.fill();
                 }
 
-                if (data.lineWidth) {
+                if (data.width) {
                     context.globalAlpha = data.lineAlpha * worldAlpha;
                     context.strokeStyle = '#' + ('00000' + ( lineColor | 0).toString(16)).substr(-6);
                     context.stroke();
@@ -53240,7 +53240,7 @@ THIS SOFTWARE.
                     context.fill();
                 }
 
-                if (data.lineWidth) {
+                if (data.width) {
                     context.globalAlpha = data.lineAlpha * worldAlpha;
                     context.strokeStyle = '#' + ('00000' + ( lineColor | 0).toString(16)).substr(-6);
                     context.stroke();
@@ -53274,7 +53274,7 @@ THIS SOFTWARE.
                     context.fill();
                 }
 
-                if (data.lineWidth) {
+                if (data.width) {
                     context.globalAlpha = data.lineAlpha * worldAlpha;
                     context.strokeStyle = '#' + ('00000' + ( lineColor | 0).toString(16)).substr(-6);
                     context.stroke();
@@ -54736,7 +54736,7 @@ THIS SOFTWARE.
             for (var i = 0; i < this.graphicsData.length; i++) {
                 var data = this.graphicsData[i];
                 var type = data.type;
-                var lineWidth = data.lineWidth;
+                var lineWidth = data.width;
                 shape = data.shape;
 
                 if (type === Phaser.RECTANGLE || type === Phaser.ROUNDEDRECTANGLE) {
@@ -81019,7 +81019,7 @@ THIS SOFTWARE.
         this.lineHeight = 16;
 
         /**
-         * @property {number} lineWidth - The width of the stroke on lines and shapes. A positive number.
+         * @property {number} width - The width of the stroke on lines and shapes. A positive number.
          * @default
          */
         this.lineWidth = 1;

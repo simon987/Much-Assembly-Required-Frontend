@@ -37,10 +37,10 @@ class MarGame {
                     }
                     self.game.plugins.add(new Phaser.Plugin.Isometric(self.game));
 
-                    // This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
-                    // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
+                    //This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
+                    //this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
                     self.game.iso.anchor.setTo(0.5, 0);
-                    //Todo: set world size based on window size?
+                    //Bounds will be overwritten to fit world when changing world
                     self.game.world.setBounds(0, 0, 2200, 1100);
 
                     //Make camera more or less centered (tested on 1080 screen)
@@ -52,6 +52,7 @@ class MarGame {
                     self.game.scale.pageAlignVertically = true;
 
                     self.game.stage.disableVisibilityChange = true;
+
                     self.client = new GameClient();
 
                     //Grab focus when clicked (For chrome, Opera)
@@ -72,7 +73,9 @@ class MarGame {
 
             create: function () {
 
-                console.log("[MAR] create");
+                if (DEBUG) {
+                    console.log("[MAR] create");
+                }
 
                 self.initialiseAnimations();
                 self.initialiseStaticHud();
@@ -83,33 +86,33 @@ class MarGame {
 
                 self.game.scale.refresh();
 
-                // Update the cursor position.
+                //Update the cursor position.
                 self.game.iso.unproject(self.game.input.activePointer.position, self.cursorPos);
 
-                // Loop through all tiles and test to see if the 3D position from above intersects with the automatically generated IsoSprite tile bounds.
+                //Loop through all tiles and test to see if the 3D position from above intersects with the automatically generated IsoSprite tile bounds.
                 self.isoGroup.forEach(function (tile: Tile) {
 
                     if (tile instanceof Tile) {
                         let inBounds = tile.isoBounds.containsXY(self.cursorPos.x, self.cursorPos.y);
-                        // If it does, do a little animation and tint change.
+                        //If it does, do a little animation and tint change.
                         if (!tile.selected && inBounds) {
                             tile.selected = true;
 
                             tile.onHover();
 
-                            //Dispatch tile over
+                            //Dispatch tile over for objects
                             self.isoGroup.forEach(function (obj: GameObject) {
                                 if (obj instanceof GameObject && obj.onTileHover != undefined && obj.isAt(tile.tileX, tile.tileY)) {
                                     obj.onTileHover();
                                 }
                             }, 1);
                         }
-                        // If not, revert back to how it was.
+                        //If not, revert back to how it was.
                         else if (tile.selected && !inBounds) {
                             tile.selected = false;
                             tile.onExit();
 
-                            //Dispatch tile exit
+                            //Dispatch tile exit objects
                             self.isoGroup.forEach(function (obj: GameObject) {
                                 if (obj.onTileExit != undefined && obj.isAt(tile.tileX, tile.tileY)) {
                                     obj.onTileExit();
@@ -268,7 +271,6 @@ class MarGame {
 
 abstract class DebugMessage {
 
-
     public x: number;
     public y: number;
 
@@ -281,6 +283,9 @@ abstract class DebugMessage {
     abstract getMessage(): string;
 }
 
+/**
+ * Indicates hovered tile
+ */
 class TileIndicator extends DebugMessage {
 
     public tileType: string;
@@ -288,7 +293,6 @@ class TileIndicator extends DebugMessage {
     public tileY: number;
 
     getMessage(): string {
-
 
         if (this.tileType != undefined) {
 
@@ -301,6 +305,9 @@ class TileIndicator extends DebugMessage {
     }
 }
 
+/**
+ * Indicates current World
+ */
 class WorldIndicator extends DebugMessage {
 
     getMessage(): string {

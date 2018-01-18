@@ -71,7 +71,38 @@ class UserManager
 
             return TRUE;
         }
+    }
 
+    /**
+     * Change the password of an user
+     * @param $username string
+     * @param $newPassword string plain text new password
+     * @return bool sucess
+     */
+    public static function changePassword($username, $newPassword)
+    {
+        $conn = new SqlConnection();
 
+        $stmt_select = $conn->prepare("SELECT username FROM mar_user WHERE username=?");
+        $stmt_select->bindValue(1, $username);
+        $stmt_select->execute();
+
+        $bdUser = $stmt_select->fetchObject();
+
+        if ($bdUser) {
+
+            $stmt_update = $conn->prepare("UPDATE mar_user SET password=? WHERE username=?");
+
+            $stmt_update->bindValue(1, password_hash($newPassword, PASSWORD_DEFAULT));
+            $stmt_update->bindValue(2, $username);
+
+            $stmt_update->execute();
+
+            return TRUE;
+
+        } else {
+            //User not found
+            return FALSE;
+        }
     }
 }

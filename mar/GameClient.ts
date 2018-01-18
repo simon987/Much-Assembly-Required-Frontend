@@ -1,3 +1,4 @@
+
 /**
  * Client-side keyboard buffer. It is overwritten by the server at the end of tick.
  */
@@ -78,6 +79,15 @@ class TickListener implements MessageListener {
         if (message.keys !== undefined) {
             mar.client.keyboardBuffer.keys = message.keys;
         }
+
+        //Update console screen
+        if (message.c != undefined) {
+            mar.client.consoleScreen.handleConsoleBufferUpdate(message.c, message.cm as ConsoleMode);
+
+            if (DEBUG) {
+                console.log("[MAR] Received " + message.c.length + " console message(s)")
+            }
+        }
     }
 }
 
@@ -115,7 +125,9 @@ class AuthListener implements MessageListener {
         }
 
         if (message.m === "ok") {
-            console.log("[MAR] Auth successful");
+            if (DEBUG) {
+                console.log("[MAR] Auth successful");
+            }
             mar.client.requestUserInfo();
 
         } else {
@@ -202,11 +214,34 @@ class TerrainListener implements MessageListener {
 
 }
 
+class CodeListener implements MessageListener {
+
+    getListenedMessageType(): string {
+        return "code";
+    }
+
+    handle(message): void {
+        ace.edit("editor").setValue(message.code);
+    }
+}
+
+class CodeResponseListener implements MessageListener {
+
+    getListenedMessageType(): string {
+        return "codeResponse";
+    }
+
+    handle(message): void {
+        alert("Uploaded and assembled " + message.bytes + " bytes (" + message.exceptions + " errors)");
+    }
+
+}
+
 class GameClient {
 
     keyboardBuffer: KeyboardBuffer;
     /**
-     * Max width of the game universe
+     * Max width of the game universe, set by server
      */
     public maxWidth: number;
 
@@ -220,8 +255,12 @@ class GameClient {
     public worldX: number;
     public worldY: number;
 
+    public consoleScreen: PlainTextConsole;
+
     constructor() {
         this.getServerInfo();
+
+        this.consoleScreen = new PlainTextConsole(defaultText, "consoleText", "colorButton", "scrollButton", "resetButton", "widthDial");
     }
 
     public requestUserInfo(): void {
@@ -296,7 +335,6 @@ class GameClient {
             console.log("[MAR] Requesting game objects");
         }
 
-
         this.socket.send(JSON.stringify({t: "object", x: this.worldX, y: this.worldY}));
     }
 
@@ -339,9 +377,6 @@ class GameClient {
             console.log("[MAR] Connecting to  " + info.address);
         }
 
-        // info.address = "wss://muchassemblyrequired.com:443/socket";
-
-
         this.socket = new WebSocket(info.address);
         this.username = info.username;
         this.tickLength = info.tickLength;
@@ -359,12 +394,13 @@ class GameClient {
             //Send auth request
             self.socket.send(info.token);
 
-            //todo Setup event listeners
             self.listeners.push(new UserInfoListener());
             self.listeners.push(new AuthListener());
             self.listeners.push(new TickListener());
             self.listeners.push(new TerrainListener());
             self.listeners.push(new ObjectsListener());
+            self.listeners.push(new CodeResponseListener());
+            self.listeners.push(new CodeListener());
 
             self.socket.onmessage = function (received) {
 
@@ -373,28 +409,31 @@ class GameClient {
                 try {
                     message = JSON.parse(received.data);
 
+                    if (DEBUG) {
+                        console.log("[MAR] Received: " + received.data)
+                    }
+
+                    for (let i = 0; i < self.listeners.length; i++) {
+
+                        if (self.listeners[i].getListenedMessageType() === message.t) {
+                            self.listeners[i].handle(message)
+                        }
+                    }
+
                 } catch (e) {
                     if (DEBUG) {
-                        console.log("[MAR] " + e)
-                    }
-                    //todo floppyListener(received);
-                }
-
-                if (DEBUG) {
-                    console.log("[MAR] Received: " + received.data)
-                }
-
-                for (let i = 0; i < self.listeners.length; i++) {
-
-                    if (self.listeners[i].getListenedMessageType() === message.t) {
-                        self.listeners[i].handle(message)
+                        console.log("[MAR] Received invalid message, assuming floppy data");
+                        document.getElementById("floppyDown").innerHTML = "<i class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i> <i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i>";
+                        let blob = new Blob([received.data], {type: "application/octet-stream"});
+                        saveAs(blob, "floppy.bin");
                     }
                 }
+
+
 
             };
 
-            //Reload code
-            //todo reloadCode();
+            self.reloadCode();
         };
 
         this.socket.onerror = function (e) {
@@ -417,31 +456,33 @@ class GameClient {
      */
     public initGame() {
 
-        let self = this;
+        //Setup keyboard buffer display, don't if guest
+        if (this.username != "guest") {
 
-        //Setup keyboard buffer display
-        //todo don't display if guest
-        this.keyboardBuffer = new KeyboardBuffer(config.kbBufferX, config.kbBufferY);
-        mar.addDebugMessage(this.keyboardBuffer);
+            let self = this;
+
+            this.keyboardBuffer = new KeyboardBuffer(config.kbBufferX, config.kbBufferY);
+            mar.addDebugMessage(this.keyboardBuffer);
 
 
-        //Handle keypresses
-        mar.game.input.keyboard.onDownCallback = function (event) {
+            //Handle keypresses
+            mar.game.input.keyboard.onDownCallback = function (event) {
 
-            //If the game has focus
-            if (document.activeElement === document.getElementById("game")) {
-                if ((event.keyCode >= 37 && event.keyCode <= 40) || event.keyCode === 116 || event.keyCode === 32) {
-                    event.preventDefault();
+                //If the game has focus
+                if (document.activeElement === document.getElementById("game")) {
+                    if ((event.keyCode >= 37 && event.keyCode <= 40) || event.keyCode === 116 || event.keyCode === 32) {
+                        event.preventDefault();
+                    }
+
+                    if (self.username !== "guest" && self.keyboardBuffer.keys.length <= 16) {
+                        self.sendKeyPress(event.keyCode);
+
+                        //Locally update the buffer
+                        self.keyboardBuffer.keys.push(event.keyCode);
+                    }
                 }
-
-                if (self.username !== "guest" && self.keyboardBuffer.keys.length <= 16) {
-                    self.sendKeyPress(event.keyCode);
-
-                    //Locally update the buffer
-                    self.keyboardBuffer.keys.push(event.keyCode);
-                }
-            }
-        };
+            };
+        }
     }
 
     /**
@@ -449,10 +490,12 @@ class GameClient {
      * the player's robot
      */
     public findMyRobot() {
-        if (this.username === "guest") {
+        if (this.username == "guest") {
             alert("You are not logged in!");
         } else {
             this.requestUserInfo()
         }
     }
 }
+
+

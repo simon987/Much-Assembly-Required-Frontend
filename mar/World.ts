@@ -1,6 +1,6 @@
-///<reference path="GameClient.ts"/>
+///<reference path="phaser.d.ts"/>
+///<reference path="phaser.plugin.isometric.d.ts"/>
 
-import instances = PIXI.instances;
 
 enum Direction {
     NORTH,
@@ -9,6 +9,12 @@ enum Direction {
     WEST
 }
 
+enum TileType {
+    PLAIN,
+    WALL,
+    IRON,
+    COPPER
+}
 
 class Tile extends Phaser.Plugin.Isometric.IsoSprite {
 
@@ -49,7 +55,6 @@ class Tile extends Phaser.Plugin.Isometric.IsoSprite {
      */
     public static createTile(type: TileType, x: number, y: number) {
         switch (type) {
-
 
             case TileType.WALL:
                 return new WallTile(x, y);
@@ -101,7 +106,6 @@ class Tile extends Phaser.Plugin.Isometric.IsoSprite {
 
 class PlainTile extends Tile {
 
-
     constructor(x: number, y: number) {
         super(x, y, config.plainSprite, 0);
 
@@ -112,6 +116,7 @@ class PlainTile extends Tile {
 }
 
 class WallTile extends Tile {
+
     constructor(x: number, y: number) {
         super(x, y, config.wallSprite, 0.2);
 
@@ -123,6 +128,7 @@ class WallTile extends Tile {
 }
 
 class IronTile extends Tile {
+
     constructor(x: number, y: number) {
         super(x, y, config.plainSprite, 0);
 
@@ -136,6 +142,7 @@ class IronTile extends Tile {
 
 
 class CopperTile extends Tile {
+
     constructor(x: number, y: number) {
         super(x, y, config.plainSprite, 0);
 
@@ -372,3 +379,5 @@ class WorldArrow extends Phaser.Plugin.Isometric.IsoSprite {
     }
 
 }
+
+

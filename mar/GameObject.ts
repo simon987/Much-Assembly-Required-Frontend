@@ -213,14 +213,15 @@ class Cubot extends GameObject {
 
                 this.walk();
 
-            } else if (this.action == Action.JUMPING) {
-                //TODO
             }
+            // else if (this.action == Action.JUMPING) {
+            //     //TODO
+            // }
         }
 
-        if (this.action == Action.DIGGING) {
-            //TODO dig animation
-        }
+        // if (this.action == Action.DIGGING) {
+        //     //TODO dig animation
+        // }
 
         this.updateDirection();
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);
@@ -369,6 +370,7 @@ class HarvesterNPC extends Cubot {
     constructor(json) {
         super(json);
 
+        //Overwrite Cubot's animations
         this.animations.add("walk_w", mar.animationFrames.harvester_walk_w);
         this.animations.add("walk_s", mar.animationFrames.harvester_walk_s);
         this.animations.add("walk_e", mar.animationFrames.harvester_walk_e);
@@ -377,7 +379,6 @@ class HarvesterNPC extends Cubot {
         this.updateDirection();
         this.setText("Harvester NPC");
         this.text.visible = false;
-
     }
 
     /**
@@ -422,8 +423,6 @@ class HarvesterNPC extends Cubot {
 
                 this.walk();
 
-            } else if (this.action == Action.JUMPING) {
-                //TODO
             }
         }
 
@@ -449,7 +448,6 @@ class BiomassBlob extends GameObject {
         this.text.visible = true;
     }
 
-
     onTileExit() {
         mar.game.tweens.removeFrom(this);
         mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
@@ -464,7 +462,6 @@ class BiomassBlob extends GameObject {
             console.log("Updating Biomass object")
         }
     }
-
 
     constructor(json) {
         super(Util.getIsoX(json.x), Util.getIsoY(json.y), 10, "sheet", 1);
@@ -490,7 +487,6 @@ class BiomassBlob extends GameObject {
 }
 
 class Factory extends GameObject {
-
 
     public onTileHover() {
         mar.game.tweens.removeFrom(this);
@@ -518,7 +514,6 @@ class Factory extends GameObject {
         //Factory is 2x2
         return (this.tileX === x || this.tileX + 1 === x) && (this.tileY + 1 === y || this.tileY === y);
     };
-
 
     constructor(json) {
         super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/factory");
