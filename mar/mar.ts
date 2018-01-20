@@ -26,7 +26,7 @@ let config = {
     plainSprite: "tiles/tile",
     wallSprite: "tiles/bigTile",
     walkDuration: 800, //walk animation duration in ms
-    holoStyle: (fill) => {
+    holoStyle: (fill: string) => {
         return {
             fontSize: 32,
             fill: fill ? fill : config.hologramFill,

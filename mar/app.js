@@ -923,15 +923,17 @@ var Cubot = /** @class */ (function (_super) {
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);
     };
     Cubot.prototype.updateHologram = function (holoMode, holoColor, holoValue, holoStr) {
+        var fillColor = (holoColor & 0xFFFFFF).toString(16);
+        fillColor = "#" + ("000000".substr(fillColor.length) + fillColor);
         //Create hologram if not exist, set style
         if (this.hologram == undefined) {
             this.hologram = mar.game.make.text(0, 32, "");
             this.hologram.anchor.set(0.5, 0);
             this.addChild(this.hologram);
-            this.hologram.setStyle(config.holoStyle(holoColor));
+            this.hologram.setStyle(config.holoStyle(fillColor));
         }
         else {
-            this.hologram.setStyle(config.holoStyle(holoColor));
+            this.hologram.setStyle(config.holoStyle(fillColor));
         }
         switch (holoMode) {
             case HologramMode.CLEARED:
