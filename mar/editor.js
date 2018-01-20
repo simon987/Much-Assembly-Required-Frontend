@@ -230,6 +230,11 @@ function getOperandType(text, result) {
                 return OPERAND_MEM_REG;
             }
         }
+
+        //Remove either ONE '+' or ONE '-' else the operand is invalid
+        //Credit: https://github.com/KevinRamharak
+        expr = expr.replace(/[+-]/, '');
+
         //Check for number
         if (!isNaN(Number(expr)) && Number(expr) === Math.floor(Number(expr))) {
             return OPERAND_MEM_REG;

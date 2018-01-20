@@ -189,8 +189,7 @@ if (isset($user)) {
                                     <div class="piece scanlines noclick"></div>
                                     <div class="piece glow noclick"></div>
                                 </div>
-                            </div>
-                            <div id="console-wrapper-side">
+                            </div><div id="console-wrapper-side">
                                 <div class="sideFrame">
 
                                     <!-- Console Buttons -->
