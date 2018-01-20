@@ -12063,7 +12063,7 @@ define("ace/editor", ["require", "exports", "module", "ace/lib/fixoldbrowsers", 
 
                 shouldMerge = shouldMerge
                     && this.mergeNextCommand // previous command allows to coalesce with
-                    && (!/\s/.test(text) || /\s/.test(prev.args)); // previous insertion was of same type
+                    && (!/\s/.test(text) || /\s/.test(prev.args)); // previous insertion was of same objType
 
                 this.mergeNextCommand = true;
             } else {

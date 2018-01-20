@@ -15,7 +15,7 @@ if (isset($user)) {
 <html>
 <head>
     <title><?php echo MAR_SERVER_NAME ?></title>
-    <meta name="description" content="Offical Much Assembly Required game server page">
+    <meta name="description" content="Official Much Assembly Required game server page">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!--[if lte IE 8]>
@@ -24,6 +24,7 @@ if (isset($user)) {
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="assets/css/ie8.min.css"/><![endif]-->
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="mar/console.min.css">
 
 
     <script src="assets/js/jquery.min.js"></script>
@@ -34,7 +35,7 @@ if (isset($user)) {
     <script src="assets/js/ie/respond.min.js"></script><![endif]-->
     <script src="assets/js/main.min.js"></script>
 
-    <script src="FileSaver.min.js"></script>
+    <script src="assets/js/FileSaver.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="./mar/game.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -68,57 +69,10 @@ if (isset($user)) {
             <div class="12u 12u(mobile) important(mobile)">
                 <div class="content content-left">
 
-                    <style>
-                        #tabs ul, li, a {
-                            display: inline;
-                        }
-
-                        #tabs .ui-tabs-nav li.ui-tabs-active a {
-                            background: #a1cd9b;
-                        }
-
-                        #editorBtns {
-                            display: inline;
-
-                        }
-
-                        .editorBtn {
-                            background: #895EC3;
-                            padding: .85em 1em
-                        }
-
-                        .editorBtn:hover {
-                            background: #A386CA;
-                        }
-
-                        #gameBtns {
-                            display: inline;
-                        }
-
-                        #console {
-                            font-family: fixedsys, monospace;
-                            font-size: 24pt;
-                            line-height: 21px;
-                            resize: none;
-                            overflow-y: scroll;
-                            width: 680px;
-                            height: 180px;
-                        }
-
-                        #consoleContainer {
-                            margin: 20px;
-                            text-align: center;
-                        }
-
-
-                    </style>
-
                     <script>
                         $(function () {
                             $("#tabs").tabs();
                         });
-
-                        fullscreen = false;
                     </script>
 
                     <!-- Game box -->
@@ -128,34 +82,37 @@ if (isset($user)) {
                             <li><a class="button alt" href="#game" onclick="gameClick()">Game</a>
                             </li>
                             <?php if($user) { ?>
-                            <li><a class="button alt" href="#editorTab" onclick="editorClick()">Editor</a>
-                            </li>
+                                <li><a class="button alt" href="#editorTab" onclick="editorClick()">Editor</a>
+                                </li>
                             <?php } else { ?>
-                            <li><a class="button alt" onclick="window.location = '/login.php';">Editor</a>
-                            </li>
+                                <li><a class="button alt" onclick="window.location = 'login.php';">Editor</a>
+                                </li>
                             <?php } ?>
                         </ul>
 
                         <!-- Editor buttons -->
                         <?php if($user) { ?>
-                        <div id="editorBtns" style="display: none">
-                            <a class="button editorBtn" onclick="mar.client.uploadCode(ace.edit('editor').getValue())">Upload</a>
-                            <a class="button editorBtn" onclick="mar.client.reloadCode()">Reload</a>
-                            <a class="button editorBtn" id="floppyDown" onclick="mar.client.requestFloppy()"><i
-                                        class="fa fa-long-arrow-down" aria-hidden="true"></i> <i class="fa fa-floppy-o"
-                                                                                                 aria-hidden="true"></i></a>
-                            <button class="editorBtn" id="floppyUp"
-                                    onclick="document.getElementById('floppyIn').click();"><i
-                                        class="fa fa-long-arrow-up" aria-hidden="true"></i> <i class="fa fa-floppy-o"
-                                                                                               aria-hidden="true"></i>
-                            </button>
-                            <!-- Style the select to something more select'y -->
-                            <select title="Select Theme" class="button editorBtn" id="editorTheme"></select>
-                        </div>
+                            <div id="editorBtns" style="display: none">
+                                <a class="button editorBtn"
+                                   onclick="mar.client.uploadCode(ace.edit('editor').getValue())">Upload</a>
+                                <a class="button editorBtn" onclick="mar.client.reloadCode()">Reload</a>
+                                <a class="button editorBtn" id="floppyDown" onclick="mar.client.requestFloppy()"><i
+                                            class="fa fa-long-arrow-down" aria-hidden="true"></i> <i
+                                            class="fa fa-floppy-o"
+                                            aria-hidden="true"></i></a>
+                                <button class="editorBtn" id="floppyUp"
+                                        onclick="document.getElementById('floppyIn').click();"><i
+                                            class="fa fa-long-arrow-up" aria-hidden="true"></i> <i
+                                            class="fa fa-floppy-o"
+                                            aria-hidden="true"></i>
+                                </button>
+                                <!-- Style the select to something more select'y -->
+                                <select title="Select Theme" class="button editorBtn" id="editorTheme"></select>
+                            </div>
                         <?php } ?>
 
                         <div id="gameBtns">
-                            <a class="button editorBtn" onclick="findMyRobot()">Find My Robot</a>
+                            <a class="button editorBtn" onclick="mar.client.findMyRobot()">Find My Robot</a>
                         </div>
 
                         <!-- Docs link -->
@@ -171,116 +128,17 @@ if (isset($user)) {
 
                         <!-- Game -->
                         <div id="game" tabindex="0">
-                            <script src="./mar/phaser/phaser.min.js"></script>
-                            <script src="./mar/phaser/phaser-plugin-isometric.min.js"></script>
-                            <script src="./mar/phaser/mar.js"></script>
+                            <script src="mar/phaser.min.js"></script>
+                            <script src="mar/phaser-plugin-isometric.min.js"></script>
+                            <script src="mar/app.min.js"></script>
                         </div>
                         <?php if ($user) { ?>
-                        <!-- Editor -->
-                        <div id="editorTab">
-                            <div id="editor"></div>
-                            <script src="./mar/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-
-                            <script src="./mar/editor.js"></script>
-                            <script>
-                                //Check if browser supports local storage if not than bad luck, use something else than IE7
-                                var editorStorage;
-                                if(typeof window.localStorage !== 'undefined') {
-                                    editorStorage = window.localStorage;
-                                } else {
-                                    editorStorage = false;
-                                }
-
-                                //Default should be 'theme/tommorow.js' or loaded from local storage
-                                var editorThemeOptions = {
-                                    available : [
-                                        "theme/ambiance", "theme/chaos", "theme/chrome",
-                                        "theme/clouds", "theme/clouds_midnight", "theme/cobalt",
-                                        "theme/crimson_editor", "theme/dawn", "theme/dracula",
-                                        "theme/dreamweaver", "theme/eclipse", "theme/github",
-                                        "theme/gob", "theme/gruvbox", "theme/idle_fingers",
-                                        "theme/iplastic", "theme/katzenmilch", "theme/kr_theme",
-                                        "theme/kuroir", "theme/merbivore", "theme/merbivore_soft",
-                                        "theme/mono_industrial", "theme/monokai", "theme/pastel_on_dark",
-                                        "theme/solarized_dark", "theme/solarized_light", "theme/sqlserver",
-                                        "theme/terminal", "theme/textmate", "theme/tomorrow",
-                                        "theme/tomorrow_night_blue", "theme/tomorrow_night_bright", "theme/tomorrow_night_eighties",
-                                        "theme/tomorrow_night", "theme/twilight", "theme/vibrant_ink", "theme/xcode"
-                                    ],
-                                    default : "theme/tomorrow"
-                                };
-
-                                //Get the stored default theme
-                                if(editorStorage) {
-                                    var storedTheme = editorStorage.getItem('editorTheme');
-                                    if (storedTheme !== null && editorThemeOptions.available.indexOf(storedTheme) !== -1) {
-                                        editorThemeOptions.default = storedTheme;
-                                    }
-                                }
-
-                                //Cache element reference
-                                var editorThemeSelectElement = document.getElementById("editorTheme");
-
-                                //Event handler
-                                function editorOnThemeChange() {
-                                    if(editorThemeSelectElement === null) {
-                                        console.error("editorOnThemeChange() :: editorThemeSelectElement seems to be 'null'");
-                                        return;
-                                    }
-                                    var select = editorThemeSelectElement;
-                                    var option = select.options[select.selectedIndex];
-
-                                    if (editorThemeOptions.available.indexOf(option.value) === -1) {
-                                        console.error("editorOnThemeChange() :: user somehow selected an invalid theme : '" + option.value  + "' for '" + option.text + "'");
-                                        return;
-                                    }
-
-                                    //Store locally so it gets remembered
-                                    if(editorStorage) {
-                                        editorStorage.setItem('editorTheme', option.value);
-                                    }
-
-                                    //Set theme
-                                    editor.setTheme("ace/" + option.value);
-                                }
-
-                                //Add handler to listen to event
-                                editorThemeSelectElement.addEventListener('change', editorOnThemeChange);
-
-                                //Populate select
-                                editorThemeOptions.available.forEach(function(theme) {
-                                    var option = document.createElement("option");
-                                    option.value = theme;
-                                    option.text = theme.substring(6); // "theme/{text}" -> extract text to set as text user sees
-
-                                    //Make sure default is also the one that is selected
-                                    if(theme === editorThemeOptions.default) {
-                                        option.selected = true;
-                                    }
-
-                                    editorThemeSelectElement.appendChild(option);
-                                });
-
-                                //Manually call handler once
-                                editorOnThemeChange();
-
-                                editor.getSession().setMode("ace/mode/mar");
-                                editor.setFontSize(16);
-                                editor.setDisplayIndentGuides(false);
-                                document.getElementById('editor').style.fontFamily="fixedsys";
-                            </script>
-
-                        </div>
-
-
-                        <!-- Console-->
-                        <div id="consoleContainer">
-                            <textarea id="console" readonly title="console"></textarea>
-
-                            <a class="button" style="vertical-align: top"
-                               onclick="document.getElementById('console').innerHTML=''">Clear</a>
-                        </div>
-
+                            <!-- Editor -->
+                            <div id="editorTab">
+                                <div id="editor"></div>
+                                <script src="./mar/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+                                <script src="./mar/editor.min.js"></script>
+                            </div>
                         <?php } ?>
 
 
@@ -289,6 +147,7 @@ if (isset($user)) {
                         </form>
 
                         <script>
+                            //Todo move that to file
                             document.getElementById("floppyIn").onchange = function () {
 
                                 document.getElementById("floppyUp").innerHTML = "<i class=\"fa fa-cog fa-spin fa-fw\" aria-hidden=\"true\"></i>";
@@ -318,10 +177,42 @@ if (isset($user)) {
                                 };
                                 xhr.send(formData);
                             };
-
-
                         </script>
                     </div>
+
+                    <!-- Console-->
+                    <div id="console-wrapper">
+                        <div id="shadow-wrapper">
+                            <div id="console-wrapper-left" class="noisy">
+                                <div class="frame">
+                                    <div id="consoleText" class="piece output noclick ctr-selection ctr-text"></div>
+                                    <div class="piece scanlines noclick"></div>
+                                    <div class="piece glow noclick"></div>
+                                </div>
+                            </div>
+                            <div id="console-wrapper-side">
+                                <div class="sideFrame">
+
+                                    <!-- Console Buttons -->
+                                    <span class="vertical-text">COLOR</span>
+                                    <img id="colorButton" src="images/pdp8ion.png" class="pdp8Button">
+
+                                    <span class="vertical-text" style="left: 25px;">SCROLL</span>
+                                    <img id="scrollButton" src="images/pdp8ioff.png" class="pdp8Button">
+
+                                    <span class="vertical-text" style="left: 55px;">RESET</span>
+                                    <img id="resetButton" src="images/pdp8ion.png" class="pdp8Button">
+
+                                    <!-- width Dial -->
+                                    <div class="dial-backPlate">
+                                        <img src="images/knob-65.png" class="dial" id="widthDial">
+                                        <img src="images/lines.png" class="dial-lines">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

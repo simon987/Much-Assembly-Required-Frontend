@@ -1,7 +1,7 @@
 
 @font-face {
     font-family: 'fixedsys';
-    src: url("./fonts/FSEX301-L2.ttf");
+    src: url("../assets/fonts/FSEX301-L2.ttf");
 }
 
 #tabs {
@@ -11,24 +11,22 @@
 
 .container {
     width: 100%;
-
 }
 
 #game {
-    box-shadow: rgba(46, 94, 80, 0.45) 0ex 0ex 2ex;
-    /*margin-top: 1em;*/
+    box-shadow: rgba(46, 94, 80, 0.45) 0 0 2ex;
     outline: none;
     width: 100%;
     margin: 1em 0 1em 1em;
     box-sizing: border-box;
-    
-    /*background: #282828;*/
+
+    background: whitesmoke;
 }
 
 #editor {
     margin: 1em 0 1em 1em;
     height: 35em;
-    box-shadow: rgba(46, 94, 80, 0.45) 0ex 0ex 2ex;
+    box-shadow: rgba(46, 94, 80, 0.45) 0 0 2ex;
 
 }
 
@@ -38,7 +36,32 @@
 }
 
 .ace_gutter-cell.ace_error {
-    background-image: url("sprites/err_annotation.png") !important;
+    background-image: url("../images/err_annotation.png") !important;
     background-position: 2px center;
 }
 
+#tabs ul, li, a {
+    display: inline;
+}
+
+#tabs .ui-tabs-nav li.ui-tabs-active a {
+    background: #a1cd9b;
+}
+
+#editorBtns {
+    display: inline;
+
+}
+
+.editorBtn {
+    background: #895EC3;
+    padding: .85em 1em
+}
+
+.editorBtn:hover {
+    background: #A386CA;
+}
+
+#gameBtns {
+    display: inline;
+}

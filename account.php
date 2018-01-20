@@ -1,7 +1,7 @@
 <?php
-
+include_once "include/MessageCookie.php";
 include_once "include/SessionManager.php";
-
+$register_msg = MessageCookie::getMsg("register");
 $user = SessionManager::get();
 ?>
 
@@ -42,18 +42,44 @@ $user = SessionManager::get();
     <div id="main" class="container">
         <div class="row 200%">
             <div class="12u">
+                <div class="container">
+                    <!-- Account information -->
+                    <section>
+                        <p>You are logged in as <span style="font-style: italic"><?php echo $user["username"] ?></span>
+                        </p>
 
-                <!-- Account information -->
-                <section id="login">
-                    <p>You are logged in as <span style="font-style: italic"><?php echo $user["username"] ?></span></p>
+                        <?php
+                        if ($register_msg) {
+                            echo "<span style='color:#ff4943'>" . $register_msg . "</span></div>";
+                        }
+                        ?>
 
-                    <p>Account page is under construction</p>
-                </section>
+                        <!-- Password reset form -->
+                        <form action="changePassword.re.php" method="post">
+                            <div class="row uniform">
+                                <div class="6u 12u(xsmall)">
+                                    <label for="password">Current password</label>
+                                    <input id="password" name="password" type="password">
+                                </div>
 
+                                <div class="6u 12u(xsmall)">
+                                    <label for="new_password">New Password</label>
+                                    <input id="new_password" name="new_password" type="password">
+                                </div>
+
+                                <div class="6u 12u(xsmall)">
+                                    <input type="submit" value="Reset password">
+                                </div>
+                            </div>
+                        </form>
+
+                    </section>
+
+                </div>
             </div>
         </div>
 
-        <?php include "footer.inc.html" ?>
+        <?php // include "footer.inc.html" ?>
 
 
     </div>
@@ -62,10 +88,10 @@ $user = SessionManager::get();
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.dropotron.min.js"></script>
     <script src="assets/js/skel.min.js"></script>
-    <script src="assets/js/util.js"></script>
+    <script src="assets/js/util.min.js"></script>
     <!--[if lte IE 8]>
     <script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.min.js"></script>
 
 </body>
 </html>

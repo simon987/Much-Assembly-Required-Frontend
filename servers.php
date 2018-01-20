@@ -26,7 +26,7 @@ $user = SessionManager::get();
 
         @font-face {
             font-family: 'fixedsys';
-            src: url("./mar/fonts/FSEX301-L2.ttf");
+            src: url("assets/fonts/FSEX301-L2.ttf");
         }
 
     </style>

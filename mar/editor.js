@@ -4,7 +4,6 @@ OPERAND_MEM_IMM = 1;
 OPERAND_MEM_REG = 2;
 OPERAND_IMM = 3;
 
-
 //Remove default syntax checker
 editor = ace.edit("editor");
 editor.session.setOption("useWorker", false);
@@ -257,7 +256,7 @@ function parseInstruction(line, result, currentLine) {
     if (!parseDWInstruction(line, result, currentLine)) {
 
         if (new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|hwi|hwq|nop|neg|' +
-                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno)\\b').test(mnemonic.toLowerCase())) {
+                'call|ret|jmp|jnz|jg|jl|jge|jle|int|jz|js|jns|brk|not|jc|jnc|ror|rol|sal|sar|jo|jno|inc|dec|rcl|xchg|rcr)\\b').test(mnemonic.toLowerCase())) {
 
 
             if (line.indexOf(",") !== -1) {
@@ -267,7 +266,7 @@ function parseInstruction(line, result, currentLine) {
 
 
                 //Validate operand number
-                if (!new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|xor|rol|ror|sal|sar)\\b').test(mnemonic.toLowerCase())) {
+                if (!new RegExp('\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|xor|rol|ror|sal|sar|rcl|xchg|rcr)\\b').test(mnemonic.toLowerCase())) {
                     result.annotations.push({
                         row: currentLine,
                         column: 0,
@@ -315,7 +314,7 @@ function parseInstruction(line, result, currentLine) {
                 strO1 = line.substring(line.indexOf(mnemonic) + mnemonic.length).trim();
 
                 //Validate operand number
-                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc|jo|jno)\\b').test(mnemonic.toLowerCase())) {
+                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc|jo|jno|inc|dec)\\b').test(mnemonic.toLowerCase())) {
                     result.annotations.push({
                         row: currentLine,
                         column: 0,
@@ -403,5 +402,93 @@ function editorClick() {
     document.getElementById("editorBtns").setAttribute("style", "");
     document.getElementById("gameBtns").setAttribute("style", "display: none");
 }
+
+//-----
+
+//Check if browser supports local storage if not than bad luck, use something else than IE7
+var editorStorage;
+if (typeof window.localStorage !== 'undefined') {
+    editorStorage = window.localStorage;
+} else {
+    editorStorage = false;
+}
+
+//Default should be 'theme/tommorow.js' or loaded from local storage
+var editorThemeOptions = {
+    available: [
+        "theme/ambiance", "theme/chaos", "theme/chrome",
+        "theme/clouds", "theme/clouds_midnight", "theme/cobalt",
+        "theme/crimson_editor", "theme/dawn", "theme/dracula",
+        "theme/dreamweaver", "theme/eclipse", "theme/github",
+        "theme/gob", "theme/gruvbox", "theme/idle_fingers",
+        "theme/iplastic", "theme/katzenmilch", "theme/kr_theme",
+        "theme/kuroir", "theme/merbivore", "theme/merbivore_soft",
+        "theme/mono_industrial", "theme/monokai", "theme/pastel_on_dark",
+        "theme/solarized_dark", "theme/solarized_light", "theme/sqlserver",
+        "theme/terminal", "theme/textmate", "theme/tomorrow",
+        "theme/tomorrow_night_blue", "theme/tomorrow_night_bright", "theme/tomorrow_night_eighties",
+        "theme/tomorrow_night", "theme/twilight", "theme/vibrant_ink", "theme/xcode"
+    ],
+    defaultTheme: "theme/tomorrow"
+};
+
+//Get the stored default theme
+if (editorStorage) {
+    var storedTheme = editorStorage.getItem('editorTheme');
+    if (storedTheme !== null && editorThemeOptions.available.indexOf(storedTheme) !== -1) {
+        editorThemeOptions.defaultTheme = storedTheme;
+    }
+}
+
+//Cache element reference
+var editorThemeSelectElement = document.getElementById("editorTheme");
+
+//Event handler
+function editorOnThemeChange() {
+    if (editorThemeSelectElement === null) {
+        console.error("editorOnThemeChange() :: editorThemeSelectElement seems to be 'null'");
+        return;
+    }
+    var select = editorThemeSelectElement;
+    var option = select.options[select.selectedIndex];
+
+    if (editorThemeOptions.available.indexOf(option.value) === -1) {
+        console.error("editorOnThemeChange() :: user somehow selected an invalid theme : '" + option.value + "' for '" + option.text + "'");
+        return;
+    }
+
+    //Store locally so it gets remembered
+    if (editorStorage) {
+        editorStorage.setItem('editorTheme', option.value);
+    }
+
+    //Set theme
+    editor.setTheme("ace/" + option.value);
+}
+
+//Add handler to listen to event
+editorThemeSelectElement.addEventListener('change', editorOnThemeChange);
+
+//Populate select
+editorThemeOptions.available.forEach(function (theme) {
+    var option = document.createElement("option");
+    option.value = theme;
+    option.text = theme.substring(6); // "theme/{text}" -> extract text to set as text user sees
+
+    //Make sure default is also the one that is selected
+    if (theme === editorThemeOptions.defaultTheme) {
+        option.selected = true;
+    }
+
+    editorThemeSelectElement.appendChild(option);
+});
+
+//Manually call handler once
+editorOnThemeChange();
+
+editor.getSession().setMode("ace/mode/mar");
+editor.setFontSize(16);
+editor.setDisplayIndentGuides(false);
+document.getElementById('editor').style.fontFamily = "fixedsys";
 
 editor.on("change", parse);

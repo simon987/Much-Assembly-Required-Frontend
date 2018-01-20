@@ -325,7 +325,7 @@
         var $this = $(this);
 
         // Text, TextArea.
-        $this.find('input[type=text],textarea')
+        $this.find('input[objType=text],textarea')
             .each(function () {
 
                 var i = $(this);
@@ -365,7 +365,7 @@
             });
 
         // Password.
-        $this.find('input[type=password]')
+        $this.find('input[objType=password]')
             .each(function () {
 
                 var i = $(this);
@@ -374,8 +374,8 @@
                         .append(i.clone())
                         .remove()
                         .html()
-                        .replace(/type="password"/i, 'type="text"')
-                        .replace(/type=password/i, 'type=text')
+                        .replace(/type="password"/i, 'objType="text"')
+                        .replace(/type=password/i, 'objType=text')
                 );
 
                 if (i.attr('id') != '')
@@ -435,7 +435,7 @@
         $this
             .on('submit', function () {
 
-                $this.find('input[type=text],input[type=password],textarea')
+                $this.find('input[objType=text],input[objType=password],textarea')
                     .each(function (event) {
 
                         var i = $(this);
