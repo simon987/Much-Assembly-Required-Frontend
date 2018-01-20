@@ -110,6 +110,8 @@ class Cubot extends GameObject {
     heldItem: ItemType;
     energy: number;
 
+    inventory: Phaser.Group;
+
     private hologram: Phaser.Text;
 
     /**
@@ -202,6 +204,9 @@ class Cubot extends GameObject {
         this.energy = json.energy;
         this.direction = json.direction;
 
+        //Update Inventory
+        this.createInventory([json.heldItem]);
+        this.heldItem = json.heldItem;
 
         //Update color
         this.tint = this.getTint();
@@ -378,6 +383,40 @@ class Cubot extends GameObject {
             this.alpha = config.otherCubotAlpha;
         }
         this.addChild(username);
+    }
+
+    public createInventory(items: number[]): void {
+
+        //Remove old inventory
+        if(this.inventory != undefined) {
+            this.inventory.destroy();
+        }
+
+        let inventory = mar.game.make.group();
+        switch (items.length) {
+            case 0:
+                this.inventory = inventory;
+                this.addChild(inventory);
+                break;
+            case 1:
+                if (items[0] !== 0) {
+                    let shadow = mar.game.make.sprite(0, 0, "sheet", "inventory/inv1x1");
+                    shadow.anchor.set(0.5, 0.1);
+                    shadow.alpha = 0.5;
+                    let item = mar.game.make.sprite(0, 0, "sheet", "inventory/item");
+                    item.anchor.set(0.5, 0.1);
+                    item.tint = Util.itemColor(items[0]);
+
+
+                    inventory.addChild(shadow);
+                    inventory.addChild(item);
+
+                }
+                this.inventory = inventory;
+                this.addChild(inventory);
+                break;
+        }
+
     }
 }
 

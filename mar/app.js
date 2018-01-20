@@ -348,6 +348,16 @@ var Util = /** @class */ (function () {
                 return 1;
         }
     };
+    Util.itemColor = function (item) {
+        switch (item) {
+            case 1:
+                return config.biomassTint;
+            case 3:
+                return config.itemIron;
+            case 4:
+                return config.itemCopper;
+        }
+    };
     return Util;
 }());
 var mar = new MarGame();
@@ -875,6 +885,9 @@ var Cubot = /** @class */ (function (_super) {
         this.action = json.action;
         this.energy = json.energy;
         this.direction = json.direction;
+        //Update Inventory
+        this.createInventory([json.heldItem]);
+        this.heldItem = json.heldItem;
         //Update color
         this.tint = this.getTint();
         //Update Location
@@ -1024,6 +1037,33 @@ var Cubot = /** @class */ (function (_super) {
             this.alpha = config.otherCubotAlpha;
         }
         this.addChild(username);
+    };
+    Cubot.prototype.createInventory = function (items) {
+        //Remove old inventory
+        if (this.inventory != undefined) {
+            this.inventory.destroy();
+        }
+        var inventory = mar.game.make.group();
+        switch (items.length) {
+            case 0:
+                this.inventory = inventory;
+                this.addChild(inventory);
+                break;
+            case 1:
+                if (items[0] !== 0) {
+                    var shadow = mar.game.make.sprite(0, 0, "sheet", "inventory/inv1x1");
+                    shadow.anchor.set(0.5, 0.1);
+                    shadow.alpha = 0.5;
+                    var item = mar.game.make.sprite(0, 0, "sheet", "inventory/item");
+                    item.anchor.set(0.5, 0.1);
+                    item.tint = Util.itemColor(items[0]);
+                    inventory.addChild(shadow);
+                    inventory.addChild(item);
+                }
+                this.inventory = inventory;
+                this.addChild(inventory);
+                break;
+        }
     };
     return Cubot;
 }(GameObject));

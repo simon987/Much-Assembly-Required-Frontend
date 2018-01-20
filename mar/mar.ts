@@ -92,6 +92,20 @@ class Util {
         }
 
     }
+
+    static itemColor(item) {
+
+        switch (item) {
+            case 1:
+                return config.biomassTint;
+            case 3:
+                return config.itemIron;
+            case 4:
+                return config.itemCopper;
+
+        }
+
+    }
 }
 
 let mar = new MarGame();
