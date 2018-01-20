@@ -8,19 +8,11 @@ Installation instructions:
 ```bash
 $ pwd
 ~/Much-Assembly-Required-Frontend/
-$ mysql -u root -p
-Enter password:  # type your MySQL root user password
-
-MariaDB [(none)]>
-MariaDB [(none)]> CREATE DATABASE mar;
-MariaDB [(none)]> GRANT ALL PRIVILEGES ON mar.* to 'mar'@'localhost' identified by 'mar';
-MariaDB [(none)]> FLUSH PRIVILEGES;
-MariaDB [(none)]> USE mar;
-MariaDB [mar]> \. database.sql
-MariaDB [(none)]> exit
-Bye
-$ # if '\. database.sql' failed you were not in the right directory. make sure you are in the repo root directory
-$ # before running these commands
+$ mysql -u root -p < database.sql
+Enter password:  # type your MySQL root user password if you set any
+                 # on a fresh install the password is empty
+                 # NOTE: on a fresh install you might have to run the command with sudo
+                 # NEVER blindly run commands as sudo. Check the contents of the 'database.sql' file first!
 ```
 
 Running instructions:
