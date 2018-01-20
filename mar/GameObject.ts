@@ -222,9 +222,22 @@ class Cubot extends GameObject {
             // }
         }
 
-        // if (this.action == Action.DIGGING) {
-        //     //TODO dig animation
-        // }
+        if (this.action == Action.DIGGING) {
+            switch (this.direction) {
+                case Direction.NORTH:
+                    this.animations.play("dig_n", 60);
+                    break;
+                case Direction.SOUTH:
+                    this.animations.play("dig_s", 60);
+                    break;
+                case Direction.EAST:
+                    this.animations.play("dig_e", 60);
+                    break;
+                case Direction.WEST:
+                    this.animations.play("dig_w", 60);
+                    break;
+            }
+        }
 
         this.updateDirection();
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);

@@ -9,11 +9,7 @@ let defaultText =
     "Version 1.3A, 1985-05-17\n" +
     "Initialising Universal Communication Port connection...Done\n" +
     "Current date is 2790-01-14\n" +
-    "Cubot Status: Much Assembly Required" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "More text down here\n";
+    "Cubot Status: Much Assembly Required";
 
 enum ConsoleMode {
     CLEAR,

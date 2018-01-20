@@ -896,9 +896,22 @@ var Cubot = /** @class */ (function (_super) {
             //     //TODO
             // }
         }
-        // if (this.action == Action.DIGGING) {
-        //     //TODO dig animation
-        // }
+        if (this.action == Action.DIGGING) {
+            switch (this.direction) {
+                case Direction.NORTH:
+                    this.animations.play("dig_n", 60);
+                    break;
+                case Direction.SOUTH:
+                    this.animations.play("dig_s", 60);
+                    break;
+                case Direction.EAST:
+                    this.animations.play("dig_e", 60);
+                    break;
+                case Direction.WEST:
+                    this.animations.play("dig_w", 60);
+                    break;
+            }
+        }
         this.updateDirection();
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);
     };
@@ -1191,7 +1204,6 @@ var RadioTower = /** @class */ (function (_super) {
 }(GameObject));
 var VaultDoor = /** @class */ (function (_super) {
     __extends(VaultDoor, _super);
-
     function VaultDoor(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/VaultDoor") || this;
         _this.anchor.set(myVarX, myVarY);
@@ -1202,7 +1214,6 @@ var VaultDoor = /** @class */ (function (_super) {
         _this.tileY = json.y;
         return _this;
     }
-
     VaultDoor.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
         mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
@@ -1521,11 +1532,7 @@ var defaultText = " _______                    __     __\n" +
     "Version 1.3A, 1985-05-17\n" +
     "Initialising Universal Communication Port connection...Done\n" +
     "Current date is 2790-01-14\n" +
-    "Cubot Status: Much Assembly Required" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "More text down here\n";
+    "Cubot Status: Much Assembly Required";
 var ConsoleMode;
 (function (ConsoleMode) {
     ConsoleMode[ConsoleMode["CLEAR"] = 0] = "CLEAR";
