@@ -86,9 +86,9 @@ class Util {
             case Direction.WEST:
                 return 0;
             case Direction.NORTH:
-                return 1;
-            case Direction.SOUTH:
                 return -1;
+            case Direction.SOUTH:
+                return 1;
         }
 
     }

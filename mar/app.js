@@ -1,17 +1,10 @@
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
-        ({__proto__: []} instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        }) ||
-        function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
     return function (d, b) {
         extendStatics(d, b);
-
-        function __() {
-            this.constructor = d;
-        }
+        function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
@@ -219,7 +212,8 @@ var MarGame = /** @class */ (function () {
         }
     };
     MarGame.prototype.initialiseStaticHud = function () {
-        this.game.add.sprite(0, this.game.camera.height - 150, "sheet", "ui/compass", this.hudGroup);
+        //todo fix the compass sprite so the Y axis is facing the other way
+        //this.game.add.sprite(0, this.game.camera.height - 150, "sheet", "ui/compass", this.hudGroup);
         this.addDebugMessage(new WorldIndicator(10, 20));
         this.tileIndicator = new TileIndicator(10, 40);
         this.addDebugMessage(this.tileIndicator);
@@ -349,9 +343,9 @@ var Util = /** @class */ (function () {
             case Direction.WEST:
                 return 0;
             case Direction.NORTH:
-                return 1;
-            case Direction.SOUTH:
                 return -1;
+            case Direction.SOUTH:
+                return 1;
         }
     };
     return Util;
@@ -560,33 +554,33 @@ var GameClient = /** @class */ (function () {
         if (DEBUG) {
             console.log("[MAR] Requesting user info");
         }
-        this.socket.send(JSON.stringify({t: "userInfo"}));
+        this.socket.send(JSON.stringify({ t: "userInfo" }));
     };
     GameClient.prototype.requestTerrain = function () {
         if (DEBUG) {
             console.log("[MAR] Requesting terrain for world (" + this.worldX + ", " + this.worldY + ")");
         }
-        this.socket.send(JSON.stringify({t: "terrain", x: this.worldX, y: this.worldY}));
+        this.socket.send(JSON.stringify({ t: "terrain", x: this.worldX, y: this.worldY }));
         this.requestObjects();
     };
     GameClient.prototype.uploadCode = function (code) {
         if (DEBUG) {
             console.log("[MAR] Uploaded code");
         }
-        this.socket.send(JSON.stringify({t: "uploadCode", code: code}));
+        this.socket.send(JSON.stringify({ t: "uploadCode", code: code }));
     };
     GameClient.prototype.reloadCode = function () {
         if (DEBUG) {
             console.log("[MAR] Reloading code");
         }
-        this.socket.send(JSON.stringify({t: "codeRequest"}));
+        this.socket.send(JSON.stringify({ t: "codeRequest" }));
     };
     GameClient.prototype.sendKeyPress = function (key) {
         if (DEBUG) {
             console.log("[MAR] Sent KeyPress: " + key);
         }
         if (key !== 0) {
-            this.socket.send(JSON.stringify({t: "k", k: key}));
+            this.socket.send(JSON.stringify({ t: "k", k: key }));
         }
     };
     GameClient.prototype.requestFloppy = function () {
@@ -595,19 +589,19 @@ var GameClient = /** @class */ (function () {
         if (DEBUG) {
             console.log("[MAR] Requesting floppy");
         }
-        this.socket.send(JSON.stringify({t: "floppyDown"}));
+        this.socket.send(JSON.stringify({ t: "floppyDown" }));
     };
     GameClient.prototype.notifyFloppyUp = function () {
         if (DEBUG) {
             console.log("[MAR] Notifying the game server of floppy upload");
         }
-        this.socket.send(JSON.stringify({t: "floppyUp"}));
+        this.socket.send(JSON.stringify({ t: "floppyUp" }));
     };
     GameClient.prototype.requestObjects = function () {
         if (DEBUG) {
             console.log("[MAR] Requesting game objects");
         }
-        this.socket.send(JSON.stringify({t: "object", x: this.worldX, y: this.worldY}));
+        this.socket.send(JSON.stringify({ t: "object", x: this.worldX, y: this.worldY }));
     };
     /**
      * Get server info from game website
@@ -673,7 +667,7 @@ var GameClient = /** @class */ (function () {
                     if (DEBUG) {
                         console.log("[MAR] Received invalid message, assuming floppy data");
                         document.getElementById("floppyDown").innerHTML = "<i class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i> <i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i>";
-                        var blob = new Blob([received.data], {type: "application/octet-stream"});
+                        var blob = new Blob([received.data], { type: "application/octet-stream" });
                         saveAs(blob, "floppy.bin");
                     }
                 }
@@ -844,8 +838,8 @@ var Cubot = /** @class */ (function (_super) {
         return _this;
     }
     Cubot.prototype.onTileHover = function () {
-        mar.game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
-        mar.game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 45 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({ x: 1.2, y: 1.2 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotHoverTint;
         if (this.text !== undefined) {
             this.text.visible = true;
@@ -853,8 +847,8 @@ var Cubot = /** @class */ (function (_super) {
         this.hovered = true;
     };
     Cubot.prototype.onTileExit = function () {
-        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
-        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
         if (this.text !== undefined) {
             this.text.visible = false;
         }
@@ -968,10 +962,7 @@ var Cubot = /** @class */ (function (_super) {
         var self = this;
         var walkAnimation = function (duration) {
             //Move the Cubot to desired tile
-            var tween = mar.game.add.tween(self).to({
-                isoX: Util.getIsoX(self.tileX),
-                isoY: Util.getIsoY(self.tileY)
-            }, duration, Phaser.Easing.Linear.None, true);
+            var tween = mar.game.add.tween(self).to({ isoX: Util.getIsoX(self.tileX), isoY: Util.getIsoY(self.tileY) }, duration, Phaser.Easing.Linear.None, true);
             //Play appropriate animation
             switch (self.direction) {
                 case Direction.NORTH:
@@ -1116,15 +1107,15 @@ var BiomassBlob = /** @class */ (function (_super) {
     }
     BiomassBlob.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this).to({ isoZ: 45 }, 200, Phaser.Easing.Quadratic.InOut, true);
         this.tint = config.biomassHoverTint;
-        mar.game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this.scale).to({ x: 1.2, y: 1.2 }, 200, Phaser.Easing.Linear.None, true);
         this.text.visible = true;
     };
     BiomassBlob.prototype.onTileExit = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
-        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.biomassTint;
         this.text.visible = false;
     };
@@ -1149,15 +1140,15 @@ var Factory = /** @class */ (function (_super) {
     }
     Factory.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
-        mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotHoverTint;
         this.text.visible = true;
     };
     Factory.prototype.onTileExit = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
-        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotTint;
         this.text.visible = false;
     };
@@ -1185,15 +1176,15 @@ var RadioTower = /** @class */ (function (_super) {
     }
     RadioTower.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
-        mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotHoverTint;
         this.text.visible = true;
     };
     RadioTower.prototype.onTileExit = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
-        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotTint;
         this.text.visible = false;
     };
@@ -1216,15 +1207,15 @@ var VaultDoor = /** @class */ (function (_super) {
     }
     VaultDoor.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
-        mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotHoverTint;
         this.text.visible = true;
     };
     VaultDoor.prototype.onTileExit = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
-        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotTint;
         this.text.visible = false;
     };
@@ -1277,14 +1268,14 @@ var Tile = /** @class */ (function (_super) {
     };
     Tile.prototype.onHover = function () {
         this.tint = config.tileHoverTint;
-        mar.game.add.tween(this).to({isoZ: this.baseZ + 8}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this).to({ isoZ: this.baseZ + 8 }, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.tileIndicator.tileX = this.tileX;
         mar.tileIndicator.tileY = this.tileY;
         mar.tileIndicator.tileType = this.tileType;
     };
     Tile.prototype.onExit = function () {
         this.tint = this.baseTint;
-        mar.game.add.tween(this).to({isoZ: this.baseZ}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this).to({ isoZ: this.baseZ }, 200, Phaser.Easing.Quadratic.InOut, true);
     };
     Tile.prototype.setText = function (text, fillColor) {
         //Remove previous text

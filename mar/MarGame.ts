@@ -259,7 +259,8 @@ class MarGame {
 
     private initialiseStaticHud() {
 
-        this.game.add.sprite(0, this.game.camera.height - 150, "sheet", "ui/compass", this.hudGroup);
+        //todo fix the compass sprite so the Y axis is facing the other way
+        //this.game.add.sprite(0, this.game.camera.height - 150, "sheet", "ui/compass", this.hudGroup);
 
         this.addDebugMessage(new WorldIndicator(10, 20));
 
