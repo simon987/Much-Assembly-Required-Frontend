@@ -319,7 +319,7 @@ function parseInstruction(line, result, currentLine) {
                 strO1 = line.substring(line.indexOf(mnemonic) + mnemonic.length).trim();
 
                 //Validate operand number
-                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc|jo|jno|inc|dec|popf)\\b').test(mnemonic.toLowerCase())) {
+                if (!new RegExp('\\b(?:push|mul|pop|div|neg|call|jnz|jg|jl|jge|jle|hwi|hwq|jz|js|jns|ret|jmp|not|jc|jnc|jo|jno|inc|dec)\\b').test(mnemonic.toLowerCase())) {
                     result.annotations.push({
                         row: currentLine,
                         column: 0,
@@ -342,7 +342,7 @@ function parseInstruction(line, result, currentLine) {
 
             } else {
                 //No operand
-                if (!new RegExp('\\b(?:ret|brk|nop|pushf)\\b').test(mnemonic.toLowerCase())) {
+                if (!new RegExp('\\b(?:ret|brk|nop|pushf|popf)\\b').test(mnemonic.toLowerCase())) {
 
                     //Validate operand number
                     result.annotations.push({
