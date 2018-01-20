@@ -47,12 +47,12 @@ define("ace/mode/mar_rules", ["require", "exports", "module", "ace/lib/oop", "ac
             start:
                 [{
                     token: 'keyword.function.assembly',
-                    regex: '\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|dw|nop|equ|neg|hwq|not|ror|rol|sal|sar|inc|dec)\\b',
+                    regex: '\\b(?:mov|add|sub|and|or|test|cmp|shl|shr|mul|push|pop|div|xor|dw|nop|equ|neg|hwq|not|ror|rol|sal|sar|inc|dec|rcl|xchg|rcr)\\b',
                     caseInsensitive: true
                 },
                     {
                         token: 'keyword.operator.assembly',
-                        regex: '\\b(?:call|ret|jmp|jnz|jg|jl|jge|jle|hwi|jz|js|jns|jc|jnc)\\b',
+                        regex: '\\b(?:call|ret|jmp|jnz|jg|jl|jge|jle|hwi|jz|js|jns|jc|jnc|jo|jno)\\b',
                         caseInsensitive: true
                     },
                     {
