@@ -360,9 +360,55 @@ var Util = /** @class */ (function () {
     };
     return Util;
 }());
+var Debug = /** @class */ (function () {
+    function Debug() {
+    }
+    Debug.setTileAt = function (x, y, newTile) {
+        mar.client.sendDebugCommand({ t: "debug", command: "setTileAt", x: x, y: y, newTile: newTile,
+            worldX: mar.client.worldX, worldY: mar.client.worldY });
+        mar.client.requestTerrain(); //Reload terrain
+    };
+    Debug.createWorld = function (x, y) {
+        mar.client.sendDebugCommand({ t: "debug", command: "createWorld", worldX: x, worldY: y });
+        mar.client.requestTerrain(); //Reload terrain
+    };
+    Debug.createWorldHex = function (x, y) {
+        mar.client.sendDebugCommand({ t: "debug", command: "createWorld", worldX: parseInt(x, 16), worldY: parseInt(y, 16) });
+        mar.client.requestTerrain(); //Reload terrain
+    };
+    Debug.goTo = function (worldX, worldY) {
+        mar.client.worldX = worldX;
+        mar.client.worldY = worldY;
+        mar.client.requestTerrain(); //Reload terrain
+    };
+    Debug.goToHex = function (worldX, worldY) {
+        mar.client.worldX = parseInt(worldX, 16);
+        mar.client.worldY = parseInt(worldY, 16);
+        mar.client.requestTerrain();
+    };
+    Debug.killAll = function (x, y) {
+        mar.client.sendDebugCommand({ t: "debug", command: "killAll", x: x, y: y,
+            worldX: mar.client.worldX, worldY: mar.client.worldY });
+    };
+    Debug.objInfo = function (x, y) {
+        mar.client.sendDebugCommand({ t: "debug", command: "objInfo", x: x, y: y,
+            worldX: mar.client.worldX, worldY: mar.client.worldY });
+    };
+    Debug.userInfo = function (username) {
+        mar.client.sendDebugCommand({ t: "debug", command: "userInfo", username: username });
+    };
+    Debug.moveObj = function (objectId, x, y) {
+        mar.client.sendDebugCommand({ t: "debug", command: "moveObj", objectId: objectId, x: x, y: y });
+        mar.client.requestObjects();
+    };
+    Debug.spawnObj = function (data) {
+        mar.client.sendDebugCommand({ t: "debug", command: "spawnObj", data: data,
+            worldX: mar.client.worldX, worldY: mar.client.worldY });
+    };
+    return Debug;
+}());
+DEBUG = false; // todo remove
 var mar = new MarGame();
-var myVarX = 0.46;
-var myVarY = 0.46;
 /**
  * Client-side keyboard buffer. It is overwritten by the server at the end of tick.
  */
@@ -554,6 +600,17 @@ var CodeResponseListener = /** @class */ (function () {
     };
     return CodeResponseListener;
 }());
+var DebugResponseListener = /** @class */ (function () {
+    function DebugResponseListener() {
+    }
+    DebugResponseListener.prototype.getListenedMessageType = function () {
+        return "debug";
+    };
+    DebugResponseListener.prototype.handle = function (message) {
+        console.log("> " + message.message);
+    };
+    return DebugResponseListener;
+}());
 var GameClient = /** @class */ (function () {
     function GameClient() {
         this.listeners = [];
@@ -613,6 +670,9 @@ var GameClient = /** @class */ (function () {
         }
         this.socket.send(JSON.stringify({ t: "object", x: this.worldX, y: this.worldY }));
     };
+    GameClient.prototype.sendDebugCommand = function (json) {
+        this.socket.send(JSON.stringify(json));
+    };
     /**
      * Get server info from game website
      */
@@ -660,6 +720,7 @@ var GameClient = /** @class */ (function () {
             self.listeners.push(new ObjectsListener());
             self.listeners.push(new CodeResponseListener());
             self.listeners.push(new CodeListener());
+            self.listeners.push(new DebugResponseListener());
             self.socket.onmessage = function (received) {
                 var message;
                 try {
@@ -1238,8 +1299,9 @@ var RadioTower = /** @class */ (function (_super) {
 var VaultDoor = /** @class */ (function (_super) {
     __extends(VaultDoor, _super);
     function VaultDoor(json) {
-        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/VaultDoor") || this;
-        _this.anchor.set(myVarX, myVarY);
+        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/biomass/idle/0001") || this;
+        _this.tint = 0xff232a;
+        _this.anchor.set(0.5, 0);
         _this.setText("Vault");
         _this.text.visible = false;
         _this.id = json.i;
@@ -1251,14 +1313,14 @@ var VaultDoor = /** @class */ (function (_super) {
         mar.game.tweens.removeFrom(this);
         mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
-        this.tint = config.cubotHoverTint;
+        // this.tint = config.cubotHoverTint;
         this.text.visible = true;
     };
     VaultDoor.prototype.onTileExit = function () {
         mar.game.tweens.removeFrom(this);
         mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
         mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
-        this.tint = config.cubotTint;
+        // this.tint = config.cubotTint;
         this.text.visible = false;
     };
     VaultDoor.prototype.updateObject = function (json) {

@@ -630,7 +630,7 @@ class VaultDoor extends GameObject {
         mar.game.tweens.removeFrom(this);
         mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
-        this.tint = config.cubotHoverTint;
+        // this.tint = config.cubotHoverTint;
 
         this.text.visible = true;
     }
@@ -639,7 +639,7 @@ class VaultDoor extends GameObject {
         mar.game.tweens.removeFrom(this);
         mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
         mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
-        this.tint = config.cubotTint;
+        // this.tint = config.cubotTint;
 
         this.text.visible = false;
     }
@@ -649,11 +649,13 @@ class VaultDoor extends GameObject {
     }
 
     constructor(json) {
-        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/VaultDoor");
+        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/biomass/idle/0001");
+        this.tint = 0xff232a;
+        this.anchor.set(0.5, 0);
 
-        this.anchor.set(myVarX, myVarY);
         this.setText("Vault");
         this.text.visible = false;
+
 
         this.id = json.i;
         this.tileX = json.x;

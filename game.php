@@ -130,7 +130,7 @@ if (isset($user)) {
                         <div id="game" tabindex="0">
                             <script src="mar/phaser.min.js"></script>
                             <script src="mar/phaser-plugin-isometric.min.js"></script>
-                            <script src="mar/app.min.js"></script>
+                            <script src="mar/app.js"></script>
                         </div>
                         <?php if ($user) { ?>
                             <!-- Editor -->

@@ -237,6 +237,20 @@ class CodeResponseListener implements MessageListener {
 
 }
 
+class DebugResponseListener implements MessageListener {
+
+    getListenedMessageType(): string {
+        return "debug";
+    }
+
+    handle(message): void {
+
+        console.log("> " + message.message)
+
+    }
+
+}
+
 class GameClient {
 
     keyboardBuffer: KeyboardBuffer;
@@ -338,6 +352,11 @@ class GameClient {
         this.socket.send(JSON.stringify({t: "object", x: this.worldX, y: this.worldY}));
     }
 
+    public sendDebugCommand(json): void {
+
+        this.socket.send(JSON.stringify(json));
+    }
+
 
     /**
      * Get server info from game website
@@ -401,6 +420,7 @@ class GameClient {
             self.listeners.push(new ObjectsListener());
             self.listeners.push(new CodeResponseListener());
             self.listeners.push(new CodeListener());
+            self.listeners.push(new DebugResponseListener());
 
             self.socket.onmessage = function (received) {
 

@@ -108,7 +108,64 @@ class Util {
     }
 }
 
+class Debug {
+
+    public static setTileAt(x, y, newTile) {
+        mar.client.sendDebugCommand({t:"debug", command: "setTileAt", x: x, y: y, newTile: newTile,
+            worldX: mar.client.worldX, worldY: mar.client.worldY});
+
+        mar.client.requestTerrain(); //Reload terrain
+    }
+
+    public static createWorld(x, y) {
+        mar.client.sendDebugCommand({t:"debug", command: "createWorld", worldX: x, worldY: y});
+        mar.client.requestTerrain(); //Reload terrain
+    }
+
+    public static createWorldHex(x, y) {
+        mar.client.sendDebugCommand({t:"debug", command: "createWorld", worldX: parseInt(x, 16), worldY: parseInt(y, 16)});
+        mar.client.requestTerrain(); //Reload terrain
+    }
+
+    public static goTo(worldX, worldY) {
+        mar.client.worldX = worldX;
+        mar.client.worldY = worldY;
+        mar.client.requestTerrain(); //Reload terrain
+    }
+
+    public static goToHex(worldX, worldY) {
+        mar.client.worldX = parseInt(worldX, 16);
+        mar.client.worldY = parseInt(worldY, 16);
+        mar.client.requestTerrain();
+    }
+
+    public static killAll(x, y) {
+        mar.client.sendDebugCommand({t:"debug", command: "killAll", x: x, y: y,
+            worldX: mar.client.worldX, worldY: mar.client.worldY});
+    }
+
+    public static objInfo(x, y) {
+        mar.client.sendDebugCommand({t:"debug", command: "objInfo", x: x, y: y,
+            worldX: mar.client.worldX, worldY: mar.client.worldY});
+    }
+
+    public static userInfo(username) {
+        mar.client.sendDebugCommand({t:"debug", command: "userInfo", username: username});
+    }
+
+    public static moveObj(objectId, x, y) {
+        mar.client.sendDebugCommand({t:"debug", command: "moveObj", objectId: objectId, x: x, y: y});
+        mar.client.requestObjects();
+    }
+
+    public static spawnObj(data) {
+        mar.client.sendDebugCommand({t:"debug", command: "spawnObj", data: data,
+            worldX: mar.client.worldX, worldY: mar.client.worldY});
+    }
+
+}
+
+DEBUG = false; // todo remove
+
 let mar = new MarGame();
 
-var myVarX = 0.46;
-var myVarY = 0.46;
