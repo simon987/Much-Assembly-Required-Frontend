@@ -255,7 +255,7 @@ var WorldIndicator = /** @class */ (function (_super) {
     }
     WorldIndicator.prototype.getMessage = function () {
         if (mar.world != undefined) {
-            return "World: (" + Number(mar.client.worldX).toString(16).toUpperCase() + ", " +
+            return "World: " + mar.client.dimension + "(" + Number(mar.client.worldX).toString(16).toUpperCase() + ", " +
                 Number(mar.client.worldY).toString(16).toUpperCase() + ")";
         }
         else {
@@ -298,7 +298,7 @@ var config = {
             font: "fixedsys"
         };
     },
-    kbBufferX: 225,
+    kbBufferX: 350,
     kbBufferY: 20,
     arrowTextStyle: {
         fontSize: 32,
@@ -368,31 +368,33 @@ var Debug = /** @class */ (function () {
             worldX: mar.client.worldX, worldY: mar.client.worldY });
         mar.client.requestTerrain(); //Reload terrain
     };
-    Debug.createWorld = function (x, y) {
-        mar.client.sendDebugCommand({ t: "debug", command: "createWorld", worldX: x, worldY: y });
+    Debug.createWorld = function (x, y, dimension) {
+        mar.client.sendDebugCommand({ t: "debug", command: "createWorld", worldX: x, worldY: y, dimension: dimension });
         mar.client.requestTerrain(); //Reload terrain
     };
-    Debug.createWorldHex = function (x, y) {
-        mar.client.sendDebugCommand({ t: "debug", command: "createWorld", worldX: parseInt(x, 16), worldY: parseInt(y, 16) });
-        mar.client.requestTerrain(); //Reload terrain
+    Debug.createWorldHex = function (x, y, dimension) {
+        mar.client.sendDebugCommand({ t: "debug", command: "createWorld",
+            worldX: parseInt(x, 16), worldY: parseInt(y, 16), dimension: dimension });
     };
-    Debug.goTo = function (worldX, worldY) {
+    Debug.goTo = function (worldX, worldY, dimension) {
         mar.client.worldX = worldX;
         mar.client.worldY = worldY;
+        mar.client.dimension = dimension;
         mar.client.requestTerrain(); //Reload terrain
     };
-    Debug.goToHex = function (worldX, worldY) {
+    Debug.goToHex = function (worldX, worldY, dimension) {
         mar.client.worldX = parseInt(worldX, 16);
         mar.client.worldY = parseInt(worldY, 16);
+        mar.client.dimension = dimension;
         mar.client.requestTerrain();
     };
     Debug.killAll = function (x, y) {
         mar.client.sendDebugCommand({ t: "debug", command: "killAll", x: x, y: y,
-            worldX: mar.client.worldX, worldY: mar.client.worldY });
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension });
     };
     Debug.objInfo = function (x, y) {
         mar.client.sendDebugCommand({ t: "debug", command: "objInfo", x: x, y: y,
-            worldX: mar.client.worldX, worldY: mar.client.worldY });
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension });
     };
     Debug.userInfo = function (username) {
         mar.client.sendDebugCommand({ t: "debug", command: "userInfo", username: username });
@@ -403,7 +405,7 @@ var Debug = /** @class */ (function () {
     };
     Debug.spawnObj = function (data) {
         mar.client.sendDebugCommand({ t: "debug", command: "spawnObj", data: data,
-            worldX: mar.client.worldX, worldY: mar.client.worldY });
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension });
     };
     return Debug;
 }());
@@ -493,6 +495,7 @@ var UserInfoListener = /** @class */ (function () {
         }
         mar.client.worldX = message.worldX;
         mar.client.worldY = message.worldY;
+        mar.client.dimension = message.dimension;
         //Maximum Universe width
         mar.client.maxWidth = message.maxWidth;
         mar.client.requestTerrain();
@@ -627,7 +630,7 @@ var GameClient = /** @class */ (function () {
         if (DEBUG) {
             console.log("[MAR] Requesting terrain for world (" + this.worldX + ", " + this.worldY + ")");
         }
-        this.socket.send(JSON.stringify({ t: "terrain", x: this.worldX, y: this.worldY }));
+        this.socket.send(JSON.stringify({ t: "terrain", x: this.worldX, y: this.worldY, dimension: this.dimension }));
         this.requestObjects();
     };
     GameClient.prototype.uploadCode = function (code) {
@@ -668,7 +671,7 @@ var GameClient = /** @class */ (function () {
         if (DEBUG) {
             console.log("[MAR] Requesting game objects");
         }
-        this.socket.send(JSON.stringify({ t: "object", x: this.worldX, y: this.worldY }));
+        this.socket.send(JSON.stringify({ t: "object", x: this.worldX, y: this.worldY, dimension: this.dimension }));
     };
     GameClient.prototype.sendDebugCommand = function (json) {
         this.socket.send(JSON.stringify(json));

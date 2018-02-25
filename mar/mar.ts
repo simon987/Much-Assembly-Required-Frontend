@@ -35,7 +35,7 @@ let config = {
             font: "fixedsys"
         }
     },
-    kbBufferX: 225, ///Position of the keyboard buffer fill on screen
+    kbBufferX: 350, ///Position of the keyboard buffer fill on screen
     kbBufferY: 20,
     arrowTextStyle: {
         fontSize: 32,
@@ -117,36 +117,38 @@ class Debug {
         mar.client.requestTerrain(); //Reload terrain
     }
 
-    public static createWorld(x, y) {
-        mar.client.sendDebugCommand({t:"debug", command: "createWorld", worldX: x, worldY: y});
+    public static createWorld(x, y, dimension) {
+        mar.client.sendDebugCommand({t:"debug", command: "createWorld", worldX: x, worldY: y, dimension:dimension});
         mar.client.requestTerrain(); //Reload terrain
     }
 
-    public static createWorldHex(x, y) {
-        mar.client.sendDebugCommand({t:"debug", command: "createWorld", worldX: parseInt(x, 16), worldY: parseInt(y, 16)});
-        mar.client.requestTerrain(); //Reload terrain
+    public static createWorldHex(x, y, dimension) {
+        mar.client.sendDebugCommand({t:"debug", command: "createWorld",
+            worldX: parseInt(x, 16), worldY: parseInt(y, 16), dimension:dimension});
     }
 
-    public static goTo(worldX, worldY) {
+    public static goTo(worldX, worldY, dimension) {
         mar.client.worldX = worldX;
         mar.client.worldY = worldY;
+        mar.client.dimension = dimension;
         mar.client.requestTerrain(); //Reload terrain
     }
 
-    public static goToHex(worldX, worldY) {
+    public static goToHex(worldX, worldY, dimension) {
         mar.client.worldX = parseInt(worldX, 16);
         mar.client.worldY = parseInt(worldY, 16);
+        mar.client.dimension = dimension;
         mar.client.requestTerrain();
     }
 
     public static killAll(x, y) {
         mar.client.sendDebugCommand({t:"debug", command: "killAll", x: x, y: y,
-            worldX: mar.client.worldX, worldY: mar.client.worldY});
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension});
     }
 
     public static objInfo(x, y) {
         mar.client.sendDebugCommand({t:"debug", command: "objInfo", x: x, y: y,
-            worldX: mar.client.worldX, worldY: mar.client.worldY});
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension});
     }
 
     public static userInfo(username) {
@@ -160,7 +162,7 @@ class Debug {
 
     public static spawnObj(data) {
         mar.client.sendDebugCommand({t:"debug", command: "spawnObj", data: data,
-            worldX: mar.client.worldX, worldY: mar.client.worldY});
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension});
     }
 
 }

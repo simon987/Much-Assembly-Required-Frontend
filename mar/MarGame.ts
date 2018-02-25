@@ -315,7 +315,7 @@ class WorldIndicator extends DebugMessage {
 
         if (mar.world != undefined) {
 
-            return "World: (" + Number(mar.client.worldX).toString(16).toUpperCase() + ", " +
+            return "World: " + mar.client.dimension + "(" + Number(mar.client.worldX).toString(16).toUpperCase() + ", " +
                 Number(mar.client.worldY).toString(16).toUpperCase() + ")";
 
         } else {

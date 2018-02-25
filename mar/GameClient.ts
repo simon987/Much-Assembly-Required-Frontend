@@ -104,6 +104,7 @@ class UserInfoListener implements MessageListener {
 
         mar.client.worldX = message.worldX;
         mar.client.worldY = message.worldY;
+        mar.client.dimension = message.dimension;
 
         //Maximum Universe width
         mar.client.maxWidth = message.maxWidth;
@@ -268,6 +269,7 @@ class GameClient {
 
     public worldX: number;
     public worldY: number;
+    public dimension: string;
 
     public consoleScreen: PlainTextConsole;
 
@@ -292,7 +294,7 @@ class GameClient {
             console.log("[MAR] Requesting terrain for world (" + this.worldX + ", " + this.worldY + ")");
         }
 
-        this.socket.send(JSON.stringify({t: "terrain", x: this.worldX, y: this.worldY}));
+        this.socket.send(JSON.stringify({t: "terrain", x: this.worldX, y: this.worldY, dimension: this.dimension}));
         this.requestObjects();
     }
 
@@ -349,7 +351,7 @@ class GameClient {
             console.log("[MAR] Requesting game objects");
         }
 
-        this.socket.send(JSON.stringify({t: "object", x: this.worldX, y: this.worldY}));
+        this.socket.send(JSON.stringify({t: "object", x: this.worldX, y: this.worldY, dimension: this.dimension}));
     }
 
     public sendDebugCommand(json): void {
