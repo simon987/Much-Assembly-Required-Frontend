@@ -8,6 +8,8 @@ let DEBUG: boolean = true;
 let config = {
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
+    vaultWallTint: 0x3f1c1c,
+    vaultFloorTint: 0x3452C2A,
     oreTint: 0xF3F3F3,
     cubotHoverTint: 0x00FF00,
     cubotTint: 0xFFFFFF,

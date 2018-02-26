@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var MarGame = /** @class */ (function () {
+var MarGame = (function () {
     function MarGame() {
         this.cursorPos = new Phaser.Plugin.Isometric.Point3();
         this.debugMessages = [];
@@ -220,7 +220,7 @@ var MarGame = /** @class */ (function () {
     };
     return MarGame;
 }());
-var DebugMessage = /** @class */ (function () {
+var DebugMessage = (function () {
     function DebugMessage(x, y) {
         this.x = x;
         this.y = y;
@@ -230,7 +230,7 @@ var DebugMessage = /** @class */ (function () {
 /**
  * Indicates hovered tile
  */
-var TileIndicator = /** @class */ (function (_super) {
+var TileIndicator = (function (_super) {
     __extends(TileIndicator, _super);
     function TileIndicator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -248,7 +248,7 @@ var TileIndicator = /** @class */ (function (_super) {
 /**
  * Indicates current World
  */
-var WorldIndicator = /** @class */ (function (_super) {
+var WorldIndicator = (function (_super) {
     __extends(WorldIndicator, _super);
     function WorldIndicator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -271,6 +271,8 @@ var DEBUG = true;
 var config = {
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
+    vaultWallTint: 0x3f1c1c,
+    vaultFloorTint: 0x3452C2A,
     oreTint: 0xF3F3F3,
     cubotHoverTint: 0x00FF00,
     cubotTint: 0xFFFFFF,
@@ -316,7 +318,7 @@ var config = {
     otherCubotAlpha: 0.6,
     defaultWorldSize: 16 //Will fallback to this when server does not provide world width
 };
-var Util = /** @class */ (function () {
+var Util = (function () {
     function Util() {
     }
     //todo: find a more elegant way of doing this. Maybe this is related: https://github.com/lewster32/phaser-plugin-isometric/issues/7
@@ -360,7 +362,7 @@ var Util = /** @class */ (function () {
     };
     return Util;
 }());
-var Debug = /** @class */ (function () {
+var Debug = (function () {
     function Debug() {
     }
     Debug.setTileAt = function (x, y, newTile) {
@@ -414,7 +416,7 @@ var mar = new MarGame();
 /**
  * Client-side keyboard buffer. It is overwritten by the server at the end of tick.
  */
-var KeyboardBuffer = /** @class */ (function (_super) {
+var KeyboardBuffer = (function (_super) {
     __extends(KeyboardBuffer, _super);
     function KeyboardBuffer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -445,7 +447,7 @@ var KeyboardBuffer = /** @class */ (function (_super) {
 /**
  * Listens for object list
  */
-var ObjectsListener = /** @class */ (function () {
+var ObjectsListener = (function () {
     function ObjectsListener() {
     }
     ObjectsListener.prototype.getListenedMessageType = function () {
@@ -461,7 +463,7 @@ var ObjectsListener = /** @class */ (function () {
     };
     return ObjectsListener;
 }());
-var TickListener = /** @class */ (function () {
+var TickListener = (function () {
     function TickListener() {
     }
     TickListener.prototype.getListenedMessageType = function () {
@@ -483,7 +485,7 @@ var TickListener = /** @class */ (function () {
     };
     return TickListener;
 }());
-var UserInfoListener = /** @class */ (function () {
+var UserInfoListener = (function () {
     function UserInfoListener() {
     }
     UserInfoListener.prototype.getListenedMessageType = function () {
@@ -502,7 +504,7 @@ var UserInfoListener = /** @class */ (function () {
     };
     return UserInfoListener;
 }());
-var AuthListener = /** @class */ (function () {
+var AuthListener = (function () {
     function AuthListener() {
     }
     AuthListener.prototype.getListenedMessageType = function () {
@@ -524,7 +526,7 @@ var AuthListener = /** @class */ (function () {
     };
     return AuthListener;
 }());
-var TerrainListener = /** @class */ (function () {
+var TerrainListener = (function () {
     function TerrainListener() {
     }
     TerrainListener.prototype.getListenedMessageType = function () {
@@ -581,7 +583,7 @@ var TerrainListener = /** @class */ (function () {
     };
     return TerrainListener;
 }());
-var CodeListener = /** @class */ (function () {
+var CodeListener = (function () {
     function CodeListener() {
     }
     CodeListener.prototype.getListenedMessageType = function () {
@@ -592,7 +594,7 @@ var CodeListener = /** @class */ (function () {
     };
     return CodeListener;
 }());
-var CodeResponseListener = /** @class */ (function () {
+var CodeResponseListener = (function () {
     function CodeResponseListener() {
     }
     CodeResponseListener.prototype.getListenedMessageType = function () {
@@ -603,7 +605,7 @@ var CodeResponseListener = /** @class */ (function () {
     };
     return CodeResponseListener;
 }());
-var DebugResponseListener = /** @class */ (function () {
+var DebugResponseListener = (function () {
     function DebugResponseListener() {
     }
     DebugResponseListener.prototype.getListenedMessageType = function () {
@@ -614,7 +616,7 @@ var DebugResponseListener = /** @class */ (function () {
     };
     return DebugResponseListener;
 }());
-var GameClient = /** @class */ (function () {
+var GameClient = (function () {
     function GameClient() {
         this.listeners = [];
         this.getServerInfo();
@@ -822,7 +824,7 @@ var Action;
     Action[Action["LISTENING"] = 5] = "LISTENING";
     Action[Action["JUMPING"] = 6] = "JUMPING";
 })(Action || (Action = {}));
-var GameObject = /** @class */ (function (_super) {
+var GameObject = (function (_super) {
     __extends(GameObject, _super);
     function GameObject(x, y, z, key, frame) {
         return _super.call(this, mar.game, x, y, z, key, frame) || this;
@@ -877,7 +879,7 @@ var HologramMode;
     HologramMode[HologramMode["STRING"] = 2] = "STRING";
     HologramMode[HologramMode["DEC"] = 3] = "DEC";
 })(HologramMode || (HologramMode = {}));
-var Cubot = /** @class */ (function (_super) {
+var Cubot = (function (_super) {
     __extends(Cubot, _super);
     function Cubot(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", null) || this;
@@ -1133,7 +1135,7 @@ var Cubot = /** @class */ (function (_super) {
     };
     return Cubot;
 }(GameObject));
-var HarvesterNPC = /** @class */ (function (_super) {
+var HarvesterNPC = (function (_super) {
     __extends(HarvesterNPC, _super);
     function HarvesterNPC(json) {
         var _this = _super.call(this, json) || this;
@@ -1193,7 +1195,7 @@ var HarvesterNPC = /** @class */ (function (_super) {
     };
     return HarvesterNPC;
 }(Cubot));
-var BiomassBlob = /** @class */ (function (_super) {
+var BiomassBlob = (function (_super) {
     __extends(BiomassBlob, _super);
     function BiomassBlob(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 10, "sheet", 1) || this;
@@ -1232,7 +1234,7 @@ var BiomassBlob = /** @class */ (function (_super) {
     };
     return BiomassBlob;
 }(GameObject));
-var Factory = /** @class */ (function (_super) {
+var Factory = (function (_super) {
     __extends(Factory, _super);
     function Factory(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/factory") || this;
@@ -1268,7 +1270,7 @@ var Factory = /** @class */ (function (_super) {
     ;
     return Factory;
 }(GameObject));
-var RadioTower = /** @class */ (function (_super) {
+var RadioTower = (function (_super) {
     __extends(RadioTower, _super);
     function RadioTower(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/RadioTower") || this;
@@ -1299,7 +1301,7 @@ var RadioTower = /** @class */ (function (_super) {
     };
     return RadioTower;
 }(GameObject));
-var VaultDoor = /** @class */ (function (_super) {
+var VaultDoor = (function (_super) {
     __extends(VaultDoor, _super);
     function VaultDoor(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/biomass/idle/0001") || this;
@@ -1346,8 +1348,10 @@ var TileType;
     TileType[TileType["WALL"] = 1] = "WALL";
     TileType[TileType["IRON"] = 2] = "IRON";
     TileType[TileType["COPPER"] = 3] = "COPPER";
+    TileType[TileType["VAULT_FLOOR"] = 4] = "VAULT_FLOOR";
+    TileType[TileType["VAULT_WALL"] = 5] = "VAULT_WALL";
 })(TileType || (TileType = {}));
-var Tile = /** @class */ (function (_super) {
+var Tile = (function (_super) {
     __extends(Tile, _super);
     function Tile(x, y, sprite, anchorY) {
         var _this = _super.call(this, mar.game, Util.getIsoX(x), Util.getIsoY(y), 0, 'sheet', sprite) || this;
@@ -1368,6 +1372,12 @@ var Tile = /** @class */ (function (_super) {
                 return new IronTile(x, y);
             case TileType.COPPER:
                 return new CopperTile(x, y);
+            case TileType.VAULT_FLOOR:
+                return new VaultFloorTile(x, y);
+            case TileType.VAULT_WALL:
+                return new VaultWallTile(x, y);
+            case -1:
+                return new VoidTile(x, y);
             case TileType.PLAIN:
             default:
                 return new PlainTile(x, y);
@@ -1402,7 +1412,7 @@ var Tile = /** @class */ (function (_super) {
     };
     return Tile;
 }(Phaser.Plugin.Isometric.IsoSprite));
-var PlainTile = /** @class */ (function (_super) {
+var PlainTile = (function (_super) {
     __extends(PlainTile, _super);
     function PlainTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1413,7 +1423,7 @@ var PlainTile = /** @class */ (function (_super) {
     }
     return PlainTile;
 }(Tile));
-var WallTile = /** @class */ (function (_super) {
+var WallTile = (function (_super) {
     __extends(WallTile, _super);
     function WallTile(x, y) {
         var _this = _super.call(this, x, y, config.wallSprite, 0.2) || this;
@@ -1424,7 +1434,47 @@ var WallTile = /** @class */ (function (_super) {
     }
     return WallTile;
 }(Tile));
-var IronTile = /** @class */ (function (_super) {
+var VaultWallTile = (function (_super) {
+    __extends(VaultWallTile, _super);
+    function VaultWallTile(x, y) {
+        var _this = _super.call(this, x, y, config.wallSprite, 0.2) || this;
+        _this.baseTint = config.vaultWallTint;
+        _this.tint = _this.baseTint;
+        _this.tileType = "vault wall";
+        return _this;
+    }
+    return VaultWallTile;
+}(Tile));
+var VaultFloorTile = (function (_super) {
+    __extends(VaultFloorTile, _super);
+    function VaultFloorTile(x, y) {
+        var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
+        _this.baseTint = config.vaultFloorTint;
+        _this.tint = _this.baseTint;
+        _this.tileType = "vault floor";
+        return _this;
+    }
+    return VaultFloorTile;
+}(Tile));
+var VoidTile = (function (_super) {
+    __extends(VoidTile, _super);
+    function VoidTile(x, y) {
+        var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
+        _this.baseTint = config.vaultFloorTint;
+        _this.tileType = "void";
+        _this.alpha = 0;
+        return _this;
+    }
+    VoidTile.prototype.onHover = function () {
+        mar.tileIndicator.tileX = this.tileX;
+        mar.tileIndicator.tileY = this.tileY;
+        mar.tileIndicator.tileType = this.tileType;
+    };
+    VoidTile.prototype.onExit = function () {
+    };
+    return VoidTile;
+}(Tile));
+var IronTile = (function (_super) {
     __extends(IronTile, _super);
     function IronTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1436,7 +1486,7 @@ var IronTile = /** @class */ (function (_super) {
     }
     return IronTile;
 }(Tile));
-var CopperTile = /** @class */ (function (_super) {
+var CopperTile = (function (_super) {
     __extends(CopperTile, _super);
     function CopperTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1448,18 +1498,18 @@ var CopperTile = /** @class */ (function (_super) {
     }
     return CopperTile;
 }(Tile));
-var World = /** @class */ (function () {
+var World = (function () {
     function World(terrain, size) {
         this.tiles = [];
         this.objects = [];
         //Setup World Arrows
-        this.northArrow = new WorldArrow(528, -10, "ui/arrow_north", Direction.NORTH);
+        this.northArrow = new WorldArrow(528, -20, "ui/arrow_north", Direction.NORTH);
         mar.isoGroup.add(this.northArrow);
         this.eastArrow = new WorldArrow(1115, 587, "ui/arrow_east", Direction.EAST);
         mar.isoGroup.add(this.eastArrow);
         this.southArrow = new WorldArrow(0, 0, "ui/arrow_south", Direction.SOUTH);
         mar.isoGroup.add(this.southArrow);
-        this.westArrow = new WorldArrow(-60, 587, "ui/arrow_west", Direction.WEST);
+        this.westArrow = new WorldArrow(-70, 587, "ui/arrow_west", Direction.WEST);
         mar.isoGroup.add(this.westArrow);
         //Create tilemap
         this.setTerrain(terrain, size);
@@ -1481,10 +1531,14 @@ var World = /** @class */ (function () {
             }
         }
         //Update World arrows location
-        this.eastArrow.isoY = 32 * (size + 2);
         this.eastArrow.isoX = 72.5 * (size) - 20;
+        this.eastArrow.isoY = 32 * (size + 2);
         this.southArrow.isoX = 32 * (size + 1);
         this.southArrow.isoY = 72.5 * (size) + 20;
+        this.northArrow.isoX = 32 * (size + 1);
+        this.northArrow.isoY = -20;
+        this.westArrow.isoX = -70;
+        this.westArrow.isoY = 32 * (size + 2);
         //Update Phaser World size
         mar.game.world.width = (size + 2) * 128;
         mar.game.world.height = (size + 2) * 64;
@@ -1588,7 +1642,7 @@ var World = /** @class */ (function () {
 /**
  * Represents a 'button' sprite that changes world in a direction
  */
-var WorldArrow = /** @class */ (function (_super) {
+var WorldArrow = (function (_super) {
     __extends(WorldArrow, _super);
     function WorldArrow(x, y, frame, direction) {
         var _this = _super.call(this, mar.game, x, y, 10, "sheet", frame) || this;
@@ -1636,14 +1690,14 @@ var ConsoleMode;
     ConsoleMode[ConsoleMode["CLEAR"] = 0] = "CLEAR";
     ConsoleMode[ConsoleMode["NORMAL"] = 1] = "NORMAL";
 })(ConsoleMode || (ConsoleMode = {}));
-var PlainTextConsoleMode = /** @class */ (function () {
+var PlainTextConsoleMode = (function () {
     function PlainTextConsoleMode(lineWidth, dialImage) {
         this.width = lineWidth;
         this.dialImage = dialImage;
     }
     return PlainTextConsoleMode;
 }());
-var PlainTextConsole = /** @class */ (function () {
+var PlainTextConsole = (function () {
     function PlainTextConsole(text, id, colorId, scrollId, resetID, dialId) {
         this.colorToggled = false;
         this.autoScroll = true;

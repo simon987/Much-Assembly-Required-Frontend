@@ -13,7 +13,9 @@ enum TileType {
     PLAIN,
     WALL,
     IRON,
-    COPPER
+    COPPER,
+    VAULT_FLOOR,
+    VAULT_WALL,
 }
 
 class Tile extends Phaser.Plugin.Isometric.IsoSprite {
@@ -62,6 +64,12 @@ class Tile extends Phaser.Plugin.Isometric.IsoSprite {
                 return new IronTile(x, y);
             case TileType.COPPER:
                 return new CopperTile(x, y);
+            case TileType.VAULT_FLOOR:
+                return new VaultFloorTile(x, y);
+            case TileType.VAULT_WALL:
+                return new VaultWallTile(x, y);
+            case -1:
+                return new VoidTile(x, y);
             case TileType.PLAIN:
             default:
                 return new PlainTile(x, y);
@@ -127,6 +135,49 @@ class WallTile extends Tile {
     }
 }
 
+class VaultWallTile extends Tile {
+
+    constructor(x: number, y: number) {
+        super(x, y, config.wallSprite, 0.2);
+
+        this.baseTint = config.vaultWallTint;
+        this.tint = this.baseTint;
+        this.tileType = "vault wall";
+
+    }
+}
+
+class VaultFloorTile extends Tile {
+
+    constructor(x: number, y: number) {
+        super(x, y, config.plainSprite, 0);
+
+        this.baseTint = config.vaultFloorTint;
+        this.tint = this.baseTint;
+        this.tileType = "vault floor";
+    }
+}
+
+class VoidTile extends Tile {
+
+    public onHover() {
+        mar.tileIndicator.tileX = this.tileX;
+        mar.tileIndicator.tileY = this.tileY;
+        mar.tileIndicator.tileType = this.tileType;
+    }
+
+    public onExit() {
+    }
+
+    constructor(x: number, y: number) {
+        super(x, y, config.plainSprite, 0);
+
+        this.baseTint = config.vaultFloorTint;
+        this.tileType = "void";
+        this.alpha = 0;
+    }
+}
+
 class IronTile extends Tile {
 
     constructor(x: number, y: number) {
@@ -173,13 +224,13 @@ class World {
     constructor(terrain, size) {
 
         //Setup World Arrows
-        this.northArrow = new WorldArrow(528, -10, "ui/arrow_north", Direction.NORTH);
+        this.northArrow = new WorldArrow(528, -20, "ui/arrow_north", Direction.NORTH);
         mar.isoGroup.add(this.northArrow);
         this.eastArrow = new WorldArrow(1115, 587, "ui/arrow_east", Direction.EAST);
         mar.isoGroup.add(this.eastArrow);
         this.southArrow = new WorldArrow(0, 0, "ui/arrow_south", Direction.SOUTH);
         mar.isoGroup.add(this.southArrow);
-        this.westArrow = new WorldArrow(-60, 587, "ui/arrow_west", Direction.WEST);
+        this.westArrow = new WorldArrow(-70, 587, "ui/arrow_west", Direction.WEST);
         mar.isoGroup.add(this.westArrow);
 
         //Create tilemap
@@ -208,11 +259,17 @@ class World {
         }
 
         //Update World arrows location
-        this.eastArrow.isoY = 32 * (size + 2);
         this.eastArrow.isoX = 72.5 * (size) - 20;
+        this.eastArrow.isoY = 32 * (size + 2);
 
         this.southArrow.isoX = 32 * (size + 1);
         this.southArrow.isoY = 72.5 * (size) + 20;
+
+        this.northArrow.isoX = 32 * (size + 1);
+        this.northArrow.isoY = -20;
+
+        this.westArrow.isoX = -70;
+        this.westArrow.isoY = 32 * (size + 2);
 
         //Update Phaser World size
         mar.game.world.width = (size + 2) * 128;
