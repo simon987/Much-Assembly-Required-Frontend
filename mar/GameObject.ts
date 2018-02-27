@@ -1,3 +1,5 @@
+
+
 enum ObjectType {
     CUBOT = 1,
     BIOMASS = 2,
@@ -5,6 +7,8 @@ enum ObjectType {
     FACTORY = 3,
     RADIO_TOWER = 4,
     VAULT_DOOR = 5,
+    OBSTACLE = 6,
+    ELECTRIC_BOX = 7
 }
 
 enum ItemType {
@@ -65,6 +69,10 @@ abstract class GameObject extends Phaser.Plugin.Isometric.IsoSprite {
                 return new RadioTower(json);
             case ObjectType.VAULT_DOOR:
                 return new VaultDoor(json);
+            case ObjectType.OBSTACLE:
+                return null;
+            case ObjectType.ELECTRIC_BOX:
+                return new ElectricBox(json);
 
             default:
                 return null;
@@ -661,6 +669,61 @@ class VaultDoor extends GameObject {
         this.tileX = json.x;
         this.tileY = json.y;
     }
+}
+
+class ElectricBox extends GameObject {
+
+    private sparkEmitter: Phaser.Particles.Arcade.Emitter;
+
+    public onTileHover() {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotHoverTint;
+
+        this.text.visible = true;
+    }
+
+    public onTileExit() {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotTint;
+
+        this.text.visible = false;
+    }
+
+    public makeSparks(self: ElectricBox) {
+        self.sparkEmitter.start(true, 450, null, 10);
+        window.setTimeout(self.makeSparks, mar.game.rnd.between(2000, 10000) , self)
+    }
+
+    public updateObject(json) {
+        //No op
+    }
+
+    constructor(json) {
+        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/ElectricBox");
+        this.anchor.set(0.5, 0.3);
+
+        this.setText("Electric Box");
+        this.text.visible = false;
+
+        this.id = json.i;
+        this.tileX = json.x;
+        this.tileY = json.y;
+
+        this.sparkEmitter = mar.game.add.emitter(this.x, this.y, 10);
+
+        this.sparkEmitter.makeParticles("sheet", ["effects/spark"], 10);
+
+        this.sparkEmitter.minParticleSpeed.setTo(-250, -200;
+        this.sparkEmitter.maxParticleSpeed.setTo(250, 0);
+        this.sparkEmitter.gravity = new Phaser.Point(0, 500);
+
+        window.setTimeout(this.makeSparks, mar.game.rnd.between(2000, 10000), this)
+    }
+
 
 }
 

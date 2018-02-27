@@ -162,6 +162,18 @@ class Debug {
         mar.client.requestObjects();
     }
 
+    public static tpObj(objectId, x, y, worldX, worldY, dimension) {
+        mar.client.sendDebugCommand({t:"debug", command: "tpObj", objectId: objectId, x: x, y: y, worldX: worldX,
+            worldY: worldY, dimension: dimension});
+        mar.client.requestObjects();
+    }
+
+    public static tpObjHex(objectId, x, y, worldX, worldY, dimension) {
+        mar.client.sendDebugCommand({t:"debug", command: "tpObj", objectId: objectId, x: x, y: y, worldX: parseInt(worldX, 16),
+            worldY: parseInt(worldY, 16), dimension: dimension});
+        mar.client.requestObjects();
+    }
+
     public static spawnObj(data) {
         mar.client.sendDebugCommand({t:"debug", command: "spawnObj", data: data,
             worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension});

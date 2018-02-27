@@ -405,6 +405,16 @@ var Debug = (function () {
         mar.client.sendDebugCommand({ t: "debug", command: "moveObj", objectId: objectId, x: x, y: y });
         mar.client.requestObjects();
     };
+    Debug.tpObj = function (objectId, x, y, worldX, worldY, dimension) {
+        mar.client.sendDebugCommand({ t: "debug", command: "tpObj", objectId: objectId, x: x, y: y, worldX: worldX,
+            worldY: worldY, dimension: dimension });
+        mar.client.requestObjects();
+    };
+    Debug.tpObjHex = function (objectId, x, y, worldX, worldY, dimension) {
+        mar.client.sendDebugCommand({ t: "debug", command: "tpObj", objectId: objectId, x: x, y: y, worldX: parseInt(worldX, 16),
+            worldY: parseInt(worldY, 16), dimension: dimension });
+        mar.client.requestObjects();
+    };
     Debug.spawnObj = function (data) {
         mar.client.sendDebugCommand({ t: "debug", command: "spawnObj", data: data,
             worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension });
@@ -807,6 +817,8 @@ var ObjectType;
     ObjectType[ObjectType["FACTORY"] = 3] = "FACTORY";
     ObjectType[ObjectType["RADIO_TOWER"] = 4] = "RADIO_TOWER";
     ObjectType[ObjectType["VAULT_DOOR"] = 5] = "VAULT_DOOR";
+    ObjectType[ObjectType["OBSTACLE"] = 6] = "OBSTACLE";
+    ObjectType[ObjectType["ELECTRIC_BOX"] = 7] = "ELECTRIC_BOX";
 })(ObjectType || (ObjectType = {}));
 var ItemType;
 (function (ItemType) {
@@ -846,6 +858,10 @@ var GameObject = (function (_super) {
                 return new RadioTower(json);
             case ObjectType.VAULT_DOOR:
                 return new VaultDoor(json);
+            case ObjectType.OBSTACLE:
+                return null;
+            case ObjectType.ELECTRIC_BOX:
+                return new ElectricBox(json);
             default:
                 return null;
         }
@@ -1332,6 +1348,47 @@ var VaultDoor = (function (_super) {
         //No op
     };
     return VaultDoor;
+}(GameObject));
+var ElectricBox = (function (_super) {
+    __extends(ElectricBox, _super);
+    function ElectricBox(json) {
+        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/ElectricBox") || this;
+        _this.anchor.set(0.5, 0.3);
+        _this.setText("Electric Box");
+        _this.text.visible = false;
+        _this.id = json.i;
+        _this.tileX = json.x;
+        _this.tileY = json.y;
+        _this.sparkEmitter = mar.game.add.emitter(_this.x, _this.y, 10);
+        _this.sparkEmitter.makeParticles("sheet", ["effects/spark"], 10);
+        _this.sparkEmitter.minParticleSpeed.setTo(-250, -200);
+        _this.sparkEmitter.maxParticleSpeed.setTo(250, 0);
+        _this.sparkEmitter.gravity = new Phaser.Point(0, 500);
+        window.setTimeout(_this.makeSparks, mar.game.rnd.between(2000, 10000), _this);
+        return _this;
+    }
+    ElectricBox.prototype.onTileHover = function () {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotHoverTint;
+        this.text.visible = true;
+    };
+    ElectricBox.prototype.onTileExit = function () {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotTint;
+        this.text.visible = false;
+    };
+    ElectricBox.prototype.makeSparks = function (self) {
+        self.sparkEmitter.start(true, 450, null, 10);
+        window.setTimeout(self.makeSparks, mar.game.rnd.between(2000, 10000), self);
+    };
+    ElectricBox.prototype.updateObject = function (json) {
+        //No op
+    };
+    return ElectricBox;
 }(GameObject));
 ///<reference path="phaser.d.ts"/>
 ///<reference path="phaser.plugin.isometric.d.ts"/>
