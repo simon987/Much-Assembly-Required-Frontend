@@ -1,5 +1,7 @@
 
 
+import Game = Phaser.Game;
+
 enum ObjectType {
     CUBOT = 1,
     BIOMASS = 2,
@@ -8,7 +10,8 @@ enum ObjectType {
     RADIO_TOWER = 4,
     VAULT_DOOR = 5,
     OBSTACLE = 6,
-    ELECTRIC_BOX = 7
+    ELECTRIC_BOX = 7,
+    PORTAL = 8
 }
 
 enum ItemType {
@@ -24,7 +27,8 @@ enum Action {
     WITHDRAWING,
     DEPOSITING,
     LISTENING,
-    JUMPING
+    JUMPING,
+    ATTACKING
 }
 
 abstract class GameObject extends Phaser.Plugin.Isometric.IsoSprite {
@@ -73,6 +77,8 @@ abstract class GameObject extends Phaser.Plugin.Isometric.IsoSprite {
                 return null;
             case ObjectType.ELECTRIC_BOX:
                 return new ElectricBox(json);
+            case ObjectType.PORTAL:
+                return new Portal(json);
 
             default:
                 return null;
@@ -113,6 +119,7 @@ enum HologramMode {
 }
 
 class Cubot extends GameObject {
+    laserEmitter: Phaser.Particles.Arcade.Emitter;
 
     username: string;
     heldItem: ItemType;
@@ -160,6 +167,13 @@ class Cubot extends GameObject {
         this.updateDirection();
 
         this.tint = this.getTint();
+
+        //Laser particles
+        this.laserEmitter = mar.game.make.emitter(0, 20, 100);
+        this.addChild(this.laserEmitter);
+
+        this.laserEmitter.makeParticles("sheet", ["effects/beam"], 100);
+        this.laserEmitter.gravity = new Phaser.Point(0, 0);
     }
 
     onTileHover(): void {
@@ -188,6 +202,35 @@ class Cubot extends GameObject {
         this.hovered = false;
         this.tint = this.getTint();
 
+    }
+
+    public makeLaserAttack() {
+
+        let dX, dY, angle;
+
+        switch (this.direction) {
+            case Direction.NORTH:
+                angle = 333.4;
+                break;
+            case Direction.SOUTH:
+                angle = 153.4;
+                break;
+            case Direction.WEST:
+                angle = 206.6;
+                break;
+            case Direction.EAST:
+                angle = 26.6;
+                break;
+        }
+
+        this.laserEmitter.minParticleSpeed.setTo(1000, 1000);
+        this.laserEmitter.maxParticleSpeed.setTo(1700, 1700);
+        this.laserEmitter.minAngle = angle;
+        this.laserEmitter.maxAngle = angle;
+        this.laserEmitter.maxRotation = 0;
+
+
+        this.laserEmitter.start(true, 1000, null, 100);
     }
 
     public getTint(): number {
@@ -250,6 +293,10 @@ class Cubot extends GameObject {
                     this.animations.play("dig_w", 60);
                     break;
             }
+        } else if (this.action == Action.ATTACKING) {
+
+            this.makeLaserAttack()
+
         }
 
         this.updateDirection();
@@ -695,7 +742,7 @@ class ElectricBox extends GameObject {
 
     public makeSparks(self: ElectricBox) {
         self.sparkEmitter.start(true, 450, null, 10);
-        window.setTimeout(self.makeSparks, mar.game.rnd.between(2000, 10000) , self)
+        window.setTimeout(self.makeSparks, mar.game.rnd.between(5000, 25000) , self)
     }
 
     public updateObject(json) {
@@ -713,17 +760,55 @@ class ElectricBox extends GameObject {
         this.tileX = json.x;
         this.tileY = json.y;
 
-        this.sparkEmitter = mar.game.add.emitter(this.x, this.y, 10);
+        //Spark particles
+        this.sparkEmitter = mar.game.make.emitter(0, 0, 10);
+        this.addChild(this.sparkEmitter);
 
         this.sparkEmitter.makeParticles("sheet", ["effects/spark"], 10);
 
-        this.sparkEmitter.minParticleSpeed.setTo(-250, -200;
+        this.sparkEmitter.minParticleSpeed.setTo(-250, -200);
         this.sparkEmitter.maxParticleSpeed.setTo(250, 0);
         this.sparkEmitter.gravity = new Phaser.Point(0, 500);
 
-        window.setTimeout(this.makeSparks, mar.game.rnd.between(2000, 10000), this)
+        window.setTimeout(this.makeSparks, mar.game.rnd.between(5000, 25000), this)
+    }
+}
+
+
+class Portal extends GameObject {
+    public onTileHover() {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({isoZ: 25}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotHoverTint;
+
+        this.text.visible = true;
     }
 
+    public onTileExit() {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({isoZ: 15}, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.portalTint;
 
+        this.text.visible = false;
+    }
+
+    public updateObject(json) {
+        //No op
+    }
+
+    constructor(json) {
+        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/Portal");
+        this.anchor.set(0.5, 0.3);
+        this.tint = config.portalTint;
+
+        this.setText("Portal");
+        this.text.visible = false;
+
+        this.id = json.i;
+        this.tileX = json.x;
+        this.tileY = json.y;
+    }
 }
 

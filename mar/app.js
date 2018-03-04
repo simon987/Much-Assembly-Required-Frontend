@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var MarGame = (function () {
+var MarGame = /** @class */ (function () {
     function MarGame() {
         this.cursorPos = new Phaser.Plugin.Isometric.Point3();
         this.debugMessages = [];
@@ -220,7 +220,7 @@ var MarGame = (function () {
     };
     return MarGame;
 }());
-var DebugMessage = (function () {
+var DebugMessage = /** @class */ (function () {
     function DebugMessage(x, y) {
         this.x = x;
         this.y = y;
@@ -230,7 +230,7 @@ var DebugMessage = (function () {
 /**
  * Indicates hovered tile
  */
-var TileIndicator = (function (_super) {
+var TileIndicator = /** @class */ (function (_super) {
     __extends(TileIndicator, _super);
     function TileIndicator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -248,7 +248,7 @@ var TileIndicator = (function (_super) {
 /**
  * Indicates current World
  */
-var WorldIndicator = (function (_super) {
+var WorldIndicator = /** @class */ (function (_super) {
     __extends(WorldIndicator, _super);
     function WorldIndicator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -269,6 +269,7 @@ var RENDERER_WIDTH = document.getElementById("game").clientWidth * window.device
 var RENDERER_HEIGHT = (window.innerHeight / 1.40) * window.devicePixelRatio;
 var DEBUG = true;
 var config = {
+    portalTint: 0xff43c8,
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
     vaultWallTint: 0x3f1c1c,
@@ -318,7 +319,7 @@ var config = {
     otherCubotAlpha: 0.6,
     defaultWorldSize: 16 //Will fallback to this when server does not provide world width
 };
-var Util = (function () {
+var Util = /** @class */ (function () {
     function Util() {
     }
     //todo: find a more elegant way of doing this. Maybe this is related: https://github.com/lewster32/phaser-plugin-isometric/issues/7
@@ -362,7 +363,7 @@ var Util = (function () {
     };
     return Util;
 }());
-var Debug = (function () {
+var Debug = /** @class */ (function () {
     function Debug() {
     }
     Debug.setTileAt = function (x, y, newTile) {
@@ -426,7 +427,7 @@ var mar = new MarGame();
 /**
  * Client-side keyboard buffer. It is overwritten by the server at the end of tick.
  */
-var KeyboardBuffer = (function (_super) {
+var KeyboardBuffer = /** @class */ (function (_super) {
     __extends(KeyboardBuffer, _super);
     function KeyboardBuffer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -457,7 +458,7 @@ var KeyboardBuffer = (function (_super) {
 /**
  * Listens for object list
  */
-var ObjectsListener = (function () {
+var ObjectsListener = /** @class */ (function () {
     function ObjectsListener() {
     }
     ObjectsListener.prototype.getListenedMessageType = function () {
@@ -473,7 +474,7 @@ var ObjectsListener = (function () {
     };
     return ObjectsListener;
 }());
-var TickListener = (function () {
+var TickListener = /** @class */ (function () {
     function TickListener() {
     }
     TickListener.prototype.getListenedMessageType = function () {
@@ -495,7 +496,7 @@ var TickListener = (function () {
     };
     return TickListener;
 }());
-var UserInfoListener = (function () {
+var UserInfoListener = /** @class */ (function () {
     function UserInfoListener() {
     }
     UserInfoListener.prototype.getListenedMessageType = function () {
@@ -514,7 +515,7 @@ var UserInfoListener = (function () {
     };
     return UserInfoListener;
 }());
-var AuthListener = (function () {
+var AuthListener = /** @class */ (function () {
     function AuthListener() {
     }
     AuthListener.prototype.getListenedMessageType = function () {
@@ -536,7 +537,7 @@ var AuthListener = (function () {
     };
     return AuthListener;
 }());
-var TerrainListener = (function () {
+var TerrainListener = /** @class */ (function () {
     function TerrainListener() {
     }
     TerrainListener.prototype.getListenedMessageType = function () {
@@ -593,7 +594,7 @@ var TerrainListener = (function () {
     };
     return TerrainListener;
 }());
-var CodeListener = (function () {
+var CodeListener = /** @class */ (function () {
     function CodeListener() {
     }
     CodeListener.prototype.getListenedMessageType = function () {
@@ -604,7 +605,7 @@ var CodeListener = (function () {
     };
     return CodeListener;
 }());
-var CodeResponseListener = (function () {
+var CodeResponseListener = /** @class */ (function () {
     function CodeResponseListener() {
     }
     CodeResponseListener.prototype.getListenedMessageType = function () {
@@ -615,7 +616,7 @@ var CodeResponseListener = (function () {
     };
     return CodeResponseListener;
 }());
-var DebugResponseListener = (function () {
+var DebugResponseListener = /** @class */ (function () {
     function DebugResponseListener() {
     }
     DebugResponseListener.prototype.getListenedMessageType = function () {
@@ -626,7 +627,7 @@ var DebugResponseListener = (function () {
     };
     return DebugResponseListener;
 }());
-var GameClient = (function () {
+var GameClient = /** @class */ (function () {
     function GameClient() {
         this.listeners = [];
         this.getServerInfo();
@@ -809,6 +810,7 @@ var GameClient = (function () {
     };
     return GameClient;
 }());
+var Game = Phaser.Game;
 var ObjectType;
 (function (ObjectType) {
     ObjectType[ObjectType["CUBOT"] = 1] = "CUBOT";
@@ -819,6 +821,7 @@ var ObjectType;
     ObjectType[ObjectType["VAULT_DOOR"] = 5] = "VAULT_DOOR";
     ObjectType[ObjectType["OBSTACLE"] = 6] = "OBSTACLE";
     ObjectType[ObjectType["ELECTRIC_BOX"] = 7] = "ELECTRIC_BOX";
+    ObjectType[ObjectType["PORTAL"] = 8] = "PORTAL";
 })(ObjectType || (ObjectType = {}));
 var ItemType;
 (function (ItemType) {
@@ -835,8 +838,9 @@ var Action;
     Action[Action["DEPOSITING"] = 4] = "DEPOSITING";
     Action[Action["LISTENING"] = 5] = "LISTENING";
     Action[Action["JUMPING"] = 6] = "JUMPING";
+    Action[Action["ATTACKING"] = 7] = "ATTACKING";
 })(Action || (Action = {}));
-var GameObject = (function (_super) {
+var GameObject = /** @class */ (function (_super) {
     __extends(GameObject, _super);
     function GameObject(x, y, z, key, frame) {
         return _super.call(this, mar.game, x, y, z, key, frame) || this;
@@ -862,6 +866,8 @@ var GameObject = (function (_super) {
                 return null;
             case ObjectType.ELECTRIC_BOX:
                 return new ElectricBox(json);
+            case ObjectType.PORTAL:
+                return new Portal(json);
             default:
                 return null;
         }
@@ -895,7 +901,7 @@ var HologramMode;
     HologramMode[HologramMode["STRING"] = 2] = "STRING";
     HologramMode[HologramMode["DEC"] = 3] = "DEC";
 })(HologramMode || (HologramMode = {}));
-var Cubot = (function (_super) {
+var Cubot = /** @class */ (function (_super) {
     __extends(Cubot, _super);
     function Cubot(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", null) || this;
@@ -927,6 +933,11 @@ var Cubot = (function (_super) {
         _this.createUsername();
         _this.updateDirection();
         _this.tint = _this.getTint();
+        //Laser particles
+        _this.laserEmitter = mar.game.make.emitter(0, 20, 100);
+        _this.addChild(_this.laserEmitter);
+        _this.laserEmitter.makeParticles("sheet", ["effects/beam"], 100);
+        _this.laserEmitter.gravity = new Phaser.Point(0, 0);
         return _this;
     }
     Cubot.prototype.onTileHover = function () {
@@ -946,6 +957,29 @@ var Cubot = (function (_super) {
         }
         this.hovered = false;
         this.tint = this.getTint();
+    };
+    Cubot.prototype.makeLaserAttack = function () {
+        var dX, dY, angle;
+        switch (this.direction) {
+            case Direction.NORTH:
+                angle = 333.4;
+                break;
+            case Direction.SOUTH:
+                angle = 153.4;
+                break;
+            case Direction.WEST:
+                angle = 206.6;
+                break;
+            case Direction.EAST:
+                angle = 26.6;
+                break;
+        }
+        this.laserEmitter.minParticleSpeed.setTo(1000, 1000);
+        this.laserEmitter.maxParticleSpeed.setTo(1700, 1700);
+        this.laserEmitter.minAngle = angle;
+        this.laserEmitter.maxAngle = angle;
+        this.laserEmitter.maxRotation = 0;
+        this.laserEmitter.start(true, 1000, null, 100);
     };
     Cubot.prototype.getTint = function () {
         if (!this.hovered) {
@@ -1000,6 +1034,9 @@ var Cubot = (function (_super) {
                     this.animations.play("dig_w", 60);
                     break;
             }
+        }
+        else if (this.action == Action.ATTACKING) {
+            this.makeLaserAttack();
         }
         this.updateDirection();
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);
@@ -1151,7 +1188,7 @@ var Cubot = (function (_super) {
     };
     return Cubot;
 }(GameObject));
-var HarvesterNPC = (function (_super) {
+var HarvesterNPC = /** @class */ (function (_super) {
     __extends(HarvesterNPC, _super);
     function HarvesterNPC(json) {
         var _this = _super.call(this, json) || this;
@@ -1211,7 +1248,7 @@ var HarvesterNPC = (function (_super) {
     };
     return HarvesterNPC;
 }(Cubot));
-var BiomassBlob = (function (_super) {
+var BiomassBlob = /** @class */ (function (_super) {
     __extends(BiomassBlob, _super);
     function BiomassBlob(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 10, "sheet", 1) || this;
@@ -1250,7 +1287,7 @@ var BiomassBlob = (function (_super) {
     };
     return BiomassBlob;
 }(GameObject));
-var Factory = (function (_super) {
+var Factory = /** @class */ (function (_super) {
     __extends(Factory, _super);
     function Factory(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/factory") || this;
@@ -1286,7 +1323,7 @@ var Factory = (function (_super) {
     ;
     return Factory;
 }(GameObject));
-var RadioTower = (function (_super) {
+var RadioTower = /** @class */ (function (_super) {
     __extends(RadioTower, _super);
     function RadioTower(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/RadioTower") || this;
@@ -1317,7 +1354,7 @@ var RadioTower = (function (_super) {
     };
     return RadioTower;
 }(GameObject));
-var VaultDoor = (function (_super) {
+var VaultDoor = /** @class */ (function (_super) {
     __extends(VaultDoor, _super);
     function VaultDoor(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/biomass/idle/0001") || this;
@@ -1349,7 +1386,7 @@ var VaultDoor = (function (_super) {
     };
     return VaultDoor;
 }(GameObject));
-var ElectricBox = (function (_super) {
+var ElectricBox = /** @class */ (function (_super) {
     __extends(ElectricBox, _super);
     function ElectricBox(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/ElectricBox") || this;
@@ -1359,12 +1396,14 @@ var ElectricBox = (function (_super) {
         _this.id = json.i;
         _this.tileX = json.x;
         _this.tileY = json.y;
-        _this.sparkEmitter = mar.game.add.emitter(_this.x, _this.y, 10);
+        //Spark particles
+        _this.sparkEmitter = mar.game.make.emitter(0, 0, 10);
+        _this.addChild(_this.sparkEmitter);
         _this.sparkEmitter.makeParticles("sheet", ["effects/spark"], 10);
         _this.sparkEmitter.minParticleSpeed.setTo(-250, -200);
         _this.sparkEmitter.maxParticleSpeed.setTo(250, 0);
         _this.sparkEmitter.gravity = new Phaser.Point(0, 500);
-        window.setTimeout(_this.makeSparks, mar.game.rnd.between(2000, 10000), _this);
+        window.setTimeout(_this.makeSparks, mar.game.rnd.between(5000, 25000), _this);
         return _this;
     }
     ElectricBox.prototype.onTileHover = function () {
@@ -1383,12 +1422,44 @@ var ElectricBox = (function (_super) {
     };
     ElectricBox.prototype.makeSparks = function (self) {
         self.sparkEmitter.start(true, 450, null, 10);
-        window.setTimeout(self.makeSparks, mar.game.rnd.between(2000, 10000), self);
+        window.setTimeout(self.makeSparks, mar.game.rnd.between(5000, 25000), self);
     };
     ElectricBox.prototype.updateObject = function (json) {
         //No op
     };
     return ElectricBox;
+}(GameObject));
+var Portal = /** @class */ (function (_super) {
+    __extends(Portal, _super);
+    function Portal(json) {
+        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/Portal") || this;
+        _this.anchor.set(0.5, 0.3);
+        _this.tint = config.portalTint;
+        _this.setText("Portal");
+        _this.text.visible = false;
+        _this.id = json.i;
+        _this.tileX = json.x;
+        _this.tileY = json.y;
+        return _this;
+    }
+    Portal.prototype.onTileHover = function () {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.cubotHoverTint;
+        this.text.visible = true;
+    };
+    Portal.prototype.onTileExit = function () {
+        mar.game.tweens.removeFrom(this);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
+        this.tint = config.portalTint;
+        this.text.visible = false;
+    };
+    Portal.prototype.updateObject = function (json) {
+        //No op
+    };
+    return Portal;
 }(GameObject));
 ///<reference path="phaser.d.ts"/>
 ///<reference path="phaser.plugin.isometric.d.ts"/>
@@ -1408,7 +1479,7 @@ var TileType;
     TileType[TileType["VAULT_FLOOR"] = 4] = "VAULT_FLOOR";
     TileType[TileType["VAULT_WALL"] = 5] = "VAULT_WALL";
 })(TileType || (TileType = {}));
-var Tile = (function (_super) {
+var Tile = /** @class */ (function (_super) {
     __extends(Tile, _super);
     function Tile(x, y, sprite, anchorY) {
         var _this = _super.call(this, mar.game, Util.getIsoX(x), Util.getIsoY(y), 0, 'sheet', sprite) || this;
@@ -1469,7 +1540,7 @@ var Tile = (function (_super) {
     };
     return Tile;
 }(Phaser.Plugin.Isometric.IsoSprite));
-var PlainTile = (function (_super) {
+var PlainTile = /** @class */ (function (_super) {
     __extends(PlainTile, _super);
     function PlainTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1480,7 +1551,7 @@ var PlainTile = (function (_super) {
     }
     return PlainTile;
 }(Tile));
-var WallTile = (function (_super) {
+var WallTile = /** @class */ (function (_super) {
     __extends(WallTile, _super);
     function WallTile(x, y) {
         var _this = _super.call(this, x, y, config.wallSprite, 0.2) || this;
@@ -1491,7 +1562,7 @@ var WallTile = (function (_super) {
     }
     return WallTile;
 }(Tile));
-var VaultWallTile = (function (_super) {
+var VaultWallTile = /** @class */ (function (_super) {
     __extends(VaultWallTile, _super);
     function VaultWallTile(x, y) {
         var _this = _super.call(this, x, y, config.wallSprite, 0.2) || this;
@@ -1502,7 +1573,7 @@ var VaultWallTile = (function (_super) {
     }
     return VaultWallTile;
 }(Tile));
-var VaultFloorTile = (function (_super) {
+var VaultFloorTile = /** @class */ (function (_super) {
     __extends(VaultFloorTile, _super);
     function VaultFloorTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1513,7 +1584,7 @@ var VaultFloorTile = (function (_super) {
     }
     return VaultFloorTile;
 }(Tile));
-var VoidTile = (function (_super) {
+var VoidTile = /** @class */ (function (_super) {
     __extends(VoidTile, _super);
     function VoidTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1531,7 +1602,7 @@ var VoidTile = (function (_super) {
     };
     return VoidTile;
 }(Tile));
-var IronTile = (function (_super) {
+var IronTile = /** @class */ (function (_super) {
     __extends(IronTile, _super);
     function IronTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1543,7 +1614,7 @@ var IronTile = (function (_super) {
     }
     return IronTile;
 }(Tile));
-var CopperTile = (function (_super) {
+var CopperTile = /** @class */ (function (_super) {
     __extends(CopperTile, _super);
     function CopperTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1555,7 +1626,7 @@ var CopperTile = (function (_super) {
     }
     return CopperTile;
 }(Tile));
-var World = (function () {
+var World = /** @class */ (function () {
     function World(terrain, size) {
         this.tiles = [];
         this.objects = [];
@@ -1699,7 +1770,7 @@ var World = (function () {
 /**
  * Represents a 'button' sprite that changes world in a direction
  */
-var WorldArrow = (function (_super) {
+var WorldArrow = /** @class */ (function (_super) {
     __extends(WorldArrow, _super);
     function WorldArrow(x, y, frame, direction) {
         var _this = _super.call(this, mar.game, x, y, 10, "sheet", frame) || this;
@@ -1747,14 +1818,14 @@ var ConsoleMode;
     ConsoleMode[ConsoleMode["CLEAR"] = 0] = "CLEAR";
     ConsoleMode[ConsoleMode["NORMAL"] = 1] = "NORMAL";
 })(ConsoleMode || (ConsoleMode = {}));
-var PlainTextConsoleMode = (function () {
+var PlainTextConsoleMode = /** @class */ (function () {
     function PlainTextConsoleMode(lineWidth, dialImage) {
         this.width = lineWidth;
         this.dialImage = dialImage;
     }
     return PlainTextConsoleMode;
 }());
-var PlainTextConsole = (function () {
+var PlainTextConsole = /** @class */ (function () {
     function PlainTextConsole(text, id, colorId, scrollId, resetID, dialId) {
         this.colorToggled = false;
         this.autoScroll = true;

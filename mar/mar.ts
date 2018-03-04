@@ -6,6 +6,7 @@ let RENDERER_HEIGHT = (window.innerHeight / 1.40) * window.devicePixelRatio;
 let DEBUG: boolean = true;
 
 let config = {
+    portalTint: 0xff43c8,
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
     vaultWallTint: 0x3f1c1c,
