@@ -368,12 +368,12 @@ var Debug = /** @class */ (function () {
     }
     Debug.setTileAt = function (x, y, newTile) {
         mar.client.sendDebugCommand({ t: "debug", command: "setTileAt", x: x, y: y, newTile: newTile,
-            worldX: mar.client.worldX, worldY: mar.client.worldY });
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension });
         mar.client.requestTerrain(); //Reload terrain
     };
     Debug.createWorld = function (x, y, dimension) {
         mar.client.sendDebugCommand({ t: "debug", command: "createWorld", worldX: x, worldY: y, dimension: dimension });
-        mar.client.requestTerrain(); //Reload terrain
+        window.setTimeout(mar.client.requestTerrain, 250);
     };
     Debug.createWorldHex = function (x, y, dimension) {
         mar.client.sendDebugCommand({ t: "debug", command: "createWorld",
@@ -419,6 +419,9 @@ var Debug = /** @class */ (function () {
     Debug.spawnObj = function (data) {
         mar.client.sendDebugCommand({ t: "debug", command: "spawnObj", data: data,
             worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension });
+    };
+    Debug.comPortMsg = function (objectId, message) {
+        mar.client.sendDebugCommand({ t: "debug", command: "comPortMsg", objectId: objectId, message: message });
     };
     return Debug;
 }());

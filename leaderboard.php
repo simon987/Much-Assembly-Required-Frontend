@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once "include/SessionManager.php";
+include_once "include/SqlConnection.php";
 
 $user = SessionManager::get();
 ?>
@@ -75,8 +76,8 @@ $user = SessionManager::get();
 <nav id="nav">
     <ul>
         <li><a href="index.php">Home</a></li>
-        <li class="current"><a href="#">Play</a></li>
-        <li><a href="leaderboard.php">Leaderboard</a></li>
+        <li><a href="servers.php">Play</a></li>
+        <li class="current"><a href="#">Leaderboard</a></li>
         <li>
             <a href="#">Account</a>
             <ul>
@@ -100,24 +101,29 @@ $user = SessionManager::get();
         <div id="main" class="container">
             <div class="12u">
 
-                <h2>Server List</h2>
+                <h2>Leaderboard</h2>
 
                 <table id="serverList">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th>Player</th>
+                        <th>Completed vaults</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach (SERVER_LIST as $server) {
+
+                    $conn = new SqlConnection();
+                    $stmt = $conn->prepare("SELECT username, count(username) as clears FROM mar_vault_clear GROUP BY username ORDER BY clears DESC ");
+                    $stmt->execute();
+                    $users = $stmt->fetchAll();
+
+                    foreach ($users as $user) {
                         echo "<tr>";
-                        echo "<td><a class='button' href='$server[1]'>$server[0]</a></td>";
-                        echo "<td>$server[2]</td>";
+                        echo "<td>$user[0]</td>";
+                        echo "<td>$user[1]</td>";
 
                         echo "</tr>";
-
                     }
                     ?>
                     </tbody>

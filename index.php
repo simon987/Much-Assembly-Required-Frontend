@@ -39,6 +39,7 @@ $user = SessionManager::get();
     <ul>
         <li class="current"><a href="index.php">Home</a></li>
         <li><a href="servers.php">Play</a></li>
+        <li><a href="leaderboard.php">Leaderboard</a></li>
         <li>
             <a href="#">Account</a>
             <ul>

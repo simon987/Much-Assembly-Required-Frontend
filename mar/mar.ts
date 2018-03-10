@@ -115,14 +115,14 @@ class Debug {
 
     public static setTileAt(x, y, newTile) {
         mar.client.sendDebugCommand({t:"debug", command: "setTileAt", x: x, y: y, newTile: newTile,
-            worldX: mar.client.worldX, worldY: mar.client.worldY});
+            worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension});
 
         mar.client.requestTerrain(); //Reload terrain
     }
 
     public static createWorld(x, y, dimension) {
         mar.client.sendDebugCommand({t:"debug", command: "createWorld", worldX: x, worldY: y, dimension:dimension});
-        mar.client.requestTerrain(); //Reload terrain
+        window.setTimeout(mar.client.requestTerrain, 250)
     }
 
     public static createWorldHex(x, y, dimension) {
@@ -178,6 +178,10 @@ class Debug {
     public static spawnObj(data) {
         mar.client.sendDebugCommand({t:"debug", command: "spawnObj", data: data,
             worldX: mar.client.worldX, worldY: mar.client.worldY, dimension: mar.client.dimension});
+    }
+
+    public static comPortMsg(objectId, message) {
+        mar.client.sendDebugCommand({t:"debug", command: "comPortMsg", objectId: objectId, message: message});
     }
 
 }

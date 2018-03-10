@@ -50,6 +50,7 @@ if (isset($user)) {
         <ul>
             <li><a href="index.php">Home</a></li>
             <li class="current"><a href="servers.php">Play</a></li>
+            <li><a href="leaderboard.php">Leaderboard</a></li>
             <li>
                 <a href="#">Account</a>
                 <ul>
