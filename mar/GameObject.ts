@@ -39,6 +39,7 @@ abstract class GameObject extends Phaser.Plugin.Isometric.IsoSprite {
     id: number;
     protected direction: Direction;
     protected action: Action;
+    protected shield: number;
 
     public updated: boolean;
 
@@ -136,14 +137,18 @@ class Cubot extends GameObject {
 
     private hovered: boolean = false;
 
+    protected cubotSprite: Phaser.Sprite;
+    private shieldBackSprite: Phaser.Sprite;
+    private shieldFrontSprite: Phaser.Sprite;
+
     constructor(json) {
-        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", null);
+        //workaround for topological sort, needs sprite dimensions
+        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/blankCubot");
 
         if (DEBUG) {
             console.log("Creating Cubot object");
         }
 
-        this.anchor.set(0.5, 0);
         this.id = json.i;
         this.tileX = json.x;
         this.tileY = json.y;
@@ -154,14 +159,18 @@ class Cubot extends GameObject {
         this.action = json.action;
         this.energy = json.energy;
 
-        this.animations.add("walk_w", mar.animationFrames.walk_w);
-        this.animations.add("walk_s", mar.animationFrames.walk_s,);
-        this.animations.add("walk_e", mar.animationFrames.walk_e);
-        this.animations.add("walk_n", mar.animationFrames.walk_n);
-        this.animations.add("dig_w", mar.animationFrames.dig_w);
-        this.animations.add("dig_s", mar.animationFrames.dig_s);
-        this.animations.add("dig_e", mar.animationFrames.dig_e);
-        this.animations.add("dig_n", mar.animationFrames.dig_n);
+        this.cubotSprite = mar.game.make.sprite(0, 0, "sheet", null);
+        this.cubotSprite.anchor.set(0.5, 0);
+        this.addChild(this.cubotSprite);
+
+        this.cubotSprite.animations.add("walk_w", mar.animationFrames.walk_w);
+        this.cubotSprite.animations.add("walk_s", mar.animationFrames.walk_s,);
+        this.cubotSprite.animations.add("walk_e", mar.animationFrames.walk_e);
+        this.cubotSprite.animations.add("walk_n", mar.animationFrames.walk_n);
+        this.cubotSprite.animations.add("dig_w", mar.animationFrames.dig_w);
+        this.cubotSprite.animations.add("dig_s", mar.animationFrames.dig_s);
+        this.cubotSprite.animations.add("dig_e", mar.animationFrames.dig_e);
+        this.cubotSprite.animations.add("dig_n", mar.animationFrames.dig_n);
 
         this.createUsername();
         this.updateDirection();
@@ -174,6 +183,25 @@ class Cubot extends GameObject {
 
         this.laserEmitter.makeParticles("sheet", ["effects/beam"], 100);
         this.laserEmitter.gravity = new Phaser.Point(0, 0);
+
+        //Shield
+        this.shieldBackSprite = mar.game.add.sprite(0, 0, "sheet", "objects/shieldBack");
+        this.shieldBackSprite.anchor.setTo(0.5, 0.1);
+        this.shieldBackSprite.alpha = 0.4;
+        mar.game.add.tween(this.shieldBackSprite).to({alpha: 0.8},1500, Phaser.Easing.Linear.None, true, 0, -1, true);
+        this.addChildAt(this.shieldBackSprite, 0);
+        this.shieldFrontSprite = mar.game.add.sprite(0, 0, "sheet", "objects/shieldFront");
+        this.shieldFrontSprite.anchor.setTo(0.5, 0.1);
+        this.shieldFrontSprite.alpha = 0.4;
+        mar.game.add.tween(this.shieldFrontSprite).to({alpha: 0.8},1500, Phaser.Easing.Linear.None, true, 0, -1, true);
+        this.addChild(this.shieldFrontSprite);
+
+        this.setShield(false);
+    }
+
+    public setShield(shield: boolean) {
+        this.shieldBackSprite.visible = shield;
+        this.shieldFrontSprite.visible = shield;
     }
 
     onTileHover(): void {
@@ -181,7 +209,7 @@ class Cubot extends GameObject {
         mar.game.add.tween(this).to({isoZ: 45}, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Linear.None, true);
 
-        this.tint = config.cubotHoverTint;
+        this.cubotSprite.tint = config.cubotHoverTint;
 
         if (this.text !== undefined) {
             this.text.visible = true;
@@ -200,7 +228,7 @@ class Cubot extends GameObject {
             this.text.visible = false;
         }
         this.hovered = false;
-        this.tint = this.getTint();
+        this.cubotSprite.tint = this.getTint();
 
     }
 
@@ -254,13 +282,14 @@ class Cubot extends GameObject {
         this.action = json.action;
         this.energy = json.energy;
         this.direction = json.direction;
+        this.shield = json.shield;
 
         //Update Inventory
         this.createInventory([json.heldItem]);
         this.heldItem = json.heldItem;
 
         //Update color
-        this.tint = this.getTint();
+        this.cubotSprite.tint = this.getTint();
 
         //Update Location
         if (!this.isAt(json.x, json.y)) {
@@ -281,16 +310,16 @@ class Cubot extends GameObject {
         if (this.action == Action.DIGGING) {
             switch (this.direction) {
                 case Direction.NORTH:
-                    this.animations.play("dig_n", 60);
+                    this.cubotSprite.animations.play("dig_n", 60);
                     break;
                 case Direction.SOUTH:
-                    this.animations.play("dig_s", 60);
+                    this.cubotSprite.animations.play("dig_s", 60);
                     break;
                 case Direction.EAST:
-                    this.animations.play("dig_e", 60);
+                    this.cubotSprite.animations.play("dig_e", 60);
                     break;
                 case Direction.WEST:
-                    this.animations.play("dig_w", 60);
+                    this.cubotSprite.animations.play("dig_w", 60);
                     break;
             }
         } else if (this.action == Action.ATTACKING) {
@@ -301,6 +330,9 @@ class Cubot extends GameObject {
 
         this.updateDirection();
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);
+
+        //Update shield
+        this.setShield(this.shield > 0)
     }
 
     private updateHologram(holoMode: HologramMode, holoColor: number, holoValue: number, holoStr: string): void {
@@ -344,16 +376,16 @@ class Cubot extends GameObject {
     public updateDirection() {
         switch (this.direction) {
             case Direction.NORTH:
-                this.animations.frameName = "cubot/walk_n/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_n/0001";
                 break;
             case Direction.EAST:
-                this.animations.frameName = "cubot/walk_e/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_e/0001";
                 break;
             case Direction.SOUTH:
-                this.animations.frameName = "cubot/walk_s/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_s/0001";
                 break;
             case Direction.WEST:
-                this.animations.frameName = "cubot/walk_w/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_w/0001";
                 break;
         }
     }
@@ -373,22 +405,22 @@ class Cubot extends GameObject {
             //Play appropriate animation
             switch (self.direction) {
                 case Direction.NORTH:
-                    self.animations.play("walk_n", 60, true);
+                    self.cubotSprite.animations.play("walk_n", 60, true);
                     break;
                 case Direction.SOUTH:
-                    self.animations.play("walk_s", 60, true);
+                    self.cubotSprite.animations.play("walk_s", 60, true);
                     break;
                 case Direction.EAST:
-                    self.animations.play("walk_e", 60, true);
+                    self.cubotSprite.animations.play("walk_e", 60, true);
                     break;
                 case Direction.WEST:
-                    self.animations.play("walk_w", 60, true);
+                    self.cubotSprite.animations.play("walk_w", 60, true);
                     break;
             }
 
             //When moved to destination,
             tween.onComplete.add(function () {
-                self.animations.stop();
+                self.cubotSprite.animations.stop();
 
                 self.updateDirection();
 
@@ -407,7 +439,7 @@ class Cubot extends GameObject {
 
         };
 
-        if (this.animations.currentAnim.isPlaying) {
+        if (this.cubotSprite.animations.currentAnim.isPlaying) {
             //Queue up the animation
             this.queuedAnimations.push(walkAnimation);
 
@@ -484,10 +516,10 @@ class HarvesterNPC extends Cubot {
         super(json);
 
         //Overwrite Cubot's animations
-        this.animations.add("walk_w", mar.animationFrames.harvester_walk_w);
-        this.animations.add("walk_s", mar.animationFrames.harvester_walk_s);
-        this.animations.add("walk_e", mar.animationFrames.harvester_walk_e);
-        this.animations.add("walk_n", mar.animationFrames.harvester_walk_n);
+        this.cubotSprite.animations.add("walk_w", mar.animationFrames.harvester_walk_w);
+        this.cubotSprite.animations.add("walk_s", mar.animationFrames.harvester_walk_s);
+        this.cubotSprite.animations.add("walk_e", mar.animationFrames.harvester_walk_e);
+        this.cubotSprite.animations.add("walk_n", mar.animationFrames.harvester_walk_n);
 
         this.updateDirection();
         this.setText("Harvester NPC");
@@ -504,16 +536,16 @@ class HarvesterNPC extends Cubot {
     public updateDirection() {
         switch (this.direction) {
             case Direction.NORTH:
-                this.animations.frameName = "harvester/walk_n/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_n/0001";
                 break;
             case Direction.EAST:
-                this.animations.frameName = "harvester/walk_e/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_e/0001";
                 break;
             case Direction.SOUTH:
-                this.animations.frameName = "harvester/walk_s/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_s/0001";
                 break;
             case Direction.WEST:
-                this.animations.frameName = "harvester/walk_w/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_w/0001";
                 break;
         }
     }

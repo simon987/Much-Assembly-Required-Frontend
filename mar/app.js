@@ -423,6 +423,15 @@ var Debug = /** @class */ (function () {
     Debug.comPortMsg = function (objectId, message) {
         mar.client.sendDebugCommand({ t: "debug", command: "comPortMsg", objectId: objectId, message: message });
     };
+    Debug.healObj = function (objectId, amount) {
+        mar.client.sendDebugCommand({ t: "debug", command: "healObj", objectId: objectId, amount: amount });
+    };
+    Debug.damageObj = function (objectId, amount) {
+        mar.client.sendDebugCommand({ t: "debug", command: "damageObj", objectId: objectId, amount: amount });
+    };
+    Debug.chargeShield = function (objectId, amount) {
+        mar.client.sendDebugCommand({ t: "debug", command: "chargeShield", objectId: objectId, amount: amount });
+    };
     return Debug;
 }());
 DEBUG = false; // todo remove
@@ -907,7 +916,9 @@ var HologramMode;
 var Cubot = /** @class */ (function (_super) {
     __extends(Cubot, _super);
     function Cubot(json) {
-        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", null) || this;
+        var _this = 
+        //workaround for topological sort, needs sprite dimensions
+        _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/blankCubot") || this;
         /**
          * List of animation functions queued for execution.
          */
@@ -916,7 +927,6 @@ var Cubot = /** @class */ (function (_super) {
         if (DEBUG) {
             console.log("Creating Cubot object");
         }
-        _this.anchor.set(0.5, 0);
         _this.id = json.i;
         _this.tileX = json.x;
         _this.tileY = json.y;
@@ -925,14 +935,17 @@ var Cubot = /** @class */ (function (_super) {
         _this.direction = json.direction;
         _this.action = json.action;
         _this.energy = json.energy;
-        _this.animations.add("walk_w", mar.animationFrames.walk_w);
-        _this.animations.add("walk_s", mar.animationFrames.walk_s);
-        _this.animations.add("walk_e", mar.animationFrames.walk_e);
-        _this.animations.add("walk_n", mar.animationFrames.walk_n);
-        _this.animations.add("dig_w", mar.animationFrames.dig_w);
-        _this.animations.add("dig_s", mar.animationFrames.dig_s);
-        _this.animations.add("dig_e", mar.animationFrames.dig_e);
-        _this.animations.add("dig_n", mar.animationFrames.dig_n);
+        _this.cubotSprite = mar.game.make.sprite(0, 0, "sheet", null);
+        _this.cubotSprite.anchor.set(0.5, 0);
+        _this.addChild(_this.cubotSprite);
+        _this.cubotSprite.animations.add("walk_w", mar.animationFrames.walk_w);
+        _this.cubotSprite.animations.add("walk_s", mar.animationFrames.walk_s);
+        _this.cubotSprite.animations.add("walk_e", mar.animationFrames.walk_e);
+        _this.cubotSprite.animations.add("walk_n", mar.animationFrames.walk_n);
+        _this.cubotSprite.animations.add("dig_w", mar.animationFrames.dig_w);
+        _this.cubotSprite.animations.add("dig_s", mar.animationFrames.dig_s);
+        _this.cubotSprite.animations.add("dig_e", mar.animationFrames.dig_e);
+        _this.cubotSprite.animations.add("dig_n", mar.animationFrames.dig_n);
         _this.createUsername();
         _this.updateDirection();
         _this.tint = _this.getTint();
@@ -941,12 +954,28 @@ var Cubot = /** @class */ (function (_super) {
         _this.addChild(_this.laserEmitter);
         _this.laserEmitter.makeParticles("sheet", ["effects/beam"], 100);
         _this.laserEmitter.gravity = new Phaser.Point(0, 0);
+        //Shield
+        _this.shieldBackSprite = mar.game.add.sprite(0, 0, "sheet", "objects/shieldBack");
+        _this.shieldBackSprite.anchor.setTo(0.5, 0.1);
+        _this.shieldBackSprite.alpha = 0.4;
+        mar.game.add.tween(_this.shieldBackSprite).to({ alpha: 0.8 }, 1500, Phaser.Easing.Linear.None, true, 0, -1, true);
+        _this.addChildAt(_this.shieldBackSprite, 0);
+        _this.shieldFrontSprite = mar.game.add.sprite(0, 0, "sheet", "objects/shieldFront");
+        _this.shieldFrontSprite.anchor.setTo(0.5, 0.1);
+        _this.shieldFrontSprite.alpha = 0.4;
+        mar.game.add.tween(_this.shieldFrontSprite).to({ alpha: 0.8 }, 1500, Phaser.Easing.Linear.None, true, 0, -1, true);
+        _this.addChild(_this.shieldFrontSprite);
+        _this.setShield(false);
         return _this;
     }
+    Cubot.prototype.setShield = function (shield) {
+        this.shieldBackSprite.visible = shield;
+        this.shieldFrontSprite.visible = shield;
+    };
     Cubot.prototype.onTileHover = function () {
         mar.game.add.tween(this).to({ isoZ: 45 }, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({ x: 1.2, y: 1.2 }, 200, Phaser.Easing.Linear.None, true);
-        this.tint = config.cubotHoverTint;
+        this.cubotSprite.tint = config.cubotHoverTint;
         if (this.text !== undefined) {
             this.text.visible = true;
         }
@@ -959,7 +988,7 @@ var Cubot = /** @class */ (function (_super) {
             this.text.visible = false;
         }
         this.hovered = false;
-        this.tint = this.getTint();
+        this.cubotSprite.tint = this.getTint();
     };
     Cubot.prototype.makeLaserAttack = function () {
         var dX, dY, angle;
@@ -1004,11 +1033,12 @@ var Cubot = /** @class */ (function (_super) {
         this.action = json.action;
         this.energy = json.energy;
         this.direction = json.direction;
+        this.shield = json.shield;
         //Update Inventory
         this.createInventory([json.heldItem]);
         this.heldItem = json.heldItem;
         //Update color
-        this.tint = this.getTint();
+        this.cubotSprite.tint = this.getTint();
         //Update Location
         if (!this.isAt(json.x, json.y)) {
             //Location changed
@@ -1025,16 +1055,16 @@ var Cubot = /** @class */ (function (_super) {
         if (this.action == Action.DIGGING) {
             switch (this.direction) {
                 case Direction.NORTH:
-                    this.animations.play("dig_n", 60);
+                    this.cubotSprite.animations.play("dig_n", 60);
                     break;
                 case Direction.SOUTH:
-                    this.animations.play("dig_s", 60);
+                    this.cubotSprite.animations.play("dig_s", 60);
                     break;
                 case Direction.EAST:
-                    this.animations.play("dig_e", 60);
+                    this.cubotSprite.animations.play("dig_e", 60);
                     break;
                 case Direction.WEST:
-                    this.animations.play("dig_w", 60);
+                    this.cubotSprite.animations.play("dig_w", 60);
                     break;
             }
         }
@@ -1043,6 +1073,8 @@ var Cubot = /** @class */ (function (_super) {
         }
         this.updateDirection();
         this.updateHologram(json.holoMode, json.holoC, json.holo, json.holoStr);
+        //Update shield
+        this.setShield(this.shield > 0);
     };
     Cubot.prototype.updateHologram = function (holoMode, holoColor, holoValue, holoStr) {
         var fillColor = (holoColor & 0xFFFFFF).toString(16);
@@ -1078,16 +1110,16 @@ var Cubot = /** @class */ (function (_super) {
     Cubot.prototype.updateDirection = function () {
         switch (this.direction) {
             case Direction.NORTH:
-                this.animations.frameName = "cubot/walk_n/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_n/0001";
                 break;
             case Direction.EAST:
-                this.animations.frameName = "cubot/walk_e/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_e/0001";
                 break;
             case Direction.SOUTH:
-                this.animations.frameName = "cubot/walk_s/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_s/0001";
                 break;
             case Direction.WEST:
-                this.animations.frameName = "cubot/walk_w/0001";
+                this.cubotSprite.animations.frameName = "cubot/walk_w/0001";
                 break;
         }
     };
@@ -1103,21 +1135,21 @@ var Cubot = /** @class */ (function (_super) {
             //Play appropriate animation
             switch (self.direction) {
                 case Direction.NORTH:
-                    self.animations.play("walk_n", 60, true);
+                    self.cubotSprite.animations.play("walk_n", 60, true);
                     break;
                 case Direction.SOUTH:
-                    self.animations.play("walk_s", 60, true);
+                    self.cubotSprite.animations.play("walk_s", 60, true);
                     break;
                 case Direction.EAST:
-                    self.animations.play("walk_e", 60, true);
+                    self.cubotSprite.animations.play("walk_e", 60, true);
                     break;
                 case Direction.WEST:
-                    self.animations.play("walk_w", 60, true);
+                    self.cubotSprite.animations.play("walk_w", 60, true);
                     break;
             }
             //When moved to destination,
             tween.onComplete.add(function () {
-                self.animations.stop();
+                self.cubotSprite.animations.stop();
                 self.updateDirection();
                 //Resync position
                 self.isoX = Util.getIsoX(self.tileX);
@@ -1130,7 +1162,7 @@ var Cubot = /** @class */ (function (_super) {
                 }
             });
         };
-        if (this.animations.currentAnim.isPlaying) {
+        if (this.cubotSprite.animations.currentAnim.isPlaying) {
             //Queue up the animation
             this.queuedAnimations.push(walkAnimation);
         }
@@ -1196,10 +1228,10 @@ var HarvesterNPC = /** @class */ (function (_super) {
     function HarvesterNPC(json) {
         var _this = _super.call(this, json) || this;
         //Overwrite Cubot's animations
-        _this.animations.add("walk_w", mar.animationFrames.harvester_walk_w);
-        _this.animations.add("walk_s", mar.animationFrames.harvester_walk_s);
-        _this.animations.add("walk_e", mar.animationFrames.harvester_walk_e);
-        _this.animations.add("walk_n", mar.animationFrames.harvester_walk_n);
+        _this.cubotSprite.animations.add("walk_w", mar.animationFrames.harvester_walk_w);
+        _this.cubotSprite.animations.add("walk_s", mar.animationFrames.harvester_walk_s);
+        _this.cubotSprite.animations.add("walk_e", mar.animationFrames.harvester_walk_e);
+        _this.cubotSprite.animations.add("walk_n", mar.animationFrames.harvester_walk_n);
         _this.updateDirection();
         _this.setText("Harvester NPC");
         _this.text.visible = false;
@@ -1214,16 +1246,16 @@ var HarvesterNPC = /** @class */ (function (_super) {
     HarvesterNPC.prototype.updateDirection = function () {
         switch (this.direction) {
             case Direction.NORTH:
-                this.animations.frameName = "harvester/walk_n/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_n/0001";
                 break;
             case Direction.EAST:
-                this.animations.frameName = "harvester/walk_e/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_e/0001";
                 break;
             case Direction.SOUTH:
-                this.animations.frameName = "harvester/walk_s/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_s/0001";
                 break;
             case Direction.WEST:
-                this.animations.frameName = "harvester/walk_w/0001";
+                this.cubotSprite.animations.frameName = "harvester/walk_w/0001";
                 break;
         }
     };

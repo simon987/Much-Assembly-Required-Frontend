@@ -184,6 +184,19 @@ class Debug {
         mar.client.sendDebugCommand({t:"debug", command: "comPortMsg", objectId: objectId, message: message});
     }
 
+    public static healObj(objectId, amount) {
+        mar.client.sendDebugCommand({t:"debug", command: "healObj", objectId: objectId, amount: amount});
+    }
+
+    public static damageObj(objectId, amount) {
+        mar.client.sendDebugCommand({t:"debug", command: "damageObj", objectId: objectId, amount: amount});
+    }
+
+    public static chargeShield(objectId, amount) {
+        mar.client.sendDebugCommand({t:"debug", command: "chargeShield", objectId: objectId, amount: amount});
+    }
+
+
 }
 
 DEBUG = false; // todo remove
