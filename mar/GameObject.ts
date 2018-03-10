@@ -145,6 +145,8 @@ class Cubot extends GameObject {
         //workaround for topological sort, needs sprite dimensions
         super(Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/blankCubot");
 
+        this.anchor.setTo(0.5, 0);
+
         if (DEBUG) {
             console.log("Creating Cubot object");
         }
@@ -257,8 +259,7 @@ class Cubot extends GameObject {
         this.laserEmitter.maxAngle = angle;
         this.laserEmitter.maxRotation = 0;
 
-
-        this.laserEmitter.start(true, 1000, null, 100);
+        this.laserEmitter.start(true, 1000, null, 3);
     }
 
     public getTint(): number {
