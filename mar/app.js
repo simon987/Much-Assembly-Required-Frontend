@@ -272,8 +272,8 @@ var config = {
     portalTint: 0xff43c8,
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
-    vaultWallTint: 0x3f1c1c,
-    vaultFloorTint: 0x3452C2A,
+    vaultWallTint: 0x3F2D2A,
+    vaultFloorTint: 0x2B1E1C,
     oreTint: 0xF3F3F3,
     cubotHoverTint: 0x00FF00,
     cubotTint: 0xFFFFFF,
@@ -291,6 +291,7 @@ var config = {
     copperFill: "#C87D38",
     plainSprite: "tiles/tile",
     wallSprite: "tiles/bigTile",
+    wallSprite2: "tiles/bigTile2",
     walkDuration: 800,
     holoStyle: function (fill) {
         return {
@@ -431,6 +432,9 @@ var Debug = (function () {
     };
     Debug.chargeShield = function (objectId, amount) {
         mar.client.sendDebugCommand({ t: "debug", command: "chargeShield", objectId: objectId, amount: amount });
+    };
+    Debug.setEnergy = function (objectId, amount) {
+        mar.client.sendDebugCommand({ t: "debug", command: "setEnergy", objectId: objectId, amount: amount });
     };
     return Debug;
 }());
@@ -1393,9 +1397,14 @@ var RadioTower = (function (_super) {
 var VaultDoor = (function (_super) {
     __extends(VaultDoor, _super);
     function VaultDoor(json) {
-        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/biomass/idle/0001") || this;
-        _this.tint = 0xff232a;
-        _this.anchor.set(0.5, 0);
+        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 0, "sheet", "objects/VaultDoorCrop") || this;
+        _this.anchor.set(0.5, 0.55);
+        _this.inputEnabled = true;
+        _this.events.onInputDown.add(function (self) {
+            Debug.goToHex("7FFF", "7FFF", "v" + self.id + "-");
+            document.body.style.cursor = 'default';
+            document.body.setAttribute("title", "");
+        }, _this);
         _this.setText("Vault");
         _this.text.visible = false;
         _this.id = json.i;
@@ -1405,17 +1414,21 @@ var VaultDoor = (function (_super) {
     }
     VaultDoor.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({ isoZ: 25 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this).to({ isoZ: 14 }, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
-        // this.tint = config.cubotHoverTint;
+        this.tint = config.cubotHoverTint;
         this.text.visible = true;
+        document.body.style.cursor = 'pointer';
+        document.body.setAttribute("title", "Click to visit Vault");
     };
     VaultDoor.prototype.onTileExit = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({ isoZ: 15 }, 400, Phaser.Easing.Bounce.Out, true);
+        mar.game.add.tween(this).to({ isoZ: 0 }, 400, Phaser.Easing.Bounce.Out, true);
         mar.game.add.tween(this.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.Linear.None, true);
-        // this.tint = config.cubotTint;
+        this.tint = config.cubotTint;
         this.text.visible = false;
+        document.body.style.cursor = 'default';
+        document.body.setAttribute("title", "");
     };
     VaultDoor.prototype.updateObject = function (json) {
         //No op
@@ -1601,7 +1614,7 @@ var WallTile = (function (_super) {
 var VaultWallTile = (function (_super) {
     __extends(VaultWallTile, _super);
     function VaultWallTile(x, y) {
-        var _this = _super.call(this, x, y, config.wallSprite, 0.2) || this;
+        var _this = _super.call(this, x, y, config.wallSprite2, 0.29) || this;
         _this.baseTint = config.vaultWallTint;
         _this.tint = _this.baseTint;
         _this.tileType = "vault wall";

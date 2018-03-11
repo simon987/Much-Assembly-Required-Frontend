@@ -9,8 +9,8 @@ let config = {
     portalTint: 0xff43c8,
     tileTint: 0xFFFFFF,
     wallTint: 0xDDDDDD,
-    vaultWallTint: 0x3f1c1c,
-    vaultFloorTint: 0x3452C2A,
+    vaultWallTint: 0x3F2D2A,
+    vaultFloorTint: 0x2B1E1C,
     oreTint: 0xF3F3F3,
     cubotHoverTint: 0x00FF00,
     cubotTint: 0xFFFFFF,
@@ -28,6 +28,7 @@ let config = {
     copperFill: "#C87D38",
     plainSprite: "tiles/tile",
     wallSprite: "tiles/bigTile",
+    wallSprite2: "tiles/bigTile2",
     walkDuration: 800, //walk animation duration in ms
     holoStyle: (fill: string) => {
         return {
@@ -194,6 +195,10 @@ class Debug {
 
     public static chargeShield(objectId, amount) {
         mar.client.sendDebugCommand({t:"debug", command: "chargeShield", objectId: objectId, amount: amount});
+    }
+
+    public static setEnergy(objectId, amount) {
+        mar.client.sendDebugCommand({t:"debug", command: "setEnergy", objectId: objectId, amount: amount});
     }
 
 

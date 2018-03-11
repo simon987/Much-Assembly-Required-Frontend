@@ -138,7 +138,7 @@ class WallTile extends Tile {
 class VaultWallTile extends Tile {
 
     constructor(x: number, y: number) {
-        super(x, y, config.wallSprite, 0.2);
+        super(x, y, config.wallSprite2, 0.29);
 
         this.baseTint = config.vaultWallTint;
         this.tint = this.baseTint;
