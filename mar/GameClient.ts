@@ -445,10 +445,10 @@ class GameClient {
                 } catch (e) {
                     if (DEBUG) {
                         console.log("[MAR] Received invalid message, assuming floppy data");
-                        document.getElementById("floppyDown").innerHTML = "<i class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i> <i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i>";
-                        let blob = new Blob([received.data], {type: "application/octet-stream"});
-                        saveAs(blob, "floppy.bin");
                     }
+                    document.getElementById("floppyDown").innerHTML = "<i class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i> <i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i>";
+                    let blob = new Blob([received.data], {type: "application/octet-stream"});
+                    saveAs(blob, "floppy.bin");
                 }
 
 

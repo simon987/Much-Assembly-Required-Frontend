@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var MarGame = (function () {
+var MarGame = /** @class */ (function () {
     function MarGame() {
         this.cursorPos = new Phaser.Plugin.Isometric.Point3();
         this.debugMessages = [];
@@ -210,6 +210,25 @@ var MarGame = (function () {
         for (var i = 1; i < 60; i++) {
             this.animationFrames.biomassIdle.push("objects/biomass/idle/" + ("0000" + i).slice(-4));
         }
+        //Vault screen
+        this.animationFrames.vaultDoorScreen = [];
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/2");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/3");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/4");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/5");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/6");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
     };
     MarGame.prototype.initialiseStaticHud = function () {
         //todo fix the compass sprite so the Y axis is facing the other way
@@ -220,7 +239,7 @@ var MarGame = (function () {
     };
     return MarGame;
 }());
-var DebugMessage = (function () {
+var DebugMessage = /** @class */ (function () {
     function DebugMessage(x, y) {
         this.x = x;
         this.y = y;
@@ -230,7 +249,7 @@ var DebugMessage = (function () {
 /**
  * Indicates hovered tile
  */
-var TileIndicator = (function (_super) {
+var TileIndicator = /** @class */ (function (_super) {
     __extends(TileIndicator, _super);
     function TileIndicator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -248,7 +267,7 @@ var TileIndicator = (function (_super) {
 /**
  * Indicates current World
  */
-var WorldIndicator = (function (_super) {
+var WorldIndicator = /** @class */ (function (_super) {
     __extends(WorldIndicator, _super);
     function WorldIndicator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -320,7 +339,7 @@ var config = {
     otherCubotAlpha: 0.6,
     defaultWorldSize: 16 //Will fallback to this when server does not provide world width
 };
-var Util = (function () {
+var Util = /** @class */ (function () {
     function Util() {
     }
     //todo: find a more elegant way of doing this. Maybe this is related: https://github.com/lewster32/phaser-plugin-isometric/issues/7
@@ -364,7 +383,7 @@ var Util = (function () {
     };
     return Util;
 }());
-var Debug = (function () {
+var Debug = /** @class */ (function () {
     function Debug() {
     }
     Debug.setTileAt = function (x, y, newTile) {
@@ -443,7 +462,7 @@ var mar = new MarGame();
 /**
  * Client-side keyboard buffer. It is overwritten by the server at the end of tick.
  */
-var KeyboardBuffer = (function (_super) {
+var KeyboardBuffer = /** @class */ (function (_super) {
     __extends(KeyboardBuffer, _super);
     function KeyboardBuffer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -474,7 +493,7 @@ var KeyboardBuffer = (function (_super) {
 /**
  * Listens for object list
  */
-var ObjectsListener = (function () {
+var ObjectsListener = /** @class */ (function () {
     function ObjectsListener() {
     }
     ObjectsListener.prototype.getListenedMessageType = function () {
@@ -490,7 +509,7 @@ var ObjectsListener = (function () {
     };
     return ObjectsListener;
 }());
-var TickListener = (function () {
+var TickListener = /** @class */ (function () {
     function TickListener() {
     }
     TickListener.prototype.getListenedMessageType = function () {
@@ -512,7 +531,7 @@ var TickListener = (function () {
     };
     return TickListener;
 }());
-var UserInfoListener = (function () {
+var UserInfoListener = /** @class */ (function () {
     function UserInfoListener() {
     }
     UserInfoListener.prototype.getListenedMessageType = function () {
@@ -531,7 +550,7 @@ var UserInfoListener = (function () {
     };
     return UserInfoListener;
 }());
-var AuthListener = (function () {
+var AuthListener = /** @class */ (function () {
     function AuthListener() {
     }
     AuthListener.prototype.getListenedMessageType = function () {
@@ -553,7 +572,7 @@ var AuthListener = (function () {
     };
     return AuthListener;
 }());
-var TerrainListener = (function () {
+var TerrainListener = /** @class */ (function () {
     function TerrainListener() {
     }
     TerrainListener.prototype.getListenedMessageType = function () {
@@ -610,7 +629,7 @@ var TerrainListener = (function () {
     };
     return TerrainListener;
 }());
-var CodeListener = (function () {
+var CodeListener = /** @class */ (function () {
     function CodeListener() {
     }
     CodeListener.prototype.getListenedMessageType = function () {
@@ -621,7 +640,7 @@ var CodeListener = (function () {
     };
     return CodeListener;
 }());
-var CodeResponseListener = (function () {
+var CodeResponseListener = /** @class */ (function () {
     function CodeResponseListener() {
     }
     CodeResponseListener.prototype.getListenedMessageType = function () {
@@ -632,7 +651,7 @@ var CodeResponseListener = (function () {
     };
     return CodeResponseListener;
 }());
-var DebugResponseListener = (function () {
+var DebugResponseListener = /** @class */ (function () {
     function DebugResponseListener() {
     }
     DebugResponseListener.prototype.getListenedMessageType = function () {
@@ -643,7 +662,7 @@ var DebugResponseListener = (function () {
     };
     return DebugResponseListener;
 }());
-var GameClient = (function () {
+var GameClient = /** @class */ (function () {
     function GameClient() {
         this.listeners = [];
         this.getServerInfo();
@@ -769,10 +788,10 @@ var GameClient = (function () {
                 catch (e) {
                     if (DEBUG) {
                         console.log("[MAR] Received invalid message, assuming floppy data");
-                        document.getElementById("floppyDown").innerHTML = "<i class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i> <i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i>";
-                        var blob = new Blob([received.data], { type: "application/octet-stream" });
-                        saveAs(blob, "floppy.bin");
                     }
+                    document.getElementById("floppyDown").innerHTML = "<i class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i> <i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i>";
+                    var blob = new Blob([received.data], { type: "application/octet-stream" });
+                    saveAs(blob, "floppy.bin");
                 }
             };
             self.reloadCode();
@@ -856,7 +875,7 @@ var Action;
     Action[Action["JUMPING"] = 6] = "JUMPING";
     Action[Action["ATTACKING"] = 7] = "ATTACKING";
 })(Action || (Action = {}));
-var GameObject = (function (_super) {
+var GameObject = /** @class */ (function (_super) {
     __extends(GameObject, _super);
     function GameObject(x, y, z, key, frame) {
         return _super.call(this, mar.game, x, y, z, key, frame) || this;
@@ -917,7 +936,7 @@ var HologramMode;
     HologramMode[HologramMode["STRING"] = 2] = "STRING";
     HologramMode[HologramMode["DEC"] = 3] = "DEC";
 })(HologramMode || (HologramMode = {}));
-var Cubot = (function (_super) {
+var Cubot = /** @class */ (function (_super) {
     __extends(Cubot, _super);
     function Cubot(json) {
         var _this = 
@@ -1228,7 +1247,7 @@ var Cubot = (function (_super) {
     };
     return Cubot;
 }(GameObject));
-var HarvesterNPC = (function (_super) {
+var HarvesterNPC = /** @class */ (function (_super) {
     __extends(HarvesterNPC, _super);
     function HarvesterNPC(json) {
         var _this = _super.call(this, json) || this;
@@ -1288,7 +1307,7 @@ var HarvesterNPC = (function (_super) {
     };
     return HarvesterNPC;
 }(Cubot));
-var BiomassBlob = (function (_super) {
+var BiomassBlob = /** @class */ (function (_super) {
     __extends(BiomassBlob, _super);
     function BiomassBlob(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 10, "sheet", 1) || this;
@@ -1327,7 +1346,7 @@ var BiomassBlob = (function (_super) {
     };
     return BiomassBlob;
 }(GameObject));
-var Factory = (function (_super) {
+var Factory = /** @class */ (function (_super) {
     __extends(Factory, _super);
     function Factory(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/factory") || this;
@@ -1363,7 +1382,7 @@ var Factory = (function (_super) {
     ;
     return Factory;
 }(GameObject));
-var RadioTower = (function (_super) {
+var RadioTower = /** @class */ (function (_super) {
     __extends(RadioTower, _super);
     function RadioTower(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/RadioTower") || this;
@@ -1394,11 +1413,11 @@ var RadioTower = (function (_super) {
     };
     return RadioTower;
 }(GameObject));
-var VaultDoor = (function (_super) {
+var VaultDoor = /** @class */ (function (_super) {
     __extends(VaultDoor, _super);
     function VaultDoor(json) {
-        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 0, "sheet", "objects/VaultDoorCrop") || this;
-        _this.anchor.set(0.5, 0.55);
+        var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 0, "sheet", "objects/VaultDoor1") || this;
+        _this.anchor.set(0.55, 0.55);
         _this.inputEnabled = true;
         _this.events.onInputDown.add(function (self) {
             Debug.goToHex("7FFF", "7FFF", "v" + self.id + "-");
@@ -1410,11 +1429,16 @@ var VaultDoor = (function (_super) {
         _this.id = json.i;
         _this.tileX = json.x;
         _this.tileY = json.y;
+        //Vault door screen animation
+        var screen = mar.game.make.sprite(-76, 4, "sheet", "objects/VaultDoorScreen/1");
+        screen.animations.add("idle", mar.animationFrames.vaultDoorScreen);
+        screen.animations.play("idle", 11, true);
+        _this.addChild(screen);
         return _this;
     }
     VaultDoor.prototype.onTileHover = function () {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({ isoZ: 14 }, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this).to({ isoZ: 15 }, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({ x: 1.06, y: 1.06 }, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotHoverTint;
         this.text.visible = true;
@@ -1435,7 +1459,7 @@ var VaultDoor = (function (_super) {
     };
     return VaultDoor;
 }(GameObject));
-var ElectricBox = (function (_super) {
+var ElectricBox = /** @class */ (function (_super) {
     __extends(ElectricBox, _super);
     function ElectricBox(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/ElectricBox") || this;
@@ -1478,7 +1502,7 @@ var ElectricBox = (function (_super) {
     };
     return ElectricBox;
 }(GameObject));
-var Portal = (function (_super) {
+var Portal = /** @class */ (function (_super) {
     __extends(Portal, _super);
     function Portal(json) {
         var _this = _super.call(this, Util.getIsoX(json.x), Util.getIsoY(json.y), 15, "sheet", "objects/Portal") || this;
@@ -1527,8 +1551,9 @@ var TileType;
     TileType[TileType["COPPER"] = 3] = "COPPER";
     TileType[TileType["VAULT_FLOOR"] = 4] = "VAULT_FLOOR";
     TileType[TileType["VAULT_WALL"] = 5] = "VAULT_WALL";
+    TileType[TileType["FLUID"] = 6] = "FLUID";
 })(TileType || (TileType = {}));
-var Tile = (function (_super) {
+var Tile = /** @class */ (function (_super) {
     __extends(Tile, _super);
     function Tile(x, y, sprite, anchorY) {
         var _this = _super.call(this, mar.game, Util.getIsoX(x), Util.getIsoY(y), 0, 'sheet', sprite) || this;
@@ -1555,6 +1580,8 @@ var Tile = (function (_super) {
                 return new VaultWallTile(x, y);
             case -1:
                 return new VoidTile(x, y);
+            case TileType.FLUID:
+                return new FluidTile(x, y);
             case TileType.PLAIN:
             default:
                 return new PlainTile(x, y);
@@ -1589,7 +1616,7 @@ var Tile = (function (_super) {
     };
     return Tile;
 }(Phaser.Plugin.Isometric.IsoSprite));
-var PlainTile = (function (_super) {
+var PlainTile = /** @class */ (function (_super) {
     __extends(PlainTile, _super);
     function PlainTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1600,7 +1627,7 @@ var PlainTile = (function (_super) {
     }
     return PlainTile;
 }(Tile));
-var WallTile = (function (_super) {
+var WallTile = /** @class */ (function (_super) {
     __extends(WallTile, _super);
     function WallTile(x, y) {
         var _this = _super.call(this, x, y, config.wallSprite, 0.2) || this;
@@ -1611,7 +1638,7 @@ var WallTile = (function (_super) {
     }
     return WallTile;
 }(Tile));
-var VaultWallTile = (function (_super) {
+var VaultWallTile = /** @class */ (function (_super) {
     __extends(VaultWallTile, _super);
     function VaultWallTile(x, y) {
         var _this = _super.call(this, x, y, config.wallSprite2, 0.29) || this;
@@ -1622,7 +1649,7 @@ var VaultWallTile = (function (_super) {
     }
     return VaultWallTile;
 }(Tile));
-var VaultFloorTile = (function (_super) {
+var VaultFloorTile = /** @class */ (function (_super) {
     __extends(VaultFloorTile, _super);
     function VaultFloorTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1633,7 +1660,7 @@ var VaultFloorTile = (function (_super) {
     }
     return VaultFloorTile;
 }(Tile));
-var VoidTile = (function (_super) {
+var VoidTile = /** @class */ (function (_super) {
     __extends(VoidTile, _super);
     function VoidTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1651,7 +1678,21 @@ var VoidTile = (function (_super) {
     };
     return VoidTile;
 }(Tile));
-var IronTile = (function (_super) {
+var FluidTile = /** @class */ (function (_super) {
+    __extends(FluidTile, _super);
+    function FluidTile(x, y) {
+        var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
+        _this.baseTint = 0x0ACED6;
+        _this.tint = _this.baseTint;
+        _this.alpha = 0.6;
+        _this.baseZ = -15;
+        _this.isoZ = _this.baseZ;
+        _this.tileType = "fluid";
+        return _this;
+    }
+    return FluidTile;
+}(Tile));
+var IronTile = /** @class */ (function (_super) {
     __extends(IronTile, _super);
     function IronTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1663,7 +1704,7 @@ var IronTile = (function (_super) {
     }
     return IronTile;
 }(Tile));
-var CopperTile = (function (_super) {
+var CopperTile = /** @class */ (function (_super) {
     __extends(CopperTile, _super);
     function CopperTile(x, y) {
         var _this = _super.call(this, x, y, config.plainSprite, 0) || this;
@@ -1675,7 +1716,7 @@ var CopperTile = (function (_super) {
     }
     return CopperTile;
 }(Tile));
-var World = (function () {
+var World = /** @class */ (function () {
     function World(terrain, size) {
         this.tiles = [];
         this.objects = [];
@@ -1819,7 +1860,7 @@ var World = (function () {
 /**
  * Represents a 'button' sprite that changes world in a direction
  */
-var WorldArrow = (function (_super) {
+var WorldArrow = /** @class */ (function (_super) {
     __extends(WorldArrow, _super);
     function WorldArrow(x, y, frame, direction) {
         var _this = _super.call(this, mar.game, x, y, 10, "sheet", frame) || this;
@@ -1858,23 +1899,23 @@ var defaultText = " _______                    __     __\n" +
     "|___|___||   __|___._|____||__|__||__||____|_____|__| |   __|\n" +
     "         |__|                                         |__|\n" +
     "\n" +
-    "Version 1.3A, 1985-05-17\n" +
+    "Version 1.4A, 1985-05-17\n" +
     "Initialising Universal Communication Port connection...Done\n" +
-    "Current date is 2790-01-14\n" +
+    "Current date is 2790-03-11\n" +
     "Cubot Status: Much Assembly Required";
 var ConsoleMode;
 (function (ConsoleMode) {
     ConsoleMode[ConsoleMode["CLEAR"] = 0] = "CLEAR";
     ConsoleMode[ConsoleMode["NORMAL"] = 1] = "NORMAL";
 })(ConsoleMode || (ConsoleMode = {}));
-var PlainTextConsoleMode = (function () {
+var PlainTextConsoleMode = /** @class */ (function () {
     function PlainTextConsoleMode(lineWidth, dialImage) {
         this.width = lineWidth;
         this.dialImage = dialImage;
     }
     return PlainTextConsoleMode;
 }());
-var PlainTextConsole = (function () {
+var PlainTextConsole = /** @class */ (function () {
     function PlainTextConsole(text, id, colorId, scrollId, resetID, dialId) {
         this.colorToggled = false;
         this.autoScroll = true;

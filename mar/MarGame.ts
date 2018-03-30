@@ -255,6 +255,27 @@ class MarGame {
         for (let i = 1; i < 60; i++) {
             this.animationFrames.biomassIdle.push("objects/biomass/idle/" + ("0000" + i).slice(-4));
         }
+        //Vault screen
+        this.animationFrames.vaultDoorScreen = [];
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/2");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/3");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/4");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/5");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/6");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+        this.animationFrames.vaultDoorScreen.push("objects/VaultDoorScreen/1");
+
+
     }
 
     private initialiseStaticHud() {

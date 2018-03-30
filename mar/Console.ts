@@ -6,9 +6,9 @@ let defaultText =
     "|___|___||   __|___._|____||__|__||__||____|_____|__| |   __|\n" +
     "         |__|                                         |__|\n" +
     "\n" +
-    "Version 1.3A, 1985-05-17\n" +
+    "Version 1.4A, 1985-05-17\n" +
     "Initialising Universal Communication Port connection...Done\n" +
-    "Current date is 2790-01-14\n" +
+    "Current date is 2790-03-11\n" +
     "Cubot Status: Much Assembly Required";
 
 enum ConsoleMode {

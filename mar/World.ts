@@ -16,6 +16,7 @@ enum TileType {
     COPPER,
     VAULT_FLOOR,
     VAULT_WALL,
+    FLUID
 }
 
 class Tile extends Phaser.Plugin.Isometric.IsoSprite {
@@ -36,7 +37,7 @@ class Tile extends Phaser.Plugin.Isometric.IsoSprite {
     /**
      * Based z coordinate of the tile
      */
-    private baseZ: number;
+    protected baseZ: number;
 
     public selected: boolean;
 
@@ -70,6 +71,8 @@ class Tile extends Phaser.Plugin.Isometric.IsoSprite {
                 return new VaultWallTile(x, y);
             case -1:
                 return new VoidTile(x, y);
+            case TileType.FLUID:
+                return new FluidTile(x, y);
             case TileType.PLAIN:
             default:
                 return new PlainTile(x, y);
@@ -175,6 +178,21 @@ class VoidTile extends Tile {
         this.baseTint = config.vaultFloorTint;
         this.tileType = "void";
         this.alpha = 0;
+    }
+}
+
+class FluidTile extends Tile {
+    constructor(x: number, y: number) {
+        super(x, y, config.plainSprite, 0);
+
+        this.baseTint = 0x0ACED6;
+        this.tint = this.baseTint;
+        this.alpha = 0.6;
+        this.baseZ = -15;
+        this.isoZ = this.baseZ;
+
+
+        this.tileType = "fluid";
     }
 }
 

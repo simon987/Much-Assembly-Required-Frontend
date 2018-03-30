@@ -716,7 +716,7 @@ class VaultDoor extends GameObject {
 
     public onTileHover() {
         mar.game.tweens.removeFrom(this);
-        mar.game.add.tween(this).to({isoZ: 14}, 200, Phaser.Easing.Quadratic.InOut, true);
+        mar.game.add.tween(this).to({isoZ: 15}, 200, Phaser.Easing.Quadratic.InOut, true);
         mar.game.add.tween(this.scale).to({x: 1.06, y: 1.06}, 200, Phaser.Easing.Linear.None, true);
         this.tint = config.cubotHoverTint;
 
@@ -742,12 +742,12 @@ class VaultDoor extends GameObject {
     }
 
     constructor(json) {
-        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 0, "sheet", "objects/VaultDoorCrop");
-        this.anchor.set(0.5, 0.55);
+        super(Util.getIsoX(json.x), Util.getIsoY(json.y), 0, "sheet", "objects/VaultDoor1");
+        this.anchor.set(0.55, 0.55);
 
         this.inputEnabled = true;
         this.events.onInputDown.add(function(self: VaultDoor) {
-            Debug.goToHex("7FFF", "7FFF", "v" + self.id + "-")
+            Debug.goToHex("7FFF", "7FFF", "v" + self.id + "-");
             document.body.style.cursor = 'default';
             document.body.setAttribute("title", "")
         }, this);
@@ -759,6 +759,12 @@ class VaultDoor extends GameObject {
         this.id = json.i;
         this.tileX = json.x;
         this.tileY = json.y;
+
+        //Vault door screen animation
+        let screen = mar.game.make.sprite(-76, 4, "sheet", "objects/VaultDoorScreen/1");
+        screen.animations.add("idle", mar.animationFrames.vaultDoorScreen);
+        screen.animations.play("idle", 11, true);
+        this.addChild(screen);
     }
 }
 
