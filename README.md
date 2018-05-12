@@ -1,3 +1,8 @@
+# NOTE:
+The frontend no longer needs to be installed separately as the php webserver has been migrated to a Java webserver, and the MySQL database to MongoDB. This repository has been merged into https://github.com/simon987/Much-Assembly-Required and is no longer being updated.
+
+
+
 # Much-Assembly-Required-Frontend
 Frontend files for the https://muchassemblyrequired.com/ game. 
 Information about the backend can be found [here](https://github.com/simon987/Much-Assembly-Required).
